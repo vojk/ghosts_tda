@@ -2,9 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ title }}</title>
+    <title>
+        {% for post in posts %}
+            {{ post.title }}
+        {% endfor %}
+    </title>
 </head>
 <body>
+<form method="POST" action="test">
+    <input type="text" name="_nameOfElement" id="name">
+    <input type="range" name="_ratingSlider" id="rating" value="2" max="5" min="0">
 
+    <input type="submit" value="Submit">
+</form>
+
+
+<p id="outputRating"></p>
+
+<p>Hodnocení: {{ rating }}</p>
+
+<script>
+    var rangeslider = document.getElementById("rating");
+    var output = document.getElementById("outputRating");
+    output.innerHTML = rangeslider.value;
+
+    rangeslider.oninput = function () {
+        output.innerHTML = this.value;
+    }
+</script>
 </body>
 </html>
