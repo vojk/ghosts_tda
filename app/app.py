@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request
+import db
 
 app = Flask(__name__)
+
+db  # inicializuje databázi
 
 
 @app.route('/')
