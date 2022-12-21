@@ -1,20 +1,28 @@
 import sqlite3
 
-connection = sqlite3.connect('./dbs/database.db')  # připojí se a případně vytvoří databázi ./dbs/database.db
+import os
 
-with open('./dbs/schema.sql') as f:  # Vytvoří tabulku podle ./dbs/schema.sql
-    connection.executescript(f.read())
+databaseExists = os.path.exists('./dbs/database.db')
 
-cur = connection.cursor()  # Vytvoří kursor
+if not databaseExists:  # ověřuje existenci databáze - zda-li existuje soubor database.db tak se nebude tvořit znova celá tabulka
+    connection = sqlite3.connect('./dbs/database.db')  # připojí se a případně vytvoří databázi ./dbs/database.db
+    with open('./dbs/schema.sql') as f:  # Vytvoří tabulku podle ./dbs/schema.sql
+        connection.executescript(f.read())
 
-cur.execute(
-    "INSERT INTO trenink VALUES (1, 2052020, 50, 'Java', 4, 'TestDesc')")  # nastaví do listu data, která se pak vloží do databáze
-connection.commit()  # vloží data do databáze
+    cur = connection.cursor()  # Vytvoří kursor
+    # cur.execute(
+    #     "INSERT INTO trenink VALUES (1, 2052020, 50, 'Java', 4, 'TestDesc')")  # nastaví do listu data, která se pak vloží do databáze
+    connection.commit()  # vloží data do databáze
+    connection.close()  # Uzavře spojení s databází
 
-connection.close()  # Uzavře spojení s databází
+
+def get_db_connection():
+    conn = sqlite3.connect('./dbs/database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
 
 
-def readDataFromDb():  # čte data z databáze
+def read_data_from_db():  # čte data z databáze
     conn = sqlite3.connect('./dbs/database.db')
     conn.row_factory = sqlite3.Row
     posts = conn.execute('SELECT * FROM trenink').fetchall()

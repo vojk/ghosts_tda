@@ -1,5 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash, redirect, url_for
 import db
+
+import sqlite3
 
 app = Flask(__name__)
 
@@ -11,8 +13,9 @@ def hello_world():  # main code base
     return render_template('main.html')
 
 
+# Testovací funkce pro čtení z <form>
 @app.route("/test", methods=["POST"])  # Určení cesty /test & nastavení metody POST
-def getRatingToText():  # Získání dat z formuláře v HTML dokumentu main.html
+def get_rating_to_text():  # Získání dat z formuláře v HTML dokumentu main.html
     if request.method == "POST":  # Kontroluje zda-li je metoda POST
         ratingSlider = request.form["_ratingSlider"]  # uloží data z _ratingSlider
         nameTextInput = request.form["_nameOfElement"]  # uloží data z _nameOfElement
@@ -21,8 +24,28 @@ def getRatingToText():  # Získání dat z formuláře v HTML dokumentu main.htm
 
 
 @app.route("/blank")
-def blankSite():
-    return render_template('blank.html', text=db.readDataFromDb())
+def blank_site():
+    return render_template('blank.html', text=db.read_data_from_db())
+
+
+@app.route("/create/", methods=('GET', 'POST'))
+def create_record():
+    if request.method == 'POST':
+        date = request.form['formDate']
+        minutes = request.form['formMinutes']
+        rating = request.form['formRating']
+        progLang = request.form['formProgLang']
+        desc = request.form['formDesc']
+
+        conn = db.get_db_connection()
+        conn.execute(
+            'INSERT INTO trenink (dates, timeInMinutes, programmingLang, rating, description) VALUES (?, ?, ?, ?, ?)',
+            (date, minutes, rating, progLang, desc))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('blank_site'))
+
+    return render_template('create.html')
 
 
 if __name__ == '__main__':
