@@ -9,7 +9,7 @@ db  # inicializuje databázi
 
 
 @app.route('/')
-def hello_world():  # main code base
+def index():  # main code base
     return render_template('main.html')
 
 
@@ -37,14 +37,22 @@ def create_record():
         progLang = request.form['formProgLang']
         desc = request.form['formDesc']
 
-        conn = db.get_db_connection()
-        conn.execute(
-            'INSERT INTO trenink (dates, timeInMinutes, programmingLang, rating, description) VALUES (?, ?, ?, ?, ?)',
-            (date, minutes, rating, progLang, desc))
-        conn.commit()
-        conn.close()
-        return redirect(url_for('blank_site'))
-
+        if not date:
+            print("No date found")
+        elif not minutes:
+            print("No minutes found")
+        elif not progLang:
+            print("No progLang found")
+        elif not desc:
+            print("No desc found")
+        else:
+            conn = db.get_db_connection()
+            conn.execute(
+                'INSERT INTO trenink (dates, timeInMinutes, programmingLang, rating, description) VALUES (?, ?, ?, ?, ?)',
+                (date, minutes, rating, progLang, desc))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('blank_site'))
     return render_template('create.html')
 
 
