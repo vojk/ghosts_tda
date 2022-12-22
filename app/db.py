@@ -2,12 +2,17 @@ import sqlite3
 
 import os
 
+user = "default"  # základní uživatel
+
 databaseExists = os.path.exists('./dbs/database.db')
 
 if not databaseExists:  # ověřuje existenci databáze - zda-li existuje soubor database.db tak se nebude tvořit znova celá tabulka
     connection = sqlite3.connect('./dbs/database.db')  # připojí se a případně vytvoří databázi ./dbs/database.db
     with open('./dbs/schema.sql') as f:  # Vytvoří tabulku podle ./dbs/schema.sql
-        connection.executescript(f.read())
+        # connection.executescript(f.read())
+        connection.executescript(
+            'CREATE TABLE ' + "u_" + user +
+                ' (id INTEGER PRIMARY KEY AUTOINCREMENT, dates DATE NOT NULL, timeInMinutes INT NOT NULL, programmingLang TEXT NOT NULL, rating INT NOT NULL, description TEXT NOT NULL)')
 
     cur = connection.cursor()  # Vytvoří kursor
     connection.commit()  # vloží data do databáze
