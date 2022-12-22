@@ -9,7 +9,11 @@
     <input type="date" name="formDate" id="data" placeholder="dd-mm-yyyy">
     <input type="number" name="formMinutes" id="">
     <input type="range" name="formRating" id="" max="5" min="0">
-    <input type="text" name="formProgLang" id="">
+    <select name="formProgLang_select" id="">
+        {% for def in defs %}
+            <option value="{{ def.progLangs }}">{{ def.progLangs }}</option>
+        {% endfor %}
+    </select>
     <textarea name="formDesc" id="" cols="30" rows="10"></textarea>
     <button type="submit">Submit</button>
 </form>

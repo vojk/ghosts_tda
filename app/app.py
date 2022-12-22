@@ -25,7 +25,7 @@ def get_rating_to_text():  # Získání dat z formuláře v HTML dokumentu main.
 
 @app.route("/blank")
 def blank_site():
-    return render_template('blank.html', text=db.read_data_from_db())
+    return render_template('blank.html', text=db.read_data_from_db('trenink'))
 
 
 @app.route("/create/", methods=('GET', 'POST'))
@@ -34,7 +34,7 @@ def create_record():
         date = request.form['formDate']
         minutes = request.form['formMinutes']
         rating = request.form['formRating']
-        progLang = request.form['formProgLang']
+        progLang = request.form['formProgLang_select']
         desc = request.form['formDesc']
 
         if not date:
@@ -49,11 +49,13 @@ def create_record():
             conn = db.get_db_connection()
             conn.execute(
                 'INSERT INTO trenink (dates, timeInMinutes, programmingLang, rating, description) VALUES (?, ?, ?, ?, ?)',
-                (date, minutes, rating, progLang, desc))
+                (date, minutes, progLang, rating, desc))
             conn.commit()
             conn.close()
             return redirect(url_for('blank_site'))
-    return render_template('create.html')
+
+    proglangs = [{'progLangs': 'JAVA'}, {'progLangs': 'PYTHON'}, {'progLangs': 'C#'}]
+    return render_template('create.html', defs=proglangs)
 
 
 if __name__ == '__main__':

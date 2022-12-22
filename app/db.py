@@ -10,8 +10,6 @@ if not databaseExists:  # ověřuje existenci databáze - zda-li existuje soubor
         connection.executescript(f.read())
 
     cur = connection.cursor()  # Vytvoří kursor
-    # cur.execute(
-    #     "INSERT INTO trenink VALUES (1, 2052020, 50, 'Java', 4, 'TestDesc')")  # nastaví do listu data, která se pak vloží do databáze
     connection.commit()  # vloží data do databáze
     connection.close()  # Uzavře spojení s databází
 
@@ -22,9 +20,9 @@ def get_db_connection():
     return conn
 
 
-def read_data_from_db():  # čte data z databáze
+def read_data_from_db(table):  # čte data z databáze
     conn = sqlite3.connect('./dbs/database.db')
     conn.row_factory = sqlite3.Row
-    posts = conn.execute('SELECT * FROM trenink').fetchall()
+    posts = conn.execute('SELECT * FROM ' + table).fetchall()
     conn.close()
     return posts
