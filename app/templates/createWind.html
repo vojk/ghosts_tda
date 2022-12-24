@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+<form method="post" class="flex_pres">
+    <div>
+        <legend>Přidat Záznam</legend>
+
+        <div class="flex_row spaceBetween" style="margin-top: 2rem">
+            <div class="wrap">
+                <label class="popis_textBox" for="_formProgLang_select">Programovací Jazyky</label>
+                <select name="formProgLang_select" id="_formProgLang_select" class="textfield">
+                    {% for def in defs %}
+                    <option value="{{ def.progLangs }}">{{ def.progLangs }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="ratingslider">
+                <input type="range" name="formRating" id="_formRating" max="5" min="0">
+            </div>
+        </div>
+
+        <div class="flex_row spaceBetween descForm">
+            <div style="width: 45%" class="wrap">
+                <label class="popis_textBox" for="_formDate">Datum</label>
+                <input type="date" name="formDate" class="textfield" id="_formDate" placeholder="dd-mm-yyyy">
+            </div>
+            <div class="wrap">
+                <label class="popis_textBox" for="_formMinutes">Čas</label>
+                <input type="number" name="formMinutes" class="textfield" id="_formMinutes">
+            </div>
+        </div>
+
+        <div class="wrap descForm">
+            <label class="popis_textBox" for="_formDesc">Popis</label>
+            <textarea name="formDesc" class="textbox" id="_formDesc" cols="70" rows="10"></textarea>
+        </div>
+
+        <div class="center flex buttonForm">
+            <div class="flex_row buttons_action">
+                <div>
+                    <button type="submit" id="Cancel">Cancel</button>
+                </div>
+                <div>
+                    <button type="submit" id="Submit">Submit</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+</body>
+</html>
