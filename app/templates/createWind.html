@@ -5,9 +5,10 @@
     <title>Title</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery-3.6.3.min.js') }}"></script>
 </head>
 <body>
-<form method="post" class="flex_pres">
+<form name="addRecord" method="post" class="flex_pres" onsubmit="return validateForm()">
     <div style="margin: 2rem;">
         <legend>Přidat Záznam</legend>
 
@@ -16,7 +17,7 @@
                 <label class="popis_textBox" for="_formProgLang_select">Programovací Jazyky</label>
                 <select name="formProgLang_select" id="_formProgLang_select" class="textfield">
                     {% for def in defs %}
-                    <option value="{{ def.progLangs }}">{{ def.progLangs }}</option>
+                        <option value="{{ def.progLangs }}">{{ def.progLangs }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -32,7 +33,7 @@
             </div>
             <div class="wrap">
                 <label class="popis_textBox" for="_formMinutes">Čas</label>
-                <input type="number" name="formMinutes" class="textfield" id="_formMinutes">
+                <input type="number" name="formMinutes" class="textfield" id="_formMinutes" min="0" step="10">
             </div>
         </div>
 
@@ -54,5 +55,7 @@
 
     </div>
 </form>
+
+<script src="{{ url_for('static', filename='js/checkForFormAndNumber.js') }}"></script>
 </body>
 </html>
