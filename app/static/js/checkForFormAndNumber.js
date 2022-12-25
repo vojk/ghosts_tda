@@ -1,6 +1,7 @@
 let date = document.forms["addRecord"]["formDate"];
 let time = document.forms["addRecord"]["formMinutes"];
 let desc = document.forms["addRecord"]["formDesc"];
+let progLang = document.forms["addRecord"]["formProgLang_select"];
 
 function validateForm() {
     if (date.value == "" && !(date.classList.contains('invalid'))) {
@@ -13,6 +14,12 @@ function validateForm() {
         time.classList.add('invalid')
     } else if (!(time.value == "")) {
         time.classList.remove('invalid')
+    }
+
+    if (progLang.value == "None" && !(progLang.classList.contains('invalid'))) {
+        progLang.classList.add('invalid')
+    } else if (!(progLang.value == "None")) {
+        progLang.classList.remove('invalid')
     }
 
     if (desc.value == "" && !(desc.classList.contains('invalid'))) {

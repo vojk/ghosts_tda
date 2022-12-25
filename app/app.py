@@ -41,6 +41,8 @@ def create_record():
             print("No date found")
         elif not minutes:
             print("No minutes found")
+        elif progLang == "None":
+            print("No minutes found")
         elif not progLang:
             print("No progLang found")
         elif not desc:

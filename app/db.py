@@ -13,7 +13,6 @@ elif os.name == 'nt':
 
 databaseExists = os.path.exists(databasePath)
 
-
 if not databaseExists:  # ověřuje existenci databáze - zda-li existuje soubor database.db tak se nebude tvořit znova celá tabulka
     connection = sqlite3.connect(databasePath)  # připojí se a případně vytvoří databázi ./dbs/database.db
     with open('schema.sql') as f:  # Vytvoří tabulku podle ./dbs/schema.sql
