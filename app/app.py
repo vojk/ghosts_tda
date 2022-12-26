@@ -41,6 +41,8 @@ def create_record():
             print("No date found")
         elif not minutes:
             print("No minutes found")
+        elif progLang == "None":
+            print("No minutes found")
         elif not progLang:
             print("No progLang found")
         elif not desc:
@@ -55,7 +57,7 @@ def create_record():
             return redirect(url_for('blank_site'))
 
     proglangs = [{'progLangs': 'JAVA'}, {'progLangs': 'PYTHON'}, {'progLangs': 'C#'}]
-    return render_template('create.html', defs=proglangs)
+    return render_template('createWind.html', defs=proglangs)
 
 
 if __name__ == '__main__':
