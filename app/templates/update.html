@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        #container {
+            max-width: fit-content;
+            display: flex;
+            justify-content: left;
+            align-items: center;
+            flex-direction: row;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid black;
+            margin: 20px;
+        }
+
+        #listItem {
+            padding: 5px;
+            margin-top: 10px;
+            background-color: #fcf1dc;
+            border: 1px solid black;
+            font-size: 16px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .list {
+            max-width: 75px;
+        }
+
+        button {
+            max-width: 60px;
+            max-height: 25px;
+            border: none;
+            color: black;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 12px;
+            display: inline-block;
+            border-radius: 20px;
+            margin-left: 5px;
+        }
+
+        #Edit {
+            background-color: rgb(151, 241, 156);
+
+        }
+
+        #Edit:hover {
+            background-color: rgb(118, 213, 123);
+        }
+
+        #Delete {
+            background-color: lightcoral;
+        }
+
+        #Delete:hover {
+            background-color: rgb(221, 103, 103);
+        }
+    </style>
+</head>
+
+<body>
+    <legend>List</legend>
+    {% for texts in text %}
+    <form method="post"></form>
+    <div id="container">
+        <div id="listItem">
+            <input type="text" class="list" title="{{ texts.dates }}">
+            <input type="text" class="list" title="{{ texts.timeInMinutes }}">
+            <input type="text" class="list" title="{{ texts.programmingLang }">
+            <input type="text" class="list" title="{{ texts.rating }}">
+            <input type="text" class="list" title="{{ texts.description }}">
+            <button type="submit" id="Edit" value="Edit">Edit</button>
+            <button type="submit" id="Delete" value="Delete">Delete</button>
+        </div>
+    </div>
+    {% endfor %}
+</body>
+
+</html>
