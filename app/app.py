@@ -1,7 +1,10 @@
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for, abort
 import db
+import secrets
 
 import sqlite3
+
+proglangs = [{'progLangs': 'JAVA'}, {'progLangs': 'PYTHON'}, {'progLangs': 'C#'}]
 
 app = Flask(__name__)
 
@@ -56,9 +59,17 @@ def create_record():
             conn.close()
             return redirect(url_for('blank_site'))
 
-    proglangs = [{'progLangs': 'JAVA'}, {'progLangs': 'PYTHON'}, {'progLangs': 'C#'}]
     return render_template('createWind.html', defs=proglangs)
 
 
+@app.route('/<username>/<int:id>/edit/', methods=('GET', 'POST'))
+def edit(id, username):
+    record = db.get_data_from_db_by_id(username, id)
+    if not record:
+        abort(404)
+    return render_template('editWind.html', record=record, defs=proglangs)
+
+
 if __name__ == '__main__':
+    app.secret_key = secrets.token_hex(16)
     app.run()

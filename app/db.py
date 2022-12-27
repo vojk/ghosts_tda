@@ -1,4 +1,5 @@
 import sqlite3
+from flask import abort
 
 import os
 
@@ -38,3 +39,11 @@ def read_data_from_db(table):  # čte data z databáze
     posts = conn.execute('SELECT * FROM ' + table).fetchall()
     conn.close()
     return posts
+
+
+def get_data_from_db_by_id(table, post_id):  # čte data z databáze
+    conn = get_db_connection()
+    record = conn.execute('SELECT * FROM ' + table + ' WHERE id = ?',
+                          (post_id,)).fetchall()
+    conn.close()
+    return record
