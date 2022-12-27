@@ -67,6 +67,34 @@ def edit(id, username):
     record = db.get_data_from_db_by_id(username, id)
     if not record:
         abort(404)
+
+    if request.method == 'POST':
+        date = request.form['formDate']
+        minutes = request.form['formMinutes']
+        rating = request.form['formRating']
+        progLang = request.form['formProgLang_select']
+        desc = request.form['formDesc']
+
+        if not date:
+            print("No date found")
+        elif not minutes:
+            print("No minutes found")
+        elif progLang == "None":
+            print("No minutes found")
+        elif not progLang:
+            print("No progLang found")
+        elif not desc:
+            print("No desc found")
+        else:
+            conn = db.get_db_connection()
+            conn.execute(
+                'UPDATE ' + username + ' SET dates = ?, timeInMinutes = ?, programmingLang = ?, rating = ?, description = ? '
+                                      'WHERE id = ?',
+                (date, minutes, progLang, rating, desc, id))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('blank_site'))
+
     return render_template('editWind.html', record=record, defs=proglangs)
 
 
