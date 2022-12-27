@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
+{#Dostupné na 127.0.0.1:5000/blank#}
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -71,14 +73,13 @@
 <body>
     <legend>List</legend>
     {% for texts in text %}
-    <form method="post"></form>
     <div id="container">
         <div id="listItem">
-            <input type="text" class="list" title="{{ texts.dates }}">
-            <input type="text" class="list" title="{{ texts.timeInMinutes }}">
-            <input type="text" class="list" title="{{ texts.programmingLang }">
-            <input type="text" class="list" title="{{ texts.rating }}">
-            <input type="text" class="list" title="{{ texts.description }}">
+            <input type="text" class="list" value="{{ texts.dates }}">
+            <input type="text" class="list" value="{{ texts.timeInMinutes }}">
+            <input type="text" class="list" value="{{ texts.programmingLang }}">
+            <input type="text" class="list" value="{{ texts.rating }}">
+            <input type="text" class="list" value="{{ texts.description }}">
             <button type="submit" id="Edit" value="Edit">Edit</button>
             <button type="submit" id="Delete" value="Delete">Delete</button>
         </div>

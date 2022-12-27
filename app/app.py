@@ -25,7 +25,7 @@ def get_rating_to_text():  # Získání dat z formuláře v HTML dokumentu main.
 
 @app.route("/blank")
 def blank_site():
-    return render_template('blank.html', text=db.read_data_from_db('u_default'))
+    return render_template('update.html', text=db.read_data_from_db('u_default'))
 
 
 @app.route("/create/", methods=('GET', 'POST'))
