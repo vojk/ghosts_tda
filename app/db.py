@@ -12,6 +12,8 @@ if os.name == 'posix':
 elif os.name == 'nt':
     databasePath = './dbs/database.db'
 
+print(databasePath)
+
 databaseExists = os.path.exists(databasePath)
 
 if not databaseExists:  # ověřuje existenci databáze - zda-li existuje soubor database.db tak se nebude tvořit znova celá tabulka
@@ -20,7 +22,8 @@ if not databaseExists:  # ověřuje existenci databáze - zda-li existuje soubor
         # connection.executescript(f.read())
         connection.executescript(
             'CREATE TABLE ' + "u_" + user +
-            ' (id INTEGER PRIMARY KEY AUTOINCREMENT, dates DATE NOT NULL, timeInMinutes INT NOT NULL, programmingLang TEXT NOT NULL, rating INT NOT NULL, description TEXT NOT NULL)')
+            ' (id INTEGER PRIMARY KEY AUTOINCREMENT, dates DATE NOT NULL, timeInMinutes INT NOT NULL, '
+            'programmingLang TEXT NOT NULL, rating INT NOT NULL, description TEXT NOT NULL)')
 
     cur = connection.cursor()  # Vytvoří kursor
     connection.commit()  # vloží data do databáze
