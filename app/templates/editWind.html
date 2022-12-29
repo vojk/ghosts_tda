@@ -8,6 +8,7 @@
 </head>
 <body>
 {% block edit %}
+    <script src="{{ url_for('static', filename='js/jquery-3.6.3.min.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 
     {% for record in record %}
@@ -64,9 +65,6 @@
 
                 </div>
             </form>
-
-            <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-            <script src="{{ url_for('static', filename='js/jquery-3.6.3.min.js') }}"></script>
 
             <script src="{{ url_for('static', filename='js/checkForFormAndNumber.js') }}"></script>
 

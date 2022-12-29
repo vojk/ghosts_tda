@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-
-
 </head>
 <body>
 {% block create %}
+    <script src="{{ url_for('static', filename='js/jquery-3.6.3.min.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 
     <div class="float">
@@ -59,12 +58,12 @@
 
             </div>
         </form>
-
         <script src="{{ url_for('static', filename='js/checkForFormAndNumber.js') }}"></script>
-        <script src="{{ url_for('static', filename='js/jquery-3.6.3.min.js') }}"></script>
+
 
         <script>
-            document.getElementById('_formDate').valueAsDate = new Date();
+            document.getElementById('_formDate').valueAsDate = new Date(new Date().toLocaleString('en', {timeZone: 'Europe/Warsaw'}));
+
         </script>
     </div>
 {% endblock %}

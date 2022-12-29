@@ -12,18 +12,14 @@ if os.name == 'posix':
 elif os.name == 'nt':
     databasePath = './dbs/database.db'
 
-print(databasePath)
-
 databaseExists = os.path.exists(databasePath)
 
 if not databaseExists:  # ověřuje existenci databáze - zda-li existuje soubor database.db tak se nebude tvořit znova celá tabulka
     connection = sqlite3.connect(databasePath)  # připojí se a případně vytvoří databázi ./dbs/database.db
-    with open('schema.sql') as f:  # Vytvoří tabulku podle ./dbs/schema.sql
-        # connection.executescript(f.read())
-        connection.executescript(
-            'CREATE TABLE ' + "u_" + user +
-            ' (id INTEGER PRIMARY KEY AUTOINCREMENT, dates DATE NOT NULL, timeInMinutes INT NOT NULL, '
-            'programmingLang TEXT NOT NULL, rating INT NOT NULL, description TEXT NOT NULL)')
+    connection.executescript(
+        'CREATE TABLE ' + "u_" + user +
+        ' (id INTEGER PRIMARY KEY AUTOINCREMENT, dates DATE NOT NULL, timeInMinutes INT NOT NULL, '
+        'programmingLang TEXT NOT NULL, rating INT NOT NULL, description TEXT NOT NULL)')
 
     cur = connection.cursor()  # Vytvoří kursor
     connection.commit()  # vloží data do databáze
@@ -50,3 +46,16 @@ def get_data_from_db_by_id(table, post_id):  # čte data z databáze
                           (post_id,)).fetchall()
     conn.close()
     return record
+
+
+def create_user(user):
+    conn = get_db_connection()
+    if not user:
+        print("No User Found")
+    else:
+        conn.executescript(
+            'CREATE TABLE ' + "u_" + user +
+            ' (id INTEGER PRIMARY KEY AUTOINCREMENT, dates DATE NOT NULL, timeInMinutes INT NOT NULL, '
+            'programmingLang TEXT NOT NULL, rating INT NOT NULL, description TEXT NOT NULL)')
+        conn.commit()
+        conn.close()

@@ -42,19 +42,17 @@ def create_record():
 
         if not date:
             print("No date found")
-        elif not minutes:
+        elif not minutes or minutes == 0:
             print("No minutes found")
-        elif progLang == "None":
-            print("No minutes found")
-        elif not progLang:
+        elif progLang == "None" or not progLang:
             print("No progLang found")
         elif not desc:
             print("No desc found")
         else:
             conn = db.get_db_connection()
             conn.execute(
-                'INSERT INTO u_default (dates, timeInMinutes, programmingLang, rating, description) VALUES (?, ?, ?, ?, ?)',
-                (date, minutes, progLang, rating, desc))
+                'INSERT INTO u_default (dates, timeInMinutes, programmingLang, rating, description) '
+                'VALUES (?, ?, ?, ?, ?)', (date, minutes, progLang, rating, desc))
             conn.commit()
             conn.close()
             return redirect(url_for('blank_site'))
@@ -77,25 +75,37 @@ def edit(id, username):
 
         if not date:
             print("No date found")
-        elif not minutes:
+        elif not minutes or minutes == 0:
             print("No minutes found")
-        elif progLang == "None":
-            print("No minutes found")
-        elif not progLang:
+        elif progLang == "None" or not progLang:
             print("No progLang found")
         elif not desc:
             print("No desc found")
         else:
             conn = db.get_db_connection()
             conn.execute(
-                'UPDATE ' + username + ' SET dates = ?, timeInMinutes = ?, programmingLang = ?, rating = ?, description = ? '
-                                      'WHERE id = ?',
+                'UPDATE ' + username +
+                ' SET dates = ?, timeInMinutes = ?, programmingLang = ?, rating = ?, description = ? '
+                'WHERE id = ?',
                 (date, minutes, progLang, rating, desc, id))
             conn.commit()
             conn.close()
             return redirect(url_for('blank_site'))
 
     return render_template('editWind.html', record=record, defs=proglangs)
+
+
+@app.route('/<username>/<int:id>/delete/', methods=('GET', 'POST'))
+def delete(id, username):
+    record = db.get_data_from_db_by_id(username, id)
+    if not record:
+        abort(404)
+
+    conn = db.get_db_connection()
+    conn.execute('DELETE FROM ' + username + ' WHERE id = ?', (id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('blank_site'))
 
 
 if __name__ == '__main__':
