@@ -2,8 +2,6 @@ from flask import Flask, render_template, request, flash, redirect, url_for, abo
 import db
 import secrets
 
-import sqlite3
-
 proglangs = [{'progLangs': 'JAVA'}, {'progLangs': 'PYTHON'}, {'progLangs': 'C#'}]
 
 app = Flask(__name__)

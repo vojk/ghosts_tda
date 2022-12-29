@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <script src="{{ url_for('static', filename='js/helpers.js') }}"></script>
+
 </head>
 <body>
 {% block create %}
@@ -58,12 +61,12 @@
 
             </div>
         </form>
+
         <script src="{{ url_for('static', filename='js/checkForFormAndNumber.js') }}"></script>
 
 
         <script>
-            document.getElementById('_formDate').valueAsDate = new Date(new Date().toLocaleString('en', {timeZone: 'Europe/Warsaw'}));
-
+            document.getElementById('_formDate').valueAsDate = new Date();
         </script>
     </div>
 {% endblock %}
