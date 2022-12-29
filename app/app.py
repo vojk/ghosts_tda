@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, abort
 import db
 import secrets
+import sorting
 
 proglangs = [{'progLangs': 'JAVA'}, {'progLangs': 'PYTHON'}, {'progLangs': 'C#'}]
 
@@ -9,19 +10,20 @@ app = Flask(__name__)
 db  # inicializuje databázi
 
 
-@app.route('/')
-def index():  # main code base
-    return render_template('main.html')
+@app.route('/', methods=('GET', 'POST'))
+@app.route('/<string:sort>', methods=('GET', 'POST'))
+def index(sort=None):  # main code base
+    if sort is not None:
+        print()
+        record = sorting.sort(sort, 'u_default')
+    return render_template('main.html', text=record)
 
 
-# Testovací funkce pro čtení z <form>
-@app.route("/test", methods=["POST"])  # Určení cesty /test & nastavení metody POST
-def get_rating_to_text():  # Získání dat z formuláře v HTML dokumentu main.html
-    if request.method == "POST":  # Kontroluje zda-li je metoda POST
-        ratingSlider = request.form["_ratingSlider"]  # uloží data z _ratingSlider
-        nameTextInput = request.form["_nameOfElement"]  # uloží data z _nameOfElement
-        # Používá se "name" z form-input
-        return 'rating: ' + ratingSlider + ' name: ' + nameTextInput  # navrátí hodnoty z ratingSlider a nameTextInput
+# BackgroundTask
+@app.route('/background_process_test')
+def background_process_test():
+    print("Hello")
+    return "nothing"
 
 
 @app.route("/blank")

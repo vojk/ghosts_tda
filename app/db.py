@@ -35,9 +35,9 @@ def get_db_connection():
 def read_data_from_db(table):  # čte data z databáze
     conn = sqlite3.connect(databasePath)
     conn.row_factory = sqlite3.Row
-    posts = conn.execute('SELECT * FROM ' + table).fetchall()
+    records = conn.execute('SELECT * FROM ' + table).fetchall()
     conn.close()
-    return posts
+    return records
 
 
 def get_data_from_db_by_id(table, post_id):  # čte data z databáze
