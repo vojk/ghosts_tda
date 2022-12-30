@@ -57,3 +57,11 @@ $('#_formMinutes').on('keypress', function (e) {
         e.which == 8 || // delete key
         /[0-9]/.test(String.fromCharCode(e.which)); // numbers
 })
+
+
+$("[id$=sharp]").each(function () {
+    var text = $(this).text();
+
+    text = text.replace('sharp', '#');
+    $(this).text(text);
+})
