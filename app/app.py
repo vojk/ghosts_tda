@@ -13,6 +13,11 @@ app = Flask(__name__)
 db  # inicializuje databázi
 
 
+@app.route('/')
+def index():
+    return redirect(url_for('app_wind'))
+
+
 @app.route('/app', methods=["GET", "POST"])
 def app_wind():
     sort_type = request.args.get('sort', default=None, type=str)
