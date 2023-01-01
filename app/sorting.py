@@ -86,14 +86,6 @@ def sort(records_, sort_parameter_cut):
         else:
             reverse = False
 
-    # Sortování pomocí SQL => Neohrabané až moc složité pro tuhle aplikaci ale ne nemožné
-    # if sortParameter != 'None':
-    #     conn = db.get_db_connection()
-    #     records = conn.execute('SELECT * FROM ' + table + ' ORDER BY ' + sortParameter + ' DESC').fetchall()
-    #     conn.close()
-    # else:
-    #     records = db.read_data_from_db(table)
-
     if sort_parameter_cut[0] != 'None':
         match sort_parameter_cut[0]:
             case 'dates':
