@@ -53,7 +53,7 @@ def pre_sort(f_sort_type, f_filter_rating, f_filter_proglangs, f_filter_dates, f
     if f_filter_timeinminutes is None or f_filter_timeinminutes == "":
         f_filter_timeinminutes = 'NULL'
 
-    print('min: ' + f_filter_dates_min)
+    print(f_filter_rating)
     return sorting(f_sort_type, f_filter_timeinminutes, f_filter_rating_min, f_filter_rating_max, f_filter_proglangs,
                    f_filter_dates_min, f_filter_dates_max, f_sort_rule)
 
@@ -73,80 +73,3 @@ def sorting(sorting_parameter, time_in_minutes, f_filter_rating_min, f_filter_ra
     cursor.close()
     conn.close()
     return records
-
-
-# ----Useless část kodu----
-
-def sort(records_, sort_parameter_cut):
-    reverse = False
-
-    if len(sort_parameter_cut) >= 2:
-        if sort_parameter_cut[1] == 'T':
-            reverse = True
-        else:
-            reverse = False
-
-    if sort_parameter_cut[0] != 'None':
-        match sort_parameter_cut[0]:
-            case 'dates':
-                sorted_records = sorted(records_, key=lambda x: x[1], reverse=reverse)
-                return sorted_records
-            case 'time_in_minutes':
-                sorted_records = sorted(records_, key=lambda x: x[2], reverse=reverse)
-                return sorted_records
-            case 'programming_lang':
-                sorted_records = sorted(records_, key=lambda x: x[3], reverse=reverse)
-                return sorted_records
-            case 'rating':
-                sorted_records = sorted(records_, key=lambda x: x[4], reverse=reverse)
-                return sorted_records
-    return records_
-
-
-def test_of_sort(sort_parameter):
-    reverse = False
-    if not sort_parameter is None:
-        match sort_parameter:
-            case 'dates':
-                sorted_records = sorted(db.read_data_from_db('u_default'), key=lambda x: x[1], reverse=reverse)
-                return sorted_records
-            case 'time_in_minutes':
-                sorted_records = sorted(db.read_data_from_db('u_default'), key=lambda x: x[2], reverse=reverse)
-                return sorted_records
-            case 'programming_lang':
-                sorted_records = sorted(db.read_data_from_db('u_default'), key=lambda x: x[3], reverse=reverse)
-                return sorted_records
-            case 'rating':
-                sorted_records = sorted(db.read_data_from_db('u_default'), key=lambda x: x[4], reverse=reverse)
-                return sorted_records
-    else:
-        return db.read_data_from_db('u_default')
-
-
-def filter_records(rating, proglangs, dates, timeinminutes, table, sort_parameter):
-    if timeinminutes == 'None':
-        timeinminutes = ["200"]
-    if dates == 'None' or dates[1] is None:
-        dates = ["2000-01-01", datetime.today().strftime('%Y-%m-%d')]
-    if proglangs == 'None':
-        proglangs = app.proglangs
-    if timeinminutes == 'None':
-        timeinminutes = ["0", "500"]
-    print(rating)
-    print(proglangs)
-    print(dates)
-    print(timeinminutes)
-    conn = db.get_db_connection()
-    cursor = conn.cursor()
-    query = "SELECT * FROM " + table + " WHERE programmingLang IN ({}) " \
-                                       "AND rating BETWEEN ? AND ? AND dates BETWEEN ? AND ? AND timeInMinutes BETWEEN 0 AND ?"
-
-    placeholders = ",".join(["?"] * len(proglangs))
-    query = query.format(placeholders)
-
-    cursor.execute(query, tuple(proglangs) + (rating[0], rating[1]) + (dates[0], dates[1]) + tuple(timeinminutes))
-    records = cursor.fetchall()
-
-    cursor.close()
-    conn.close()
-    return sort(records, sort_parameter)

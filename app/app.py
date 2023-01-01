@@ -13,42 +13,6 @@ app = Flask(__name__)
 db  # inicializuje databázi
 
 
-# @app.route('/', methods=('GET', 'POST'))
-# @app.route('/<string:sort>', methods=('GET', 'POST'))
-# @app.route('/<string:sort>&<string:filters>', methods=('GET', 'POST'))
-# def index(sort=None, filters=None):  # main code base
-#     # http://127.0.0.1:5000/None&rating=0,5;proglang=JAVA,PYTHON,Csharp;Date=2022-03-14,2022-12-25;timeinminutes=200
-#     maxminRating_f = 'None'
-#     maxminDates_f = 'None'
-#     timeinminutes_f = 'None'
-#     prog_langs_f = 'None'
-#     sort_parameter_cut = 'NULL'
-#     if sort is not None:
-#         sort_parameter_cut = re.findall('.[^A-Z]*', sort)
-#     if sort is not None and sort_parameter_cut[0] in sorting.sortTypes:
-#         # record = sorting.sort(sort, 'u_default')
-#         if filters is not None:  # Filtry
-#             seperatedfiltersWithWhiteSpaces = filters.split(";")  # Určení oddělovače
-#             seperatedfilters = list(filter(None, seperatedfiltersWithWhiteSpaces))
-#             if len(seperatedfilters) >= 1:
-#                 maxminRating_f = seperatedfilters[0].split("=", 1)[1].split(
-#                     ",")  # Oddělní maximálního a minimálního hodnocení
-#             if len(seperatedfilters) >= 2:
-#                 prog_langs_f = seperatedfilters[1].split("=", 1)[1].split(",")  # Oddělní programovacích jazyků
-#             if len(seperatedfilters) >= 3:
-#                 maxminDates_f = seperatedfilters[2].split("=", 1)[1].split(
-#                     ",")  # Oddělní maximálního a minimálního data
-#             if len(seperatedfilters) >= 4:
-#                 timeinminutes_f = seperatedfilters[3].split("=", 1)[1].split(
-#                     ",")  # čas strávený nad procvičováním
-#             return render_template('update.html',
-#                                    text=sorting.filter_records(maxminRating_f, prog_langs_f, maxminDates_f,
-#                                                                timeinminutes_f, 'u_default',
-#                                                                sort_parameter_cut))
-#     elif sort_parameter_cut[0] not in sorting.sortTypes and sort is not None:
-#         return redirect(url_for('index'))
-#     return render_template('update.html', text=db.read_data_from_db('u_default'))
-
 @app.route('/app', methods=["GET", "POST"])
 def app_wind():
     sort_type = request.args.get('sort', default=None, type=str)
