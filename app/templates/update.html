@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-{#Dostupné na 127.0.0.1:5000/blank#}
+{#Dostupné na 127.0.0.1:5000/app#}
 
 <head>
     <meta charset="UTF-8">
@@ -36,7 +36,7 @@
             max-width: 75px;
         }
 
-        button {
+        button, a{
             max-width: 60px;
             max-height: 25px;
             border: none;
@@ -53,7 +53,6 @@
 
         #Edit {
             background-color: rgb(151, 241, 156);
-
         }
 
         #Edit:hover {
@@ -71,7 +70,6 @@
 </head>
 
 <body>
-    <legend>List</legend>
     {% for texts in text %}
     <div id="container">
         <div id="listItem">
@@ -80,8 +78,9 @@
             <input type="text" class="list" value="{{ texts.programmingLang }}">
             <input type="text" class="list" value="{{ texts.rating }}">
             <input type="text" class="list" value="{{ texts.description }}">
-            <button type="submit" id="Edit" value="Edit">Edit</button>
-            <button type="submit" id="Delete" value="Delete">Delete</button>
+
+            <a id="Edit" href="/{{ texts.programmer }}/{{ texts.id }}/edit">Edit</a>
+            <a id="Delete" href="/{{ texts.programmer }}/{{ texts.id }}/delete">Delete</a>
         </div>
     </div>
     {% endfor %}

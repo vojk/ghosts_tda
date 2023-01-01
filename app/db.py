@@ -19,7 +19,7 @@ if not databaseExists:  # ověřuje existenci databáze - zda-li existuje soubor
     connection.executescript(
         'CREATE TABLE ' + "u_" + user +
         ' (id INTEGER PRIMARY KEY AUTOINCREMENT, dates DATE NOT NULL, timeInMinutes INT NOT NULL, '
-        'programmingLang TEXT NOT NULL, rating INT NOT NULL, description TEXT NOT NULL)')
+        'programmingLang TEXT NOT NULL, rating INT NOT NULL, description TEXT NOT NULL, programmer TEXT NOT NULL)')
 
     cur = connection.cursor()  # Vytvoří kursor
     connection.commit()  # vloží data do databáze
@@ -56,6 +56,6 @@ def create_user(user):
         conn.executescript(
             'CREATE TABLE ' + "u_" + user +
             ' (id INTEGER PRIMARY KEY AUTOINCREMENT, dates DATE NOT NULL, timeInMinutes INT NOT NULL, '
-            'programmingLang TEXT NOT NULL, rating INT NOT NULL, description TEXT NOT NULL)')
+            'programmingLang TEXT NOT NULL, rating INT NOT NULL, description TEXT NOT NULL, programmer TEXT NOT NULL)')
         conn.commit()
         conn.close()

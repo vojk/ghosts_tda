@@ -7,6 +7,6 @@ CREATE TABLE trenink
     timeInMinutes   DOUBLE NOT NULL,
     programmingLang TEXT   NOT NULL,
     rating          INT    NOT NULL,
-    description     TEXT   NOT NULL
-
+    description     TEXT   NOT NULL,
+    programmer      TEXT   NOT NULL
 );

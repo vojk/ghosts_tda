@@ -64,8 +64,8 @@ def create_record():
         else:
             conn = db.get_db_connection()
             conn.execute(
-                'INSERT INTO u_default (dates, timeInMinutes, programmingLang, rating, description) '
-                'VALUES (?, ?, ?, ?, ?)', (date, minutes, progLang, rating, desc))
+                'INSERT INTO u_default (dates, timeInMinutes, programmingLang, rating, description, programmer) '
+                'VALUES (?, ?, ?, ?, ?, ?)', (date, minutes, progLang, rating, desc, 'u_default'))
             conn.commit()
             conn.close()
             return redirect(url_for('blank_site'))

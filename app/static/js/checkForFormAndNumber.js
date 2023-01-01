@@ -10,7 +10,7 @@ function validateForm() {
         date.classList.remove('invalid')
     }
 
-    if (time.value == "" && !(time.classList.contains('invalid'))) {
+    if (time.value == "" && !(time.classList.contains('invalid')) || time.value == "0" && !(time.classList.contains('invalid'))) {
         time.classList.add('invalid')
     } else if (!(time.value == "")) {
         time.classList.remove('invalid')
@@ -28,7 +28,7 @@ function validateForm() {
         desc.classList.remove('invalid')
     }
 
-    if (date.value == "" || time.value == "" || desc.value == "") {
+    if (date.value == "" || time.value == "" || time.value == "0" || desc.value == "") {
         return false;
     }
 }

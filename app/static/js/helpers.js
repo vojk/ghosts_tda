@@ -13,7 +13,7 @@ function setSameRecord() {
     }
 
     date.valueAsDate = new Date(Math.floor(Math.random() * 13) + 2009, Math.floor(Math.random() * 12) + 1, Math.floor(Math.random() * 28) + 1)
-    time.value = Math.floor(Math.random() * 151)
+    time.value = Math.floor(Math.random() * 151)+1
     desc.value = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad alias consequuntur corporis culpa earum esse est ex explicabo incidunt iusto labore laborum laudantium minima molestias quam, quibusdam recusandae ullam?'
     progLang.selectedIndex = index
     rating.value = Math.floor(Math.random() * 6)
