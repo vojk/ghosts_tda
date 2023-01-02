@@ -40,11 +40,11 @@ def background_process_test():
 
 @app.route("/blank")
 def blank_site():
-    return render_template('update.html', text=db.read_data_from_db('u_default'))
+    return render_template('update.html', text=db.read_data_from_db())
 
 
-@app.route("/create/", methods=('GET', 'POST'))
-@app.route('/app/create/', methods=('GET', 'POST'))
+@app.route("/add/", methods=('GET', 'POST'))
+@app.route('/app/add/', methods=('GET', 'POST'))
 def create_record():
     if request.method == 'POST':
         date = request.form['formDate']
@@ -64,7 +64,7 @@ def create_record():
         else:
             conn = db.get_db_connection()
             conn.execute(
-                'INSERT INTO u_default (dates, timeInMinutes, programmingLang, rating, description, programmer) '
+                'INSERT INTO records (dates, timeInMinutes, programmingLang, rating, description, programmer) '
                 'VALUES (?, ?, ?, ?, ?, ?)', (date, minutes, progLang, rating, desc, 'u_default'))
             conn.commit()
             conn.close()
@@ -73,10 +73,10 @@ def create_record():
     return render_template('createWind.html', defs=proglangs)
 
 
-@app.route('/<username>/<int:id>/edit/', methods=('GET', 'POST'))
-@app.route('/app/<username>/<int:id>/edit/', methods=('GET', 'POST'))
-def edit(id, username):
-    record = db.get_data_from_db_by_id(username, id)
+@app.route('/<int:id>/edit/', methods=('GET', 'POST'))
+@app.route('/app/<int:id>/edit/', methods=('GET', 'POST'))
+def edit(id):
+    record = db.get_data_from_db_by_id(id)
     if not record:
         abort(404)
 
@@ -98,8 +98,7 @@ def edit(id, username):
         else:
             conn = db.get_db_connection()
             conn.execute(
-                'UPDATE ' + username +
-                ' SET dates = ?, timeInMinutes = ?, programmingLang = ?, rating = ?, description = ? '
+                'UPDATE records SET dates = ?, timeInMinutes = ?, programmingLang = ?, rating = ?, description = ? '
                 'WHERE id = ?',
                 (date, minutes, progLang, rating, desc, id))
             conn.commit()
@@ -109,15 +108,15 @@ def edit(id, username):
     return render_template('editWind.html', record=record, defs=proglangs)
 
 
-@app.route('/<username>/<int:id>/delete/', methods=('GET', 'POST'))
-@app.route('/app/<username>/<int:id>/delete/', methods=('GET', 'POST'))
-def delete(id, username):
-    record = db.get_data_from_db_by_id(username, id)
+@app.route('/<int:id>/delete/', methods=('GET', 'POST'))
+@app.route('/app/<int:id>/delete/', methods=('GET', 'POST'))
+def delete(id):
+    record = db.get_data_from_db_by_id(id)
     if not record:
         abort(404)
 
     conn = db.get_db_connection()
-    conn.execute('DELETE FROM ' + username + ' WHERE id = ?', (id,))
+    conn.execute('DELETE FROM records WHERE id = ?', (id,))
     conn.commit()
     conn.close()
     return redirect(url_for('app_wind'))

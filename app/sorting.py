@@ -66,7 +66,7 @@ def sorting(sorting_parameter, time_in_minutes, f_filter_rating_min, f_filter_ra
     placeholders = ','.join(['?'] * len(proglangs))
     placeholders_sort = ','.join([x['sortTypes'] for x in sorting_parameter])
     query = f"SELECT * " \
-            f"FROM u_default " \
+            f"FROM records " \
             f"WHERE timeInMinutes BETWEEN 0 AND ? AND (rating BETWEEN ? AND ? OR rating IS NULL) AND programmingLang IN ({placeholders}) AND dates BETWEEN ? AND ? " \
             f"ORDER BY {placeholders_sort}"
     values = [time_in_minutes, f_filter_rating_min, f_filter_rating_max] + [

@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS u_default;
+DROP TABLE IF EXISTS records;
 
-CREATE TABLE u_default
+CREATE TABLE records
 (
     id              INTEGER PRIMARY KEY AUTOINCREMENT,
     dates           DATE   NOT NULL,

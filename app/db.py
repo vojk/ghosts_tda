@@ -3,7 +3,7 @@ from flask import abort
 
 import os
 
-user = "default"  # základní uživatel
+user = "records"  # základní uživatel
 
 databasePath = ''
 
@@ -17,8 +17,7 @@ databaseExists = os.path.exists(databasePath)
 if not databaseExists:  # ověřuje existenci databáze - zda-li existuje soubor database.db tak se nebude tvořit znova celá tabulka
     connection = sqlite3.connect(databasePath)  # připojí se a případně vytvoří databázi ./dbs/database.db
     connection.executescript(
-        'CREATE TABLE ' + "u_" + user +
-        ' (id INTEGER PRIMARY KEY AUTOINCREMENT, dates DATE NOT NULL, timeInMinutes INT NOT NULL, '
+        'CREATE TABLE records (id INTEGER PRIMARY KEY AUTOINCREMENT, dates DATE NOT NULL, timeInMinutes INT NOT NULL, '
         'programmingLang TEXT NOT NULL, rating INT NOT NULL, description TEXT NOT NULL, programmer TEXT NOT NULL)')
 
     cur = connection.cursor()  # Vytvoří kursor
@@ -32,17 +31,17 @@ def get_db_connection():
     return conn
 
 
-def read_data_from_db(table):  # čte data z databáze
+def read_data_from_db():  # čte data z databáze
     conn = sqlite3.connect(databasePath)
     conn.row_factory = sqlite3.Row
-    records = conn.execute('SELECT * FROM ' + table).fetchall()
+    records = conn.execute('SELECT * FROM records').fetchall()
     conn.close()
     return records
 
 
-def get_data_from_db_by_id(table, post_id):  # čte data z databáze
+def get_data_from_db_by_id(post_id):  # čte data z databáze
     conn = get_db_connection()
-    record = conn.execute('SELECT * FROM ' + table + ' WHERE id = ?',
+    record = conn.execute('SELECT * FROM records WHERE id = ?',
                           (post_id,)).fetchall()
     conn.close()
     return record
@@ -54,8 +53,7 @@ def create_user(user):
         print("No User Found")
     else:
         conn.executescript(
-            'CREATE TABLE ' + "u_" + user +
-            ' (id INTEGER PRIMARY KEY AUTOINCREMENT, dates DATE NOT NULL, timeInMinutes INT NOT NULL, '
+            'CREATE TABLE records (id INTEGER PRIMARY KEY AUTOINCREMENT, dates DATE NOT NULL, timeInMinutes INT NOT NULL, '
             'programmingLang TEXT NOT NULL, rating INT NOT NULL, description TEXT NOT NULL, programmer TEXT NOT NULL)')
         conn.commit()
         conn.close()
