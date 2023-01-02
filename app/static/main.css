@@ -103,6 +103,14 @@ legend {
     display: flex;
     align-items: center;
     width: 200px;
+    position: relative;
+    flex-direction: column;
+}
+
+#slider_value {
+    position: absolute;
+    left: 0;
+    top: 10px;
 }
 
 #_formRating {

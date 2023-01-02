@@ -30,6 +30,7 @@
                     </div>
                     <div class="ratingslider">
                         <input type="range" name="formRating" id="_formRating" max="5" min="0" value="0">
+                        <p id="slider_value">0</p>
                     </div>
                 </div>
 
@@ -67,6 +68,10 @@
 
         <script>
             document.getElementById('_formDate').valueAsDate = new Date();
+
+            document.getElementById('_formRating').addEventListener("input", function () {
+                document.getElementById('slider_value').innerHTML = document.getElementById('_formRating').value
+            })
         </script>
     </div>
 {% endblock %}
