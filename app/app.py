@@ -21,7 +21,6 @@ def index():
 @app.route('/app', methods=["GET", "POST"])
 def app_wind():
     sort_type = request.args.get('sort', default=None, type=str)
-    sort_rule = request.args.get('r', default=None, type=str)
     filter_rating = request.args.get('rating', default=None, type=str)
     filter_proglangs = request.args.get('proglang', default=None, type=str)
     filter_dates = request.args.get('date', default=None, type=str)
@@ -29,7 +28,7 @@ def app_wind():
 
     return render_template('update.html',
                            text=sorting.pre_sort(sort_type, filter_rating, filter_proglangs, filter_dates,
-                                                 filter_timeinminutes, sort_rule))
+                                                 filter_timeinminutes))
 
 
 # BackgroundTask
@@ -45,6 +44,7 @@ def blank_site():
 
 
 @app.route("/create/", methods=('GET', 'POST'))
+@app.route('/app/create/', methods=('GET', 'POST'))
 def create_record():
     if request.method == 'POST':
         date = request.form['formDate']
@@ -68,12 +68,13 @@ def create_record():
                 'VALUES (?, ?, ?, ?, ?, ?)', (date, minutes, progLang, rating, desc, 'u_default'))
             conn.commit()
             conn.close()
-            return redirect(url_for('blank_site'))
+            return redirect(url_for('app_wind'))
 
     return render_template('createWind.html', defs=proglangs)
 
 
 @app.route('/<username>/<int:id>/edit/', methods=('GET', 'POST'))
+@app.route('/app/<username>/<int:id>/edit/', methods=('GET', 'POST'))
 def edit(id, username):
     record = db.get_data_from_db_by_id(username, id)
     if not record:
@@ -103,12 +104,13 @@ def edit(id, username):
                 (date, minutes, progLang, rating, desc, id))
             conn.commit()
             conn.close()
-            return redirect(url_for('blank_site'))
+            return redirect(url_for('app_wind'))
 
     return render_template('editWind.html', record=record, defs=proglangs)
 
 
 @app.route('/<username>/<int:id>/delete/', methods=('GET', 'POST'))
+@app.route('/app/<username>/<int:id>/delete/', methods=('GET', 'POST'))
 def delete(id, username):
     record = db.get_data_from_db_by_id(username, id)
     if not record:
@@ -118,7 +120,7 @@ def delete(id, username):
     conn.execute('DELETE FROM ' + username + ' WHERE id = ?', (id,))
     conn.commit()
     conn.close()
-    return redirect(url_for('blank_site'))
+    return redirect(url_for('app_wind'))
 
 
 if __name__ == '__main__':

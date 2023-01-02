@@ -6,13 +6,15 @@ import app
 sortTypes = ('dates', 'time_in_minutes', 'programming_lang', 'rating', 'None')
 
 
-def pre_sort(f_sort_type, f_filter_rating, f_filter_proglangs, f_filter_dates, f_filter_timeinminutes, f_sort_rule):
+def pre_sort(f_sort_type, f_filter_rating, f_filter_proglangs, f_filter_dates, f_filter_timeinminutes):
     if f_sort_type is None or f_sort_type == "":
-        f_sort_type = 'NULL'
-    if f_sort_rule is None or f_sort_rule == "" or f_sort_rule == 'ASC':
-        f_sort_rule = 'ASC'
-    elif f_sort_rule == 'DESC':
-        f_sort_rule = 'DESC'
+        f_sort_type = [{'sortTypes': 'NULL'}]
+    else:
+        f_sort_type = f_sort_type.replace('_', ' ')
+        f_sort_type_temp = f_sort_type.split(',')
+        f_sort_type = []
+        for x in f_sort_type_temp:
+            f_sort_type.append({'sortTypes': x})
     if f_filter_rating is None or f_filter_rating == "":
         f_filter_rating_min = '0'
         f_filter_rating_max = '5'
@@ -53,23 +55,24 @@ def pre_sort(f_sort_type, f_filter_rating, f_filter_proglangs, f_filter_dates, f
     if f_filter_timeinminutes is None or f_filter_timeinminutes == "":
         f_filter_timeinminutes = 'NULL'
 
-    print(f_filter_rating)
     return sorting(f_sort_type, f_filter_timeinminutes, f_filter_rating_min, f_filter_rating_max, f_filter_proglangs,
-                   f_filter_dates_min, f_filter_dates_max, f_sort_rule)
+                   f_filter_dates_min, f_filter_dates_max)
 
 
 def sorting(sorting_parameter, time_in_minutes, f_filter_rating_min, f_filter_rating_max, proglangs, f_filter_dates_min,
-            f_filter_dates_max, f_sort_rule):
+            f_filter_dates_max):
     conn = db.get_db_connection()
     cursor = conn.cursor()
     placeholders = ','.join(['?'] * len(proglangs))
-    query = f"SELECT * FROM u_default WHERE timeInMinutes BETWEEN 0 AND ? AND (rating BETWEEN ? AND ? OR rating IS NULL) AND programmingLang IN ({placeholders}) AND dates BETWEEN ? AND ? ORDER BY {sorting_parameter} {f_sort_rule}"
-    values = [time_in_minutes, f_filter_rating_min, f_filter_rating_max] + [d['progLangs'] for d in proglangs] + [
-        f_filter_dates_min, f_filter_dates_max]
+    placeholders_sort = ','.join([x['sortTypes'] for x in sorting_parameter])
+    query = f"SELECT * " \
+            f"FROM u_default " \
+            f"WHERE timeInMinutes BETWEEN 0 AND ? AND (rating BETWEEN ? AND ? OR rating IS NULL) AND programmingLang IN ({placeholders}) AND dates BETWEEN ? AND ? " \
+            f"ORDER BY {placeholders_sort}"
+    values = [time_in_minutes, f_filter_rating_min, f_filter_rating_max] + [
+        d['progLangs'] for d in proglangs] + [
+                 f_filter_dates_min, f_filter_dates_max]
     records = cursor.execute(query, values).fetchall()
-
-    print(records)
-
     cursor.close()
     conn.close()
     return records

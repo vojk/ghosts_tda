@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS trenink;
+DROP TABLE IF EXISTS u_default;
 
-CREATE TABLE trenink
+CREATE TABLE u_default
 (
     id              INTEGER PRIMARY KEY AUTOINCREMENT,
     dates           DATE   NOT NULL,
