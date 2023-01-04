@@ -1,0 +1,10 @@
+{% block recordsTable %}
+    <table>
+        {% for text in texts %}
+            <tr>
+                <td>{{ text.programmer }}</td>
+                <td>{{ text.programmingLang }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

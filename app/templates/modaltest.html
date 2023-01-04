@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="{{ url_for('static', filename='js/jquery-3.6.3.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/sorting&filteringBridge.js') }}"></script>
+
+</head>
+<body style="background: gray">
+<form method="GET" id="sort-form">
+    <label for="sort_field">Sort by:</label>
+    <select name="sort_field" id="sort_field">
+        <option value="programmingLang">Name</option>
+        <option value="dates">Age</option>
+    </select>
+    <label for="sort_order">Order:</label>
+    <select name="sort_order" id="sort_order">
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+    </select>
+    <button type="submit">Sort</button>
+</form>
+
+<div id="table">
+    <table>
+        {% for text in texts %}
+            <tr>
+                <td>{{ text.programmer }}</td>
+                <td>{{ text.programmingLang }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
+<script>
+    $(function () {
+        $('#sort-form').submit(function (event) {
+            event.preventDefault();
+            var sortField = $('#sort_field').val();
+            $.get('/sort', {sort_field: sortField}, function (data) {
+                // data is the HTML of the updated table
+                $('#table').html(data);
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
