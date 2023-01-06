@@ -34,13 +34,15 @@ def app_wind():
 @app.route('/test')
 def test():
     sort_field = request.args.get('sort_field')
-    return render_template('modaltest.html', texts=sorting.pre_sort(sort_field, None, None, None,
-                                                                    None))
+    return render_template('table_example.html', texts=sorting.pre_sort(sort_field, None, None, None,
+                                                                        None))
 
 
 @app.route('/sort')
 def sort():
     sort_field = request.args.get('sort_field')
+    sort_parameter = request.args.get('sort_parameter')
+    sort_field = sort_field + " " + sort_parameter
 
     return render_template('table_records.html', texts=sorting.pre_sort(sort_field, None, None, None,
                                                                         None))

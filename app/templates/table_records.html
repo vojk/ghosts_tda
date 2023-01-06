@@ -1,9 +1,12 @@
 {% block recordsTable %}
-    <table>
+    <table style="width: 500px">
         {% for text in texts %}
             <tr>
                 <td>{{ text.programmer }}</td>
                 <td>{{ text.programmingLang }}</td>
+                <td>{{ text.dates }}</td>
+                <td>{{ text.timeInMinutes }}</td>
+                <td>{{ text.rating }}/5</td>
             </tr>
         {% endfor %}
     </table>
