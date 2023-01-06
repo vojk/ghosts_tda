@@ -29,6 +29,7 @@ def pre_sort(f_sort_type, f_filter_rating, f_filter_proglangs, f_filter_dates, f
             f_filter_rating_max = f_filter_rating[1]
         else:
             f_filter_rating_max = 'NULL'
+
     if f_filter_proglangs is None or f_filter_proglangs == "":
         f_filter_proglangs = app.proglangs
     else:
@@ -61,6 +62,8 @@ def pre_sort(f_sort_type, f_filter_rating, f_filter_proglangs, f_filter_dates, f
 
 def sorting(sorting_parameter, time_in_minutes, f_filter_rating_min, f_filter_rating_max, proglangs, f_filter_dates_min,
             f_filter_dates_max):
+    print(f_filter_rating_min)
+    print(f_filter_rating_max)
     conn = db.get_db_connection()
     cursor = conn.cursor()
     placeholders = ','.join(['?'] * len(proglangs))

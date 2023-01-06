@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/range_minmax.css') }}">
+
+    <script src="{{ url_for('static', filename='js/jquery-3.6.3.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
 </head>
 <body style="background: gray">
 <form method="GET" id="sort-form">
@@ -18,22 +23,25 @@
     </select>
     <button type="submit">Sort</button>
 </form>
-<div id="table">
-    <table style="width: 500px">
-        {% for text in texts %}
-            <tr>
-                <td>{{ text.programmer }}</td>
-                <td>{{ text.programmingLang }}</td>
-                <td>{{ text.dates }}</td>
-                <td>{{ text.timeInMinutes }}</td>
-                <td>{{ text.rating }}/5</td>
-            </tr>
+<form method="GET" id="filter-form">
+    <label for="filter_rating">Sort by:</label>
+    <input type="range" name="filter_rating" id="filter_rating" max="5" min="0" value="5">
+    <select name="filter_programmingLangs" id="filter_programmingLangs" multiple>
+        {% for def in defs %}
+            <option id="option_{{ def.progLangs }}"
+                    value="{{ def.progLangs }}">{{ def.progLangs }}</option>
         {% endfor %}
-    </table>
+    </select>
+    <input type="date" name="filter_min_date" id="filter_min_date">
+    <input type="date" name="filter_max_date" id="filter_max_date">
+    {% include 'customElements/rangeSliderRating.html' %}
+    <button type="submit">Filter</button>
+</form>
+<div id="table">
+    {% include 'table_records.html' %}
 </div>
 
-<script src="{{ url_for('static', filename='js/jquery-3.6.3.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/showRecordsScripts/updateTableWithoutRefresh.js') }}"></script>
 
+<script src="{{ url_for('static', filename='js/showRecordsScripts/updateTableWithoutRefresh.js') }}"></script>
 </body>
 </html>
