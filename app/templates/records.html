@@ -11,7 +11,7 @@
 </head>
 <body>
 <form method="GET" id="sort-form">
-    <label for="sort_field">Sort by:</label>
+    <label for="sort_field">Filter by:</label>
     <select name="sort_field" id="sort_field">
         <option value="timeInMinutes">Čas</option>
         <option value="dates">Datum</option>
@@ -27,7 +27,7 @@
 </form>
 <form method="GET" id="filter-form">
     <label for="filter_rating">Sort by:</label>
-    <select name="filter_programmingLangs" id="filter_programmingLangs" multiple>
+    <select name="filter_programmingLangs" id="filter_programmingLangs">
         {% for def in defs %}
             <option id="option_{{ def.progLangs }}"
                     value="{{ def.progLangs }}">{{ def.progLangs }}</option>

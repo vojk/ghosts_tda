@@ -29,6 +29,7 @@ def app_wind():
 
 
 @app.route('/test')
+@app.route('/app/beta')
 def test():
     sort_field = request.args.get('sort_field')
     return render_template('records.html', texts=sorting.pre_sort(sort_field, None, None, None,
