@@ -31,22 +31,22 @@ def app_wind():
 @app.route('/test')
 def test():
     sort_field = request.args.get('sort_field')
-    return render_template('table_example.html', texts=sorting.pre_sort(sort_field, None, None, None,
-                                                                        None), defs=proglangs)
+    return render_template('records.html', texts=sorting.pre_sort(sort_field, None, None, None,
+                                                                  None), defs=proglangs)
 
 
 @app.route('/sort')
 def sort():
     sort_field = request.args.get('sort_field')
-    sort_parameter = request.args.get('sort_parameter')
     filter_rating = request.args.get('filter_rating')
     filter_formatted_date = request.args.get('filter_formatted_date')
     filter_programmingLangs = request.args.get('filter_programmingLangs')
-    print(filter_rating)
+    filter_time = request.args.get('filter_time')
+    print(sort_field)
     return render_template('table_records.html',
                            texts=sorting.pre_sort(sort_field, filter_rating, filter_programmingLangs,
                                                   filter_formatted_date,
-                                                  None))
+                                                  filter_time))
 
 
 @app.route("/blank")

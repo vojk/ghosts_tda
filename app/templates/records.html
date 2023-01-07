@@ -4,17 +4,19 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/range_minmax.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/rangeSlider.css') }}">
 
     <script src="{{ url_for('static', filename='js/jquery-3.6.3.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
 </head>
-<body style="background: gray">
+<body>
 <form method="GET" id="sort-form">
     <label for="sort_field">Sort by:</label>
     <select name="sort_field" id="sort_field">
-        <option value="programmingLang">Name</option>
-        <option value="dates">Age</option>
+        <option value="timeInMinutes">Čas</option>
+        <option value="dates">Datum</option>
+        <option value="rating">Hodnocení</option>
+        <option value="programmingLang">Programovací jazyk</option>
     </select>
     <label for="sort_order">Order:</label>
     <select name="sort_order" id="sort_order">
@@ -25,7 +27,6 @@
 </form>
 <form method="GET" id="filter-form">
     <label for="filter_rating">Sort by:</label>
-    <input type="range" name="filter_rating" id="filter_rating" max="5" min="0" value="5">
     <select name="filter_programmingLangs" id="filter_programmingLangs" multiple>
         {% for def in defs %}
             <option id="option_{{ def.progLangs }}"
@@ -34,14 +35,22 @@
     </select>
     <input type="date" name="filter_min_date" id="filter_min_date">
     <input type="date" name="filter_max_date" id="filter_max_date">
-    {% include 'customElements/rangeSliderRating.html' %}
+    {% include 'customElements/slider.html' %}
     <button type="submit">Filter</button>
 </form>
 <div id="table">
     {% include 'table_records.html' %}
 </div>
 
+<script>
+    $("[id$=sharp]").each(function () {
+    var text = $(this).text();
 
+    text = text.replace('sharp', '#');
+    $(this).text(text);
+})
+</script>
 <script src="{{ url_for('static', filename='js/showRecordsScripts/updateTableWithoutRefresh.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sliderScript.js') }}"></script>
 </body>
 </html>

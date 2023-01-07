@@ -1,13 +1,28 @@
 {% block recordsTable %}
-    <table style="width: 500px">
+    <table style="width: 900px">
         {% for text in texts %}
             <tr>
                 <td>{{ text.programmer }}</td>
                 <td>{{ text.programmingLang }}</td>
-                <td>{{ text.dates }}</td>
+                <td class="table_description">{{ text.description }}</td>
                 <td>{{ text.timeInMinutes }}</td>
+                <td>{{ text.dates }}</td>
                 <td>{{ text.rating }}/5</td>
+                <td><a href="/app/{{ text.id }}/edit/">Edit</a></td>
+                <td><a href="/app/{{ text.id }}/delete/">Delete</a></td>
             </tr>
         {% endfor %}
     </table>
 {% endblock %}
+
+<script>
+    shortDesc()
+    function shortDesc() {
+        let desc = document.querySelectorAll('.table_description')
+        desc.forEach((table_description) => {
+                table_description.innerText = document.querySelector('.table_description').innerHTML.substring(0, 55) + "..."
+            }
+        )
+    }
+
+</script>

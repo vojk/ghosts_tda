@@ -54,25 +54,39 @@ def pre_sort(f_sort_type, f_filter_rating, f_filter_proglangs, f_filter_dates, f
         else:
             f_filter_dates_max = datetime.today().date()
     if f_filter_timeinminutes is None or f_filter_timeinminutes == "":
-        f_filter_timeinminutes = 'NULL'
+        f_filter_timeinminutes_max = "NULL"
+        f_filter_timeinminutes_min = '0'
+    else:
+        f_filter_timeinminutes = f_filter_timeinminutes.split(",")
+        print(f_filter_timeinminutes)
+        if 0 < len(f_filter_timeinminutes):
+            f_filter_timeinminutes_min = f_filter_timeinminutes[0]
+        else:
+            f_filter_timeinminutes_max = 'NULL'
+        if 1 < len(f_filter_timeinminutes):
+            f_filter_timeinminutes_max = f_filter_timeinminutes[1]
+        else:
+            f_filter_timeinminutes_min = '0'
 
-    return sorting(f_sort_type, f_filter_timeinminutes, f_filter_rating_min, f_filter_rating_max, f_filter_proglangs,
+    return sorting(f_sort_type, f_filter_timeinminutes_min, f_filter_timeinminutes_max, f_filter_rating_min,
+                   f_filter_rating_max, f_filter_proglangs,
                    f_filter_dates_min, f_filter_dates_max)
 
 
-def sorting(sorting_parameter, time_in_minutes, f_filter_rating_min, f_filter_rating_max, proglangs, f_filter_dates_min,
+def sorting(sorting_parameter, f_filter_timeinminutes_min, f_filter_timeinminutes_max, f_filter_rating_min,
+            f_filter_rating_max, proglangs, f_filter_dates_min,
             f_filter_dates_max):
-    print(f_filter_rating_min)
-    print(f_filter_rating_max)
+    print(f_filter_timeinminutes_min)
+    print(f_filter_timeinminutes_max)
     conn = db.get_db_connection()
     cursor = conn.cursor()
     placeholders = ','.join(['?'] * len(proglangs))
     placeholders_sort = ','.join([x['sortTypes'] for x in sorting_parameter])
     query = f"SELECT * " \
             f"FROM records " \
-            f"WHERE timeInMinutes BETWEEN 0 AND ? AND (rating BETWEEN ? AND ? OR rating IS NULL) AND programmingLang IN ({placeholders}) AND dates BETWEEN ? AND ? " \
+            f"WHERE timeInMinutes BETWEEN ? AND ? AND (rating BETWEEN ? AND ? OR rating IS NULL) AND programmingLang IN ({placeholders}) AND dates BETWEEN ? AND ? " \
             f"ORDER BY {placeholders_sort}"
-    values = [time_in_minutes, f_filter_rating_min, f_filter_rating_max] + [
+    values = [f_filter_timeinminutes_min, f_filter_timeinminutes_max, f_filter_rating_min, f_filter_rating_max] + [
         d['progLangs'] for d in proglangs] + [
                  f_filter_dates_min, f_filter_dates_max]
     records = cursor.execute(query, values).fetchall()
