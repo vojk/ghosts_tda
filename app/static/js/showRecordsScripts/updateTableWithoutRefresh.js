@@ -54,11 +54,13 @@ $(function () {
         var filterRating = filterMinRating + "," + filterMaxRating
         var filterTime = filterMinTime + "," + filterMaxTime
         var sortParameterFormatted = sortField + " " + sortParameter
-        for (const element of filterprogramingLangs) {
+        for (const element of filterprogramingLangs.split(",")) {
             filterprogramingLangsFormated += element + ","
         }
 
         filterprogramingLangsFormated = filterprogramingLangsFormated.slice(0, -1)
+
+        console.log(filterprogramingLangs)
 
         $.get('/sort', {
             sort_field: sortParameterFormatted,
