@@ -19,7 +19,6 @@ def index():
 def app_addUser():
     if request.method == "POST":
         username = request.form['form_username']
-        print(username)
         conn = db.get_db_connection()
         conn.execute(
                 'INSERT INTO users (programmer) '
@@ -95,8 +94,10 @@ def create_record():
             conn.commit()
             conn.close()
             return redirect(url_for('app_wind'))
-
-    return render_template('createWind.html', defs=proglangs)
+    conn = db.get_db_connection()
+    programmers = conn.execute("SELECT * FROM users").fetchall()
+    conn.close()
+    return render_template('createWind.html', defs=proglangs, programmers=programmers)
 
 
 @app.route('/<int:id>/edit/', methods=('GET', 'POST'))

@@ -33,6 +33,18 @@
                         <p id="slider_value">0</p>
                     </div>
                 </div>
+                <div class="flex_row spaceBetween descForm">
+                    <div class="wrap">
+                        <label class="popis_textBox" for="_formProgLang_select">Programátoři</label>
+                        <select name="formProgLang_select" id="_formProgLang_select" class="textfield" itemid="0">
+                            <option value="None">None</option>
+                            {% for programmer in programmers %}
+                                <option id="option_{{ programmer.programmer }}"
+                                        value="{{ programmer.programmer }}">{{ programmer.programmer }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
 
                 <div class="flex_row spaceBetween descForm">
                     <div style="width: 45%" class="wrap">
