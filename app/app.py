@@ -15,6 +15,20 @@ def index():
     return redirect(url_for('app_wind'))
 
 
+@app.route('/addUser', methods=["GET", "POST"])
+def app_addUser():
+    if request.method == "POST":
+        username = request.form['form_username']
+        print(username)
+        conn = db.get_db_connection()
+        conn.execute(
+                'INSERT INTO users (programmer) '
+                'VALUES (?)', (username,))
+        conn.commit()
+        conn.close()
+    return render_template('createUserWind.html')
+
+
 @app.route('/app', methods=["GET", "POST"])
 def app_wind():
     sort_type = request.args.get('sort', default=None, type=str)
