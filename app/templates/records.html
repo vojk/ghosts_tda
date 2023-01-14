@@ -10,6 +10,10 @@
     <script src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
 </head>
 <body>
+<div id="_remove_approval" style="display: none">
+    {% include 'removeWarn.html' %}
+</div>
+
 <form method="GET" id="sort-form">
     <label for="sort_field">Filter by:</label>
     <select name="sort_field" id="sort_field">

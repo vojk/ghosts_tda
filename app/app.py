@@ -41,8 +41,8 @@ def app_wind():
                                                  filter_timeinminutes))
 
 
-@app.route('/test')
-@app.route('/app/beta')
+@app.route('/test', methods=["GET", "POST"])
+@app.route('/app/beta', methods=["GET", "POST"])
 def test():
     sort_field = request.args.get('sort_field')
     return render_template('records.html', texts=sorting.pre_sort(sort_field, None, None, None,
@@ -77,6 +77,7 @@ def create_record():
         rating = request.form['formRating']
         progLang = request.form['formProgLang_select']
         desc = request.form['formDesc']
+        programmer = request.form['formProgrammer_select']
 
         if not date:
             print("No date found")
@@ -90,7 +91,7 @@ def create_record():
             conn = db.get_db_connection()
             conn.execute(
                 'INSERT INTO records (dates, timeInMinutes, programmingLang, rating, description, programmer) '
-                'VALUES (?, ?, ?, ?, ?, ?)', (date, minutes, progLang, rating, desc, 'u_default'))
+                'VALUES (?, ?, ?, ?, ?, ?)', (date, minutes, progLang, rating, desc, programmer))
             conn.commit()
             conn.close()
             return redirect(url_for('app_wind'))
@@ -138,15 +139,17 @@ def edit(id):
 @app.route('/<int:id>/delete/', methods=('GET', 'POST'))
 @app.route('/app/<int:id>/delete/', methods=('GET', 'POST'))
 def delete(id):
-    record = db.get_data_from_db_by_id(id)
-    if not record:
-        abort(404)
+    if request.method == "POST":
+        print(id)
+        record = db.get_data_from_db_by_id(id)
+        if not record:
+            abort(404)
 
-    conn = db.get_db_connection()
-    conn.execute('DELETE FROM records WHERE id = ?', (id,))
-    conn.commit()
-    conn.close()
-    return redirect(url_for('app_wind'))
+        conn = db.get_db_connection()
+        conn.execute('DELETE FROM records WHERE id = ?', (id,))
+        conn.commit()
+        conn.close()
+    return render_template('removeWarn.html')
 
 
 if __name__ == '__main__':
