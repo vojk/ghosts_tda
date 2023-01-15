@@ -15,20 +15,7 @@ def index():
     return redirect(url_for('app_wind'))
 
 
-@app.route('/addUser', methods=["GET", "POST"])
-def app_addUser():
-    if request.method == "POST":
-        username = request.form['form_username']
-        conn = db.get_db_connection()
-        conn.execute(
-                'INSERT INTO users (programmer) '
-                'VALUES (?)', (username,))
-        conn.commit()
-        conn.close()
-    return render_template('createUserWind.html')
-
-
-@app.route('/app', methods=["GET", "POST"])
+@app.route('/app', methods=["GET", "POST"])  # main funkce pro appku
 def app_wind():
     sort_type = request.args.get('sort', default=None, type=str)
     filter_rating = request.args.get('rating', default=None, type=str)
@@ -45,7 +32,7 @@ def app_wind():
 @app.route('/app/beta', methods=["GET", "POST"])
 def test():
     sort_field = request.args.get('sort_field')
-    return render_template('records.html', texts=sorting.pre_sort(sort_field, None, None, None,
+    return render_template('records.html', texts=sorting.pre_sort(None, None, None, None,
                                                                   None), defs=proglangs)
 
 
@@ -63,12 +50,7 @@ def sort():
                                                   filter_time))
 
 
-@app.route("/blank")
-def blank_site():
-    return render_template('update.html', text=db.read_data_from_db())
-
-
-@app.route("/add/", methods=('GET', 'POST'))
+@app.route("/add/", methods=('GET', 'POST'))  # přidání záznamu
 @app.route('/app/add/', methods=('GET', 'POST'))
 def create_record():
     if request.method == 'POST':
@@ -101,7 +83,7 @@ def create_record():
     return render_template('createWind.html', defs=proglangs, programmers=programmers)
 
 
-@app.route('/<int:id>/edit/', methods=('GET', 'POST'))
+@app.route('/<int:id>/edit/', methods=('GET', 'POST'))  # úprava záznamu
 @app.route('/app/<int:id>/edit/', methods=('GET', 'POST'))
 def edit(id):
     record = db.get_data_from_db_by_id(id)
@@ -136,7 +118,7 @@ def edit(id):
     return render_template('editWind.html', record=record, defs=proglangs)
 
 
-@app.route('/<int:id>/delete/', methods=('GET', 'POST'))
+@app.route('/<int:id>/delete/', methods=('GET', 'POST'))  # samže záznam
 @app.route('/app/<int:id>/delete/', methods=('GET', 'POST'))
 def delete(id):
     if request.method == "POST":
@@ -150,6 +132,19 @@ def delete(id):
         conn.commit()
         conn.close()
     return render_template('removeWarn.html')
+
+
+@app.route('/addUser', methods=["GET", "POST"])  # funkce pro vytvoření uživatele
+def app_addUser():
+    if request.method == "POST":
+        username = request.form['form_username']
+        conn = db.get_db_connection()
+        conn.execute(
+            'INSERT INTO users (programmer) '
+            'VALUES (?)', (username,))
+        conn.commit()
+        conn.close()
+    return render_template('createUserWind.html')
 
 
 if __name__ == '__main__':

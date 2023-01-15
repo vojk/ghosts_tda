@@ -15,7 +15,7 @@ var sortParameterFormatted
 
 var itemId
 
-$(function () {
+$(function () { //sort form získání a zobrazení dat
     $('#sort-form').submit(function (event) {
         event.preventDefault();
         shortDesc()
@@ -25,7 +25,7 @@ $(function () {
     });
 });
 
-$(function () {
+$(function () { //filter form získání a zobrazení dat
     $('#filter-form').submit(function (event) {
         event.preventDefault();
         shortDesc()
@@ -37,13 +37,12 @@ $(function () {
     });
 });
 
-function deleteModal(id) {
+function deleteModal(id) { //Získání id postu + zobrazení delete formu
     itemId = id
-
     document.getElementById('_remove_approval').style.display = 'block'
 }
 
-$(function () {
+$(function () { //odstranění záznamu pomocí ajax protokolu
     $('#form-delete').submit(function (event) {
         event.preventDefault()
         $.ajax({
@@ -57,7 +56,7 @@ $(function () {
     });
 });
 
-function sortWithoutRefresh() {
+function sortWithoutRefresh() { //funkce pro sort
     $.get('/sort', {
         sort_field: sortParameterFormatted,
         sort_parameter: sortParameter,
@@ -71,7 +70,7 @@ function sortWithoutRefresh() {
     });
 }
 
-function getValues() {
+function getValues() { //získání hodnot ze selectorů
     filterMinDate = $('#filter_min_date').val();
     filterMaxDate = $('#filter_max_date').val();
     filterMinRating = $('#min_rating').val();
