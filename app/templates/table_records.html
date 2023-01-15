@@ -9,7 +9,8 @@
                 <td>{{ text.dates }}</td>
                 <td>{{ text.rating }}/5</td>
                 <td><a href="/app/{{ text.id }}/edit/">Edit</a></td>
-                <td><a href="/app/{{ text.id }}/delete/">Delete</a></td>
+                <td><a onclick="deleteModal({{ text.id }})">Delete</a></td>
+                {#  href="/app/{{ text.id }}/delete/" #}
             </tr>
         {% endfor %}
     </table>
@@ -17,6 +18,7 @@
 
 <script>
     shortDesc()
+
     function shortDesc() {
         let desc = document.querySelectorAll('.table_description')
         desc.forEach((table_description) => {
@@ -24,5 +26,4 @@
             }
         )
     }
-
 </script>
