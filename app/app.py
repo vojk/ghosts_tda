@@ -74,9 +74,12 @@ def create_record():
             print("No desc found")
         else:
             conn = db.get_db_connection()
+            programmer_id = db.get_id_of_user(programmer)
+            print(programmer_id[0][0])
             conn.execute(
-                'INSERT INTO records (dates, timeInMinutes, programmingLang, rating, description, programmer) '
-                'VALUES (?, ?, ?, ?, ?, ?)', (date, minutes, progLang, rating, desc, programmer))
+                'INSERT INTO records (dates, timeInMinutes, programmingLang, rating, description, programmer, programmerId) '
+                'VALUES (?, ?, ?, ?, ?, ?, ?)',
+                (date, minutes, progLang, rating, desc, programmer, programmer_id[0][0]))
             conn.commit()
             conn.close()
             return redirect(url_for('app_wind'))
@@ -138,7 +141,7 @@ def delete(id):
 
 
 @app.route('/addUser', methods=["GET", "POST"])  # funkce pro vytvoření uživatele
-def app_addUser():
+def app_add_user():
     if request.method == "POST":
         username = request.form['form_username']
         conn = db.get_db_connection()
@@ -147,9 +150,48 @@ def app_addUser():
             'VALUES (?)', (username,))
         conn.commit()
         conn.close()
-    return render_template('createUserWind.html')
+    return render_template('createUserWind.html', username="")
+
+
+@app.route('/user/<string:username>/edit', methods=["GET", "POST"])  # funkce pro upravení uživatele
+def app_edit_user(username):
+    programmer_id = db.get_id_of_user(username)
+    if request.method == "POST":
+        new_username = request.form['form_username']
+        conn = db.get_db_connection()
+        conn.execute("BEGIN TRANSACTION")
+        try:
+            conn.execute(
+                'UPDATE users SET programmer = ? WHERE id = ?',
+                (new_username, programmer_id[0][0],))
+            conn.execute('UPDATE records SET programmer = ? WHERE programmerId = ?',
+                         (new_username, programmer_id[0][0],))
+            conn.execute("COMMIT")
+        except:
+            conn.execute("ROLLBACK")
+            raise
+        conn.close()
+        return redirect(url_for('test'))
+    conn = db.get_db_connection()
+    username = conn.execute("SELECT programmer FROM users WHERE id IS ?", (programmer_id[0][0],)).fetchall()
+    conn.close()
+    return render_template('createUserWind.html', username=username[0][0])
+
+
+@app.route('/user/<string:username>/delete', methods=["GET", "POST"])  # funkce pro vytvoření uživatele
+def app_delete_user(username):
+    username = username
+    conn = db.get_db_connection()
+    programmer_id = db.get_id_of_user(username)
+    conn.execute('DELETE FROM records WHERE programmerId = ?', (programmer_id[0][0],))
+    conn.execute('DELETE FROM users WHERE id = ?', (programmer_id[0][0],))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('test'))
 
 
 if __name__ == '__main__':
     app.secret_key = secrets.token_hex(16)
     app.run()
+
+# TODO okomentovat kod!!!

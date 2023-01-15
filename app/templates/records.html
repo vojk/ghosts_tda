@@ -41,7 +41,7 @@
         <option id="option_None" value="None">None</option>
         {% for programmer in programmers %}
             <option id="option_{{ programmer.programmer }}"
-                    value="{{ programmer.programmer }}">{{ programmer.programmer }}</option>
+                    value="{{ programmer.id }}">{{ programmer.programmer }}</option>
         {% endfor %}
     </select>
     <input type="date" name="filter_min_date" id="filter_min_date">
