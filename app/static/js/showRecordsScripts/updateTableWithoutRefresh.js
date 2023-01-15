@@ -12,6 +12,7 @@ var dateFormated
 var filterRating
 var filterTime
 var sortParameterFormatted
+var filterProgrammer
 
 var itemId
 
@@ -63,7 +64,8 @@ function sortWithoutRefresh() { //funkce pro sort
         filter_rating: filterRating,
         filter_programmingLangs: filterprogramingLangsFormated,
         filter_formatted_date: dateFormated,
-        filter_time: filterTime
+        filter_time: filterTime,
+        filter_programmer: filterProgrammer
     }, function (data) {
         // data is the HTML of the updated table
         $('#table').html(data);
@@ -80,6 +82,7 @@ function getValues() { //získání hodnot ze selectorů
     filterprogramingLangs = $('#filter_programmingLangs').val();
     sortField = $('#sort_field').val();
     sortParameter = $('#sort_order').val();
+    filterProgrammer = $('#filter_programmers').val();
     filterprogramingLangsFormated = "";
     dateFormated = filterMinDate + "," + filterMaxDate
     filterRating = filterMinRating + "," + filterMaxRating

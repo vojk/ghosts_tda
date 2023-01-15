@@ -25,15 +25,17 @@ def app_wind():
 
     return render_template('update.html',
                            text=sorting.pre_sort(sort_type, filter_rating, filter_proglangs, filter_dates,
-                                                 filter_timeinminutes))
+                                                 filter_timeinminutes, None))
 
 
 @app.route('/test', methods=["GET", "POST"])
 @app.route('/app/beta', methods=["GET", "POST"])
 def test():
-    sort_field = request.args.get('sort_field')
+    conn = db.get_db_connection()
+    programmers = conn.execute("SELECT * FROM users").fetchall()
+    conn.close()
     return render_template('records.html', texts=sorting.pre_sort(None, None, None, None,
-                                                                  None), defs=proglangs)
+                                                                  None, None), defs=proglangs, programmers=programmers)
 
 
 @app.route('/sort')
@@ -43,11 +45,12 @@ def sort():
     filter_formatted_date = request.args.get('filter_formatted_date')
     filter_programmingLangs = request.args.get('filter_programmingLangs')
     filter_time = request.args.get('filter_time')
+    filter_programmer = request.args.get('filter_programmer')
     print(sort_field)
     return render_template('table_records.html',
                            texts=sorting.pre_sort(sort_field, filter_rating, filter_programmingLangs,
                                                   filter_formatted_date,
-                                                  filter_time))
+                                                  filter_time, filter_programmer))
 
 
 @app.route("/add/", methods=('GET', 'POST'))  # přidání záznamu
