@@ -3,7 +3,7 @@
         {% for text in texts %}
             <tr>
                 <td>{{ text.programmer }}</td>
-                <td>{{ text.programmingLang }}</td>
+                <td class="prog_lang{{ text.programmingLang }}">{{ text.programmingLang }}</td>
                 <td class="table_description">{{ text.description }}</td>
                 <td>{{ text.timeInMinutes }}</td>
                 <td>{{ text.dates }}</td>
@@ -18,11 +18,22 @@
 
 <script>
     shortDesc()
+    deCsharp()
     function shortDesc() {
         let desc = document.querySelectorAll('.table_description')
         desc.forEach((table_description) => {
-                console.log(table_description.innerText);
-                table_description.innerText = table_description.innerText.substring(0, 55) + "..."
+                console.log(table_description.innerText.length);
+                if (table_description.innerText.length >= 55){
+                    table_description.innerText = table_description.innerText.substring(0, 55) + "..."
+                }
+            }
+        )
+    }
+    function deCsharp() {
+        let lang = document.querySelectorAll('.prog_langCsharp')
+        lang.forEach((table_proglang) => {
+                console.log(table_proglang.innerText);
+                table_proglang.innerText = table_proglang.innerText.replace("sharp", "#")
             }
         )
     }
