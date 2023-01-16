@@ -15,7 +15,6 @@ def index():
     return redirect(url_for('app_wind'))
 
 
-@app.route('/app', methods=["GET", "POST"])  # main funkce pro appku
 def app_wind():
     sort_type = request.args.get('sort', default=None, type=str)
     filter_rating = request.args.get('rating', default=None, type=str)
@@ -28,9 +27,8 @@ def app_wind():
                                                  filter_timeinminutes, None))
 
 
-@app.route('/test', methods=["GET", "POST"])
-@app.route('/app/beta', methods=["GET", "POST"])
-def test():
+@app.route('/app', methods=["GET", "POST"])
+def app_wind():
     conn = db.get_db_connection()
     programmers = conn.execute("SELECT * FROM users").fetchall()
     conn.close()
@@ -140,7 +138,7 @@ def delete(id):
     return render_template('removeWarn.html')
 
 
-@app.route('/addUser', methods=["GET", "POST"])  # funkce pro vytvoření uživatele
+@app.route('/user/add', methods=["GET", "POST"])  # funkce pro vytvoření uživatele
 def app_add_user():
     if request.method == "POST":
         username = request.form['form_username']
@@ -171,7 +169,7 @@ def app_edit_user(username):
             conn.execute("ROLLBACK")
             raise
         conn.close()
-        return redirect(url_for('test'))
+        return redirect(url_for('app_wind'))
     conn = db.get_db_connection()
     username = conn.execute("SELECT programmer FROM users WHERE id IS ?", (programmer_id[0][0],)).fetchall()
     conn.close()
@@ -187,7 +185,7 @@ def app_delete_user(username):
     conn.execute('DELETE FROM users WHERE id = ?', (programmer_id[0][0],))
     conn.commit()
     conn.close()
-    return redirect(url_for('test'))
+    return redirect(url_for('app_wind'))
 
 
 if __name__ == '__main__':

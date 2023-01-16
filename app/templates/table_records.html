@@ -18,11 +18,11 @@
 
 <script>
     shortDesc()
-
     function shortDesc() {
         let desc = document.querySelectorAll('.table_description')
         desc.forEach((table_description) => {
-                table_description.innerText = document.querySelector('.table_description').innerHTML.substring(0, 55) + "..."
+                console.log(table_description.innerText);
+                table_description.innerText = table_description.innerText.substring(0, 55) + "..."
             }
         )
     }
