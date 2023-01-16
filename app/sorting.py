@@ -74,10 +74,10 @@ def pre_sort(f_sort_type, f_filter_rating, f_filter_proglangs, f_filter_dates, f
             f_filter_timeinminutes_max = "NULL"
     if f_filter_programmer is None or f_filter_programmer == "" or f_filter_programmer == "None":
         conn = db.get_db_connection()
-        users = conn.execute("SELECT programmer FROM users").fetchall()
+        users = conn.execute("SELECT id FROM users").fetchall()
         conn.close()
         print(f_filter_programmer)
-        f_filter_programmer = ','.join([user[0] for user in users]) + ',None'
+        f_filter_programmer = ','.join([str(user[0]) for user in users]) + ',None'
         f_filter_programmer = f_filter_programmer.split(',')
 
     else:
@@ -100,7 +100,7 @@ def sorting(sorting_parameter, f_filter_timeinminutes_min, f_filter_timeinminute
     query = f"SELECT * " \
             f"FROM records " \
             f"WHERE timeInMinutes BETWEEN ? AND ? AND (rating BETWEEN ? AND ? OR rating IS NULL) AND programmingLang IN ({placeholders}) AND dates BETWEEN ? AND ? " \
-            f"AND programmer IN ({placeholders_programmers}) ORDER BY {placeholders_sort}"
+            f"AND programmerId IN ({placeholders_programmers}) ORDER BY {placeholders_sort}"
     print(query)
     values = [f_filter_timeinminutes_min, f_filter_timeinminutes_max, f_filter_rating_min, f_filter_rating_max] + [
         d['progLangs'] for d in proglangs] + [

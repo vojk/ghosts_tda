@@ -16,42 +16,41 @@
 </div>
 <div>
     <form method="GET" id="sort-form">
-        <label for="sort_field">Sort by:</label>
-        <select name="sort_field" id="sort_field">
-            <option value="timeInMinutes">Čas</option>
-            <option value="dates">Datum</option>
-            <option value="rating">Hodnocení</option>
-            <option value="programmingLang">Programovací jazyk</option>
-        </select>
-        <label for="sort_order">Order:</label>
-        <select name="sort_order" id="sort_order">
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-        </select>
-        <button type="submit">Sort</button>
-    </form>
-    <form method="GET" id="filter-form">
-        <label for="filter_rating">Filter by:</label>
-        <select name="filter_programmingLangs" id="filter_programmingLangs">
-            {% for def in defs %}
-                <option id="option_{{ def.progLangs }}"
-                        value="{{ def.progLangs }}">{{ def.progLangs }}</option>
-            {% endfor %}
-        </select>
-        <select name="filter_programmers" id="filter_programmers">
-            <option id="option_None" value="None">None</option>
-            {% for programmer in programmers %}
-                <option id="option_{{ programmer.programmer }}"
-                        value="{{ programmer.programmer }}">{{ programmer.programmer }}</option>
-            {% endfor %}
-        </select>
-        <input type="date" name="filter_min_date" id="filter_min_date">
-        <input type="date" name="filter_max_date" id="filter_max_date">
-        {% include 'customElements/slider.html' %}
-        <button type="submit">Filter</button>
-    </form>
+    <label for="sort_field">Sort by:</label>
+    <select name="sort_field" id="sort_field">
+        <option value="timeInMinutes">Čas</option>
+        <option value="dates">Datum</option>
+        <option value="rating">Hodnocení</option>
+        <option value="programmingLang">Programovací jazyk</option>
+    </select>
+    <label for="sort_order">Order:</label>
+    <select name="sort_order" id="sort_order">
+        <option value="asc">Ascending</option>
+        <option value="desc">Descending</option>
+    </select>
+    <button type="submit">Sort</button>
+</form>
+<form method="GET" id="filter-form">
+    <label for="filter_rating">Filter by:</label>
+    <select name="filter_programmingLangs" id="filter_programmingLangs">
+        {% for def in defs %}
+            <option id="option_{{ def.progLangs }}"
+                    value="{{ def.progLangs }}">{{ def.progLangs }}</option>
+        {% endfor %}
+    </select>
+    <select name="filter_programmers" id="filter_programmers">
+        <option id="option_None" value="None">None</option>
+        {% for programmer in programmers %}
+            <option id="option_{{ programmer.programmer }}"
+                    value="{{ programmer.id }}">{{ programmer.programmer }}</option>
+        {% endfor %}
+    </select>
+    <input type="date" name="filter_min_date" id="filter_min_date">
+    <input type="date" name="filter_max_date" id="filter_max_date">
+    {% include 'customElements/slider.html' %}
+    <button type="submit">Filter</button>
+</form>
 </div>
-
 
 <div id="table">
     {% include 'table_records.html' %}

@@ -18,7 +18,8 @@ if not databaseExists:  # ověřuje existenci databáze - zda-li existuje soubor
     connection = sqlite3.connect(databasePath)  # připojí se a případně vytvoří databázi ./dbs/database.db
     connection.executescript(
         'CREATE TABLE records (id INTEGER PRIMARY KEY AUTOINCREMENT, dates DATE NOT NULL, timeInMinutes INT NOT NULL, '
-        'programmingLang TEXT NOT NULL, rating INT NOT NULL, description TEXT NOT NULL, programmer TEXT NOT NULL)')
+        'programmingLang TEXT NOT NULL, rating INT NOT NULL, description TEXT NOT NULL, programmer TEXT NOT NULL, '
+        'programmerId INT NOT NULL)')
     connection.executescript(
         'CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, programmer TEXT NOT NULL)')
 
@@ -47,3 +48,12 @@ def get_data_from_db_by_id(post_id):  # čte data z databáze
                           (post_id,)).fetchall()
     conn.close()
     return record
+
+
+def get_id_of_user(username):
+    conn = get_db_connection()
+    query = "SELECT id FROM users WHERE programmer IS ?"
+    values = [username]
+    programmer_id = conn.execute(query, values).fetchall()
+    conn.close()
+    return programmer_id
