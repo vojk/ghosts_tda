@@ -1,0 +1,16 @@
+#table{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+#sort-filter{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+body{
+    display: flex;
+    flex-direction: row;
+}

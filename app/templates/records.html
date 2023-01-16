@@ -5,6 +5,7 @@
     <title>Title</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/rangeSlider.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/records.css') }}">
 
     <script src="{{ url_for('static', filename='js/jquery-3.6.3.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
@@ -13,8 +14,8 @@
 <div id="_remove_approval" style="display: none">
     {% include 'removeWarn.html' %}
 </div>
-
-<form method="GET" id="sort-form">
+<div>
+    <form method="GET" id="sort-form">
     <label for="sort_field">Sort by:</label>
     <select name="sort_field" id="sort_field">
         <option value="timeInMinutes">Čas</option>
@@ -49,6 +50,8 @@
     {% include 'customElements/slider.html' %}
     <button type="submit">Filter</button>
 </form>
+</div>
+
 <div id="table">
     {% include 'table_records.html' %}
 </div>
