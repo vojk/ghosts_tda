@@ -1,0 +1,23 @@
+{% block userTable %}
+    <table id="userOverview">
+        <tr>
+            <td>#</td>
+            <td>Programátor</td>
+            <td>Akce</td>
+        </tr>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.programmer }}</td>
+                <td>
+                    {#
+                <a href="/user/{{ user.programmer }}/delete">Delete</a>
+                #}
+                    <a onclick="deleteModal('{{ user.programmer }}', 'Přeješ si smazat uživatele {{ user.programmer }}?')"
+                       id="delete">Delete</a>
+                    <a id="button_edit_user" onclick="getUsername('{{ user.programmer }}')" {# href="/user/{{ user.programmer }}/edit" #}>Edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, abort
+from flask import Flask, render_template, request, flash, redirect, url_for, abort, jsonify
 import db
 import secrets
 import sorting
@@ -15,19 +15,7 @@ def index():
     return redirect(url_for('app_wind'))
 
 
-def app_wind():
-    sort_type = request.args.get('sort', default=None, type=str)
-    filter_rating = request.args.get('rating', default=None, type=str)
-    filter_proglangs = request.args.get('proglang', default=None, type=str)
-    filter_dates = request.args.get('date', default=None, type=str)
-    filter_timeinminutes = request.args.get('time', default=None, type=str)
-
-    return render_template('update.html',
-                           text=sorting.pre_sort(sort_type, filter_rating, filter_proglangs, filter_dates,
-                                                 filter_timeinminutes, None))
-
-
-@app.route('/app', methods=["GET", "POST"])
+@app.route('/app/', methods=["GET", "POST"])
 def app_wind():
     conn = db.get_db_connection()
     programmers = conn.execute("SELECT * FROM users").fetchall()
@@ -45,6 +33,10 @@ def sort():
     filter_time = request.args.get('filter_time')
     filter_programmer = request.args.get('filter_programmer')
     print(sort_field)
+    records = sorting.pre_sort(sort_field, filter_rating, filter_programmingLangs,
+                               filter_formatted_date,
+                               filter_time, filter_programmer)
+
     return render_template('table_records.html',
                            texts=sorting.pre_sort(sort_field, filter_rating, filter_programmingLangs,
                                                   filter_formatted_date,
@@ -138,7 +130,7 @@ def delete(id):
     return render_template('removeWarn.html')
 
 
-@app.route('/user/add', methods=["GET", "POST"])  # funkce pro vytvoření uživatele
+@app.route('/user/add/', methods=["GET", "POST"])  # funkce pro vytvoření uživatele
 def app_add_user():
     if request.method == "POST":
         username = request.form['form_username']
@@ -151,7 +143,19 @@ def app_add_user():
     return render_template('createUserWind.html', username="")
 
 
-@app.route('/user/<string:username>/edit', methods=["GET", "POST"])  # funkce pro upravení uživatele
+@app.route('/app/user/<string:username>/add/', methods=["GET", "POST"])  # funkce pro vytvoření uživatele
+def app_add_user_second():
+    if request.method == "POST":
+        username = request.args.get('username')
+        conn = db.get_db_connection()
+        conn.execute(
+            'INSERT INTO users (programmer) '
+            'VALUES (?)', (username,))
+        conn.commit()
+        conn.close()
+
+
+@app.route('/user/<string:username>/edit/', methods=["GET", "POST"])  # funkce pro upravení uživatele
 def app_edit_user(username):
     programmer_id = db.get_id_of_user(username)
     if request.method == "POST":
@@ -176,20 +180,35 @@ def app_edit_user(username):
     return render_template('createUserWind.html', username=username[0][0])
 
 
-@app.route('/user/<string:username>/delete', methods=["GET", "POST"])  # funkce pro vytvoření uživatele
+@app.route('/user/<string:username>/delete/', methods=["GET", "POST"])  # funkce pro vytvoření uživatele
 def app_delete_user(username):
-    username = username
-    conn = db.get_db_connection()
-    programmer_id = db.get_id_of_user(username)
-    conn.execute('DELETE FROM records WHERE programmerId = ?', (programmer_id[0][0],))
-    conn.execute('DELETE FROM users WHERE id = ?', (programmer_id[0][0],))
-    conn.commit()
-    conn.close()
+    if request.method == "POST":
+        username = username
+        conn = db.get_db_connection()
+        programmer_id = db.get_id_of_user(username)
+        conn.execute('DELETE FROM records WHERE programmerId = ?', (programmer_id[0][0],))
+        conn.execute('DELETE FROM users WHERE id = ?', (programmer_id[0][0],))
+        conn.commit()
+        conn.close()
     return redirect(url_for('app_wind'))
+
+
+@app.route('/app/appUpt/updateUserList', methods=["GET", "POST"])
+def update_user_list():
+    conn = db.get_db_connection()
+    users = conn.execute("SELECT * FROM users").fetchall()
+    conn.close()
+    return render_template('customElements/tableForUsers.html', users=users)
+
+
+@app.route('/app/user/', methods=["GET", "POST"])
+def users_overview():
+    conn = db.get_db_connection()
+    users = conn.execute("SELECT * FROM users").fetchall()
+    conn.close()
+    return render_template('usersOverview.html', users=users)
 
 
 if __name__ == '__main__':
     app.secret_key = secrets.token_hex(16)
     app.run()
-
-# TODO okomentovat kod!!!

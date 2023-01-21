@@ -147,3 +147,49 @@ legend {
     width: 100vw;
     height: 100vh;
 }
+
+.button_filled {
+    background: mediumpurple;
+    border: 1px mediumpurple solid;
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+    height: 40px;
+}
+
+.button_filled-text {
+    padding-left: 24px;
+    padding-right: 24px;
+    font-weight: bold;
+    transition: all 250ms ease;
+}
+
+.button_filled:hover {
+    box-shadow: 0 2px 4px 0 rgba(189,189,189,1);
+    transition: all 250ms ease;
+}
+
+.button_text {
+    color: mediumpurple;
+    cursor: pointer;
+    height: 40px;
+    border-radius: 25px;
+    border: none;
+    background-color: transparent;
+    transition: all 150ms ease;
+}
+
+.button_text:hover {
+    background-color: rgba(147, 112, 219, 0.31);
+    transition: all 250ms ease;
+}
+
+.button_text-text {
+    padding-left: 12px;
+    padding-right: 12px;
+    font-weight: bold;
+}
+
+.space_between_el{
+    margin-top: 1rem;
+}

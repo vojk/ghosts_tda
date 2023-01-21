@@ -1,14 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<form action="" method="post">
-    <input type="text" name="form_username" id="form_username" value="{{ username }}">
-    <button type="submit">Submit</button>
-    <button>Cancel</button>
-</form>
-</body>
-</html>
+<div id="user_add-edit_window_container">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <form id="form_add_edit_user" method="GET" style="display: flex; flex-direction: column; align-items: center">
+        <div style="width: fit-content;">
+            <div class="wrap">
+                <label for="form_username" class="popis_textBox">Jméno Programátora</label>
+                <input type="text" name="form_username" autocomplete="off" id="form_username" class="textfield"
+                       value="{{ username }}">
+            </div>
+
+            <div class="flex_row space_between_el" style="justify-content: space-evenly;">
+                <button type="button" class="button_text" id="user_add-edit_button_cancel">
+                    <span class="button_text-text">Zrušit</span>
+                </button>
+                <button type="submit" class="button_filled">
+                    <span class="button_filled-text">Uložit</span>
+                </button>
+            </div>
+        </div>
+    </form>
+
+    {# TODO EDIT BUTTON NAPOJIT NA LOKÁLNÍ OKNO JAKO U DELETU NEBO PŘI VYTVÁŘENÍ UŽIVATELE #}
+
+    <script !src="">
+        cancel_add_edit_user()
+
+        function cancel_add_edit_user() {
+            console.log("ready")
+            $('#user_add-edit_button_cancel').click(function () {
+                $('#user_add-edit_window_container').remove()
+            })
+        }
+
+        $(function () { //odstranění uzivatele pomocí ajax protokolu
+            $('#form_add_edit_user').submit(function (event) {
+                event.preventDefault()
+                $.ajax({
+                    type: "POST",
+                    url: "/app/user/add/",
+                    success: function (response) {
+                        get_user_table('/app/appUpt/updateUserList');
+                    },
+                });
+            });
+        });
+    </script>
+</div>

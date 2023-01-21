@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/userOverview.css') }}">
+
+    <script src="{{ url_for('static', filename='js/jquery-3.6.3.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/deleteModal.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/userOverview.js') }}"></script>
+</head>
+<body>
+
+<div id="_addEdit_window">
+
+</div>
+
+<div id="_remove_approval" style="display: none">
+    {% include 'removeWarn.html' %}
+</div>
+
+<div class="container-user-overview">
+    <div class="container-user-overview-inner">
+        <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+            <h1>Přehled Uživatelů</h1>
+            <a class="button" id="button-add-user" style="cursor: pointer">
+                <img src="{{ url_for('static', filename='svg/user-add.svg') }}" alt="">
+            </a>
+        </div>
+
+        <div id="table">
+            {% include 'customElements/tableForUsers.html' %}
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

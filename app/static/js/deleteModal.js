@@ -1,0 +1,5 @@
+function deleteModal(id, text) { //Získání id postu + zobrazení delete formu
+    itemId = id
+    $('#_header-delete-info').text(text)
+    document.getElementById('_remove_approval').style.display = 'block'
+}
