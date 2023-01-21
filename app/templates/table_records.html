@@ -7,8 +7,8 @@
                 <td>{{ text.timeInMinutes }}</td>
                 <td>{{ text.dates }}</td>
                 <td>{{ text.rating }}/5</td>
-                <td><a href="/app/{{ text.id }}/edit/" id="edit">Edit</a></td>
-                <td><a onclick="deleteModal({{ text.id }}, 'Přeješ si smazat tento záznam?')" id="delete">Delete</a>
+                <td><a class="button" href="/app/{{ text.id }}/edit/" id="edit">Edit</a></td>
+                <td><a class="button" onclick="deleteModal({{ text.id }}, 'Přeješ si smazat tento záznam?')" id="delete">Delete</a>
                 </td>
                 {#  href="/app/{{ text.id }}/delete/" #}
             </tr>

@@ -9,6 +9,9 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
+#table table{
+    table-layout: fixed;
+}
 #sort-filter{
     display: flex;
     flex-direction: column;
@@ -17,27 +20,44 @@
     padding: 10px;
     margin-bottom: 10px;
     margin-top: 10px;
+    font-size: 17px;
 }
 body{
     width: 50%;
     display: flex;
     flex-direction: column;
-    margin: auto; 
+    margin: auto;
 }
 #edit{
     text-decoration: none;
     border-radius: 5px;
-    background-color: lightgreen;
-    padding: 2px;
+    background-color: #0f89ec;
+    color: white;
+    font-weight: bold;
 }
-#edit:visited{
-    color: blue;
-}
+
 #delete{
     border-radius: 5px;
     background-color: lightcoral;
-    padding: 2px;
+    font-weight: bold;
+}
+
+.button{
+    padding: 0.25rem 1rem;
 }
 #records{
     border: 1px solid black;
+}
+
+.sort, .filter{
+    padding: 1px 10px;
+    font-weight: bold;
+    background-color: white;
+    border: 2px solid blue;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+#sort-form, #filter-form{
+    margin: 3px;
 }

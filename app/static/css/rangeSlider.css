@@ -1,5 +1,9 @@
 .range{
     width: 25%;
+    margin-top: 20px;
+    display: inline-block;
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
 .range-slider {
@@ -57,7 +61,7 @@
 
 
 .range-price {
-    margin: 20px ;
+    margin: 20px 0;
     width: 100%;
     display: flex;
     justify-content: center;
