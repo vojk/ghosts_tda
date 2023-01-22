@@ -144,22 +144,24 @@ def app_add_user():
 
 
 @app.route('/app/user/<string:username>/add/', methods=["GET", "POST"])  # funkce pro vytvoření uživatele
-def app_add_user_second():
+def app_add_user_save(username):
     if request.method == "POST":
-        username = request.args.get('username')
         conn = db.get_db_connection()
         conn.execute(
             'INSERT INTO users (programmer) '
             'VALUES (?)', (username,))
         conn.commit()
         conn.close()
+    return render_template('createUserWind.html', username="")
 
 
-@app.route('/user/<string:username>/edit/', methods=["GET", "POST"])  # funkce pro upravení uživatele
-def app_edit_user(username):
-    programmer_id = db.get_id_of_user(username)
+programmer_id = ""
+
+
+@app.route('/app/user/<string:username>/edit/', methods=["GET", "POST"])
+def app_edit_user_save(username):
     if request.method == "POST":
-        new_username = request.form['form_username']
+        new_username = username
         conn = db.get_db_connection()
         conn.execute("BEGIN TRANSACTION")
         try:
@@ -174,6 +176,12 @@ def app_edit_user(username):
             raise
         conn.close()
         return redirect(url_for('app_wind'))
+
+
+@app.route('/user/<string:username>/edit/', methods=["GET", "POST"])  # funkce pro upravení uživatele
+def app_edit_user(username):
+    global programmer_id
+    programmer_id = db.get_id_of_user(username)
     conn = db.get_db_connection()
     username = conn.execute("SELECT programmer FROM users WHERE id IS ?", (programmer_id[0][0],)).fetchall()
     conn.close()

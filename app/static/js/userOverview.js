@@ -1,4 +1,5 @@
 let usernames
+let _statement
 
 $(function () { //odstranění uzivatele pomocí ajax protokolu
     $('#form-delete').submit(function (event) {
@@ -16,30 +17,28 @@ $(function () { //odstranění uzivatele pomocí ajax protokolu
 });
 
 
-
-$(function () {
-    $('#button-add-user').click(function () {
-        $.get('/user/add', function (data) {
-            console.log(data)
-            $('#_addEdit_window').html(data);
-        })
-    });
-})
-
 function getUsername(username) {
     usernames = username
     console.log(username)
 }
 
 $(function () {
-    $('#button_edit_user').click(function () {
-        console.log(usernames)
-        $.get('/user/' + usernames + '/edit/', function (data) {
-            console.log(data)
+    $('#button-add-user').click(function () {
+        $.get('/user/add', function (data) {
             $('#_addEdit_window').html(data);
+            get_addEdit_statement('button-add-user')
         })
     });
 })
+
+
+function edit_user() {
+    console.log(usernames)
+    $.get('/user/' + usernames + '/edit/', function (data) {
+        $('#_addEdit_window').html(data);
+        get_addEdit_statement('button_edit_user')
+    })
+}
 
 
 function get_user_table(url) {

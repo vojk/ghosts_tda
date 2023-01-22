@@ -20,7 +20,7 @@ var sort_time_statement = ""
 var sort_dates_statement = ""
 var sort_rating_statement = ""
 
-const sort_temp_complete_statement = [];
+let sort_temp_complete_statement = [];
 let sort_element_to_remove = ""
 
 var itemId
@@ -52,19 +52,18 @@ $(function () {
     $('#sort-button-programmer').click(function () {
         if (sort_programmer_statement === "") {
             sort_programmer_statement = "programmer ASC"
-            $('#sort-button-programmer-az').css("opacity", "1")
-            $('#sort-button-programmer-za').css("opacity", "0")
-        } else if (sort_programmer_statement === "programmer ASC") {
-            sort_programmer_statement = "programmer DESC"
             $('#sort-button-programmer-az').css("opacity", "0")
             $('#sort-button-programmer-za').css("opacity", "1")
+        } else if (sort_programmer_statement === "programmer ASC") {
+            sort_programmer_statement = "programmer DESC"
+            $('#sort-button-programmer-az').css("opacity", "1")
+            $('#sort-button-programmer-za').css("opacity", "0")
         } else {
             sort_programmer_statement = ""
             $('#sort-button-programmer-az').css("opacity", "1")
             $('#sort-button-programmer-za').css("opacity", "1")
             sort_element_to_remove = "programmer DESC"
         }
-        sort_element_to_remove = "programmer"
         console.log(sort_programmer_statement)
         appendListOfSort(sort_programmer_statement)
         sortWithoutRefresh()
@@ -75,19 +74,18 @@ $(function () {
     $('#sort-button-programLang').click(function () {
         if (sort_programLang_statement === "") {
             sort_programLang_statement = "programmingLang ASC"
-            $('#sort-button-programmingLang-az').css("opacity", "1")
-            $('#sort-button-programmingLang-za').css("opacity", "0")
-        } else if (sort_programLang_statement === "programmingLang ASC") {
-            sort_programLang_statement = "programmingLang DESC"
             $('#sort-button-programmingLang-az').css("opacity", "0")
             $('#sort-button-programmingLang-za').css("opacity", "1")
+        } else if (sort_programLang_statement === "programmingLang ASC") {
+            sort_programLang_statement = "programmingLang DESC"
+            $('#sort-button-programmingLang-az').css("opacity", "1")
+            $('#sort-button-programmingLang-za').css("opacity", "0")
         } else {
             sort_programLang_statement = ""
             $('#sort-button-programmingLang-az').css("opacity", "1")
             $('#sort-button-programmingLang-za').css("opacity", "1")
             sort_element_to_remove = "programmingLang DESC"
         }
-        sort_element_to_remove = "programmingLang"
         console.log(sort_programLang_statement)
         appendListOfSort(sort_programLang_statement)
         sortWithoutRefresh()
@@ -98,19 +96,18 @@ $(function () {
     $('#sort-button-time').click(function () {
         if (sort_time_statement === "") {
             sort_time_statement = "timeInMinutes ASC"
-            $('#sort-button-timeInMinutes-az').css("opacity", "1")
-            $('#sort-button-timeInMinutes-za').css("opacity", "0")
-        } else if (sort_time_statement === "timeInMinutes ASC") {
-            sort_time_statement = "timeInMinutes DESC"
             $('#sort-button-timeInMinutes-az').css("opacity", "0")
             $('#sort-button-timeInMinutes-za').css("opacity", "1")
+        } else if (sort_time_statement === "timeInMinutes ASC") {
+            sort_time_statement = "timeInMinutes DESC"
+            $('#sort-button-timeInMinutes-az').css("opacity", "1")
+            $('#sort-button-timeInMinutes-za').css("opacity", "0")
         } else {
             sort_time_statement = ""
             $('#sort-button-timeInMinutes-az').css("opacity", "1")
             $('#sort-button-timeInMinutes-za').css("opacity", "1")
             sort_element_to_remove = "timeInMinutes DESC"
         }
-        sort_element_to_remove = "timeInMinutes"
         console.log(sort_time_statement)
         appendListOfSort(sort_time_statement)
         sortWithoutRefresh()
@@ -122,19 +119,18 @@ $(function () {
     $('#sort-button-date').click(function () {
         if (sort_dates_statement === "") {
             sort_dates_statement = "dates ASC"
-            $('#sort-button-dates-az').css("opacity", "1")
-            $('#sort-button-dates-za').css("opacity", "0")
-        } else if (sort_dates_statement === "dates ASC") {
-            sort_dates_statement = "dates DESC"
             $('#sort-button-dates-az').css("opacity", "0")
             $('#sort-button-dates-za').css("opacity", "1")
+        } else if (sort_dates_statement === "dates ASC") {
+            sort_dates_statement = "dates DESC"
+            $('#sort-button-dates-az').css("opacity", "1")
+            $('#sort-button-dates-za').css("opacity", "0")
         } else {
             sort_dates_statement = ""
             $('#sort-button-dates-az').css("opacity", "1")
             $('#sort-button-dates-za').css("opacity", "1")
             sort_element_to_remove = "dates DESC"
         }
-        sort_element_to_remove = "dates"
         console.log(sort_dates_statement)
         appendListOfSort(sort_dates_statement)
         sortWithoutRefresh()
@@ -145,49 +141,102 @@ $(function () {
     $('#sort-button-rating').click(function () {
         if (sort_rating_statement === "") {
             sort_rating_statement = "rating ASC"
-            $('#sort-button-rating-az').css("opacity", "1")
-            $('#sort-button-rating-za').css("opacity", "0")
-        } else if (sort_rating_statement === "rating ASC") {
-            sort_rating_statement = "rating DESC"
             $('#sort-button-rating-az').css("opacity", "0")
             $('#sort-button-rating-za').css("opacity", "1")
+        } else if (sort_rating_statement === "rating ASC") {
+            sort_rating_statement = "rating DESC"
+            $('#sort-button-rating-az').css("opacity", "1")
+            $('#sort-button-rating-za').css("opacity", "0")
         } else {
             sort_rating_statement = ""
             $('#sort-button-rating-az').css("opacity", "1")
             $('#sort-button-rating-za').css("opacity", "1")
             sort_element_to_remove = "rating DESC"
         }
-        sort_element_to_remove = "rating"
         console.log(sort_rating_statement)
         appendListOfSort(sort_rating_statement)
         sortWithoutRefresh()
     });
 });
 
-let prevElement
+let prevElement = ""
 
 function appendListOfSort(newElement) {
     let testNewElement
 
-    sortParameterFormatted = newElement
+    if (newElement.includes("ASC")) {
+        testNewElement = newElement.replace(" ASC", "")
+    } else if (newElement.includes("DESC")) {
+        testNewElement = newElement.replace(" DESC", "")
+    }
 
-    $('#sort-button-' + prevElement + '-az').css("opacity", "1")
-    $('#sort-button-' + prevElement + '-za').css("opacity", "1")
+    console.log(testNewElement)
 
-    console.log(newElement.includes(sort_element_to_remove))
-    console.log(sort_element_to_remove)
+    if (!(prevElement.includes(testNewElement)) && prevElement !== "") {
+        sort_temp_complete_statement = []
 
-    if (!(newElement.includes(sort_element_to_remove))) {
-        if (newElement.includes("ASC")) {
-            prevElement = newElement.replace(" ASC", "")
-        } else if (newElement.includes("DESC")) {
-            prevElement = newElement.replace(" DESC", "")
+        var prevElement_temp
+
+        if (prevElement.includes("ASC")) {
+            prevElement_temp = prevElement.replace(" ASC", "")
+        } else if (prevElement.includes("DESC")) {
+            prevElement_temp = prevElement.replace(" DESC", "")
+        }
+
+        $('#sort-button-' + prevElement_temp + '-az').css("opacity", "1")
+        $('#sort-button-' + prevElement_temp + '-za').css("opacity", "1")
+
+        switch (prevElement_temp) {
+            case 'programmer':
+                sort_programmer_statement = ""
+                break;
+            case 'programmingLang':
+                sort_programLang_statement = ""
+                break;
+            case 'timeInMinutes':
+                sort_time_statement = ""
+                break;
+            case 'dates':
+                sort_dates_statement = ""
+                break;
+            case 'rating':
+                sort_rating_statement = ""
+                break;
         }
     }
 
+    const index = sort_temp_complete_statement.findIndex(element => {
+        if (element.includes(testNewElement)) {
+            return true;
+        }
+    });
+
+    if (index !== -1) {
+        sort_temp_complete_statement.splice(index, 1)
+        console.log("There you go " + sort_temp_complete_statement[index])
+        if (newElement !== "") {
+            sort_temp_complete_statement.push(newElement)
+        }
+    } else {
+        if (newElement !== "") {
+            sort_temp_complete_statement.push(newElement)
+        } else {
+            const indexOld = sort_temp_complete_statement.findIndex(element => {
+                if (element.includes(sort_element_to_remove)) {
+                    return true;
+                }
+            });
+            sort_temp_complete_statement.splice(indexOld, 1)
+        }
+    }
+
+    sortParameterFormatted = sort_temp_complete_statement[0]
+
     prevElement = newElement
-    console.log("your new element: " + newElement)
-    console.log("your old element: " + prevElement)
+
+    console.log(sort_temp_complete_statement)
+
+    console.log(index);
 }
 
 //function appendListOfSort(newElement) {

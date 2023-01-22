@@ -19,10 +19,12 @@
         </div>
     </form>
 
-    {# TODO EDIT BUTTON NAPOJIT NA LOKÁLNÍ OKNO JAKO U DELETU NEBO PŘI VYTVÁŘENÍ UŽIVATELE #}
-
     <script !src="">
         cancel_add_edit_user()
+
+        function get_addEdit_statement(statement) {
+            _statement = statement
+        }
 
         function cancel_add_edit_user() {
             console.log("ready")
@@ -33,14 +35,29 @@
 
         $(function () { //odstranění uzivatele pomocí ajax protokolu
             $('#form_add_edit_user').submit(function (event) {
+                var localUsername = $('#form_username').val()
+                console.log(localUsername)
                 event.preventDefault()
-                $.ajax({
-                    type: "POST",
-                    url: "/app/user/add/",
-                    success: function (response) {
-                        get_user_table('/app/appUpt/updateUserList');
-                    },
-                });
+                if (_statement === 'button-add-user') {
+                    $.ajax({
+                        type: "POST",
+                        url: "/app/user/" + localUsername + "/add/",
+                        success: function (response) {
+                            get_user_table('/app/appUpt/updateUserList');
+                            $('#user_add-edit_window_container').remove()
+                        },
+                    });
+                } else if (_statement === 'button_edit_user') {
+                    console.log("TEST")
+                    $.ajax({
+                        type: "POST",
+                        url: "/app/user/" + localUsername + "/edit/",
+                        success: function (response) {
+                            get_user_table('/app/appUpt/updateUserList');
+                            $('#user_add-edit_window_container').remove()
+                        },
+                    });
+                }
             });
         });
     </script>

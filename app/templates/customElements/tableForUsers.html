@@ -15,7 +15,7 @@
                 #}
                     <a onclick="deleteModal('{{ user.programmer }}', 'Přeješ si smazat uživatele {{ user.programmer }}?')"
                        id="delete">Delete</a>
-                    <a id="button_edit_user" onclick="getUsername('{{ user.programmer }}')" {# href="/user/{{ user.programmer }}/edit" #}>Edit</a>
+                    <a class="button_edit_user" onclick="getUsername('{{ user.programmer }}');edit_user()" {# href="/user/{{ user.programmer }}/edit" #}>Edit</a>
                 </td>
             </tr>
         {% endfor %}
