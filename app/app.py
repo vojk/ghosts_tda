@@ -92,6 +92,7 @@ def edit(id):
         rating = request.form['formRating']
         progLang = request.form['formProgLang_select']
         desc = request.form['formDesc']
+        programmer = request.form['formProgrammer_select']
 
         if not date:
             print("No date found")
@@ -103,15 +104,18 @@ def edit(id):
             print("No desc found")
         else:
             conn = db.get_db_connection()
+            programmer_id = db.get_id_of_user(programmer)
             conn.execute(
-                'UPDATE records SET dates = ?, timeInMinutes = ?, programmingLang = ?, rating = ?, description = ? '
+                'UPDATE records SET dates = ?, timeInMinutes = ?, programmingLang = ?, rating = ?, description = ?, programmer = ?, programmerId = ? '
                 'WHERE id = ?',
-                (date, minutes, progLang, rating, desc, id))
+                (date, minutes, progLang, rating, desc, programmer, programmer_id[0][0], id))
             conn.commit()
             conn.close()
             return redirect(url_for('app_wind'))
-
-    return render_template('editWind.html', record=record, defs=proglangs)
+    conn = db.get_db_connection()
+    programmers = conn.execute("SELECT * FROM users").fetchall()
+    conn.close()
+    return render_template('editWind.html', record=record, defs=proglangs, programmers=programmers)
 
 
 @app.route('/<int:id>/delete/', methods=('GET', 'POST'))  # samže záznam

@@ -1,6 +1,7 @@
 let date = document.forms["addRecord"]["formDate"];
 let time = document.forms["addRecord"]["formMinutes"];
 let desc = document.forms["addRecord"]["formDesc"];
+let programmer = document.forms["addRecord"]["formProgrammer_select"];
 let progLang = document.forms["addRecord"]["formProgLang_select"];
 
 function validateForm() {
@@ -28,7 +29,13 @@ function validateForm() {
         desc.classList.remove('invalid')
     }
 
-    if (date.value == "" || time.value == "" || time.value == "0" || desc.value == "") {
+    if (programmer.value == "None" && !(programmer.classList.contains('invalid'))) {
+        programmer.classList.add('invalid')
+    } else if (!(programmer.value == "None")) {
+        programmer.classList.remove('invalid')
+    }
+
+    if (date.value === "" || time.value === "" || time.value === "0" || desc.value === "" || programmer.value === "None") {
         return false;
     }
 }
