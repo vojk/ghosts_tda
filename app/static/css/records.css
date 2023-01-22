@@ -35,11 +35,17 @@ body{
     color: white;
     font-weight: bold;
 }
+#edit:hover{
+    background-color: blue;
+}
 
 #delete{
     border-radius: 5px;
     background-color: lightcoral;
     font-weight: bold;
+}
+#delete:hover{
+    background-color: red;
 }
 
 .button{
@@ -49,15 +55,77 @@ body{
     border: 1px solid black;
 }
 
-.sort, .filter{
+.filter{
     padding: 1px 10px;
     font-weight: bold;
     background-color: white;
     border: 2px solid blue;
-    border-radius: 10px;
+    border-radius: 15px;
     font-size: 15px;
+    height: 25px;
+}
+.filter:hover{
+    background-color: blue;
+    color: white;
 }
 
 #sort-form, #filter-form{
     margin: 3px;
+}
+
+#filter_programmingLangs, #filter_programmers, #filter_min_date, #filter_max_date{
+    margin-left: 5px;
+    margin-right: 5px;
+    min-height: 20px;
+    border-radius: 7px;
+    border: solid 1px ;
+}
+
+#_deleteButton{
+    background-color: lightcoral;
+    border: none;
+    border-radius: 5px;
+    height: 25px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-bottom: 0;
+}
+#_deleteButton:hover{
+    background-color: red;
+}
+
+#_escButton{
+    height: 25px;
+    border-radius: 5px;
+    border: 2px solid blue;
+    background-color: white;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-bottom: 0;
+}
+#_escButton:hover{
+    background-color: blue;
+    color: white;
+}
+
+#removeWarn{
+    border: 2px solid black;
+    border-radius: 10px;
+    padding:0 15px;
+}
+
+#filter_programmingLangs{
+    
+}
+
+#filter_programmers{
+
+}
+
+#filter_min_date{
+
+}
+
+#filter_max_date{
+
 }

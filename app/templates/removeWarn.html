@@ -1,10 +1,10 @@
-<div style="position:absolute; background: white; z-index: 5">
+<div id="removeWarn" style="position:absolute; background: white; z-index: 5">
     <form method="GET" id="form-delete">
         <div>
             <h2 id="_header-delete-info">Vázně si přeješ smazat tento záznam?</h2>
         </div>
         <button type="submit" id="_deleteButton">Smazat</button>
-        <button type="button" onclick="f(); function f() {
+        <button type="button" id="_escButton" onclick="f(); function f() {
           document.getElementById('_remove_approval').style.display = 'none'
         }">Zrušit</button>
     </form>

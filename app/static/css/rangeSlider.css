@@ -75,6 +75,9 @@
 .range-price input {
     width: 40px;
     padding: 5px;
+    border-radius: 6.5px;
+    border: 1px solid;
+    height: 12px;
 }
 
 .range-price input:first-of-type {

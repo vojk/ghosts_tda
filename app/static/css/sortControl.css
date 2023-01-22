@@ -1,8 +1,12 @@
 .ui-sort-control {
-    /*display: flex;*/
+    /* display: flex; */
     align-items: center;
 }
 
 .ui-sort-control .ui-sort-control-hand {
     margin-left: 5px;
+}
+.ui-sort-control-hand{
+    margin-top: 10px;
+    margin-bottom: 15px;
 }

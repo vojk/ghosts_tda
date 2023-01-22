@@ -19,6 +19,7 @@
     <form method="GET" id="filter-form">
         <label for="filter_rating">Filter by:</label>
         <select name="filter_programmingLangs" id="filter_programmingLangs">
+            <option value="None">None</option>
             {% for def in defs %}
                 <option id="option_{{ def.progLangs }}"
                         value="{{ def.progLangs }}">{{ def.progLangs }}</option>
@@ -60,7 +61,15 @@
                          src="{{ url_for('static', filename='svg/caret-down.png') }}" alt="">
                 </div>
             </td>
-            <td>Popis</td>
+            <td>
+                Popis
+                <div  style="visibility: hidden; width: 16px; position: relative;" class="ui-sort-control-hand">
+                    <img id="sort-button-programmingLang-az" style="width: 10px; position: absolute; bottom: 2px;"
+                         src="{{ url_for('static', filename='svg/caret-up.png') }}" alt="">
+                    <img id="sort-button-programmingLang-za" style="width: 10px; position: absolute;"
+                         src="{{ url_for('static', filename='svg/caret-down.png') }}" alt="">
+                </div>
+            </td>
             <td id="sort-button-time" class="ui-sort-control">
                 Čas
                 <div style="width: 16px; position: relative;" class="ui-sort-control-hand">
