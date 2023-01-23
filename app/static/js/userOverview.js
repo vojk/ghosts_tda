@@ -1,20 +1,7 @@
 let usernames
 let _statement
 
-$(function () { //odstranění uzivatele pomocí ajax protokolu
-    $('#form-delete').submit(function (event) {
-        console.log(itemId)
-        event.preventDefault()
-        $.ajax({
-            type: "POST",
-            url: "/user/" + itemId + "/delete/",
-            success: function (response) {
-                document.getElementById('_remove_approval').style.display = 'none'
-                get_user_table('/app/appUpt/updateUserList');
-            },
-        });
-    });
-});
+var legend_text
 
 
 function getUsername(username) {
@@ -31,6 +18,15 @@ $(function () {
     });
 })
 
+$(function () {
+    $('#button_delete_user').click(function () {
+        $.get('/user/delete/', function (data) {
+            $('#_addEdit_window').html(data);
+            set_remove_statement('user')
+        })
+    });
+})
+
 
 function edit_user() {
     console.log(usernames)
@@ -40,10 +36,15 @@ function edit_user() {
     })
 }
 
+function remove_user() {
+    $.get('/user/' + usernames + '/delete/', function (data) {
+        $('#_addEdit_window').html(data);
+        deleteModal(usernames, 'Přeješ si smazat uživatele ' + usernames + '?');
+    })
+}
 
 function get_user_table(url) {
     $.get(url, function (data) {
-        console.log(data)
         $('#table').html(data);
     })
 }

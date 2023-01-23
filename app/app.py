@@ -122,7 +122,7 @@ def edit(id):
 @app.route('/app/<int:id>/delete/', methods=('GET', 'POST'))
 def delete(id):
     if request.method == "POST":
-        print(id)
+        print("id " + str(id))
         record = db.get_data_from_db_by_id(id)
         if not record:
             abort(404)
@@ -202,7 +202,12 @@ def app_delete_user(username):
         conn.execute('DELETE FROM users WHERE id = ?', (programmer_id[0][0],))
         conn.commit()
         conn.close()
-    return redirect(url_for('app_wind'))
+    return render_template('removeWarn.html')
+
+
+@app.route('/user/delete/', methods=["GET", "POST"])  # funkce pro vytvoření uživatele
+def app_delete_user_wind():
+    return render_template('removeWarn.html')
 
 
 @app.route('/app/appUpt/updateUserList', methods=["GET", "POST"])

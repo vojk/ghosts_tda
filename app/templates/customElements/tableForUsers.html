@@ -7,15 +7,22 @@
         </tr>
         {% for user in users %}
             <tr>
-                <td>{{ user.id }}</td>
+                <td style="width: 1%; text-align: center">{{ user.id }}</td>
                 <td>{{ user.programmer }}</td>
-                <td>
+                <td style="width: 17%">
                     {#
                 <a href="/user/{{ user.programmer }}/delete">Delete</a>
                 #}
-                    <a onclick="deleteModal('{{ user.programmer }}', 'Přeješ si smazat uživatele {{ user.programmer }}?')"
-                       id="delete">Delete</a>
-                    <a class="button_edit_user" onclick="getUsername('{{ user.programmer }}');edit_user()" {# href="/user/{{ user.programmer }}/edit" #}>Edit</a>
+                    <div style="display: flex; justify-content: space-between;">
+                        <a onclick="getUsername('{{ user.programmer }}');remove_user();"
+                           id="button_delete_user" style="cursor:pointer;">Delete</a>
+                        <a class="button_edit_user"
+                           onclick="getUsername('{{ user.programmer }}');edit_user(); function set_legend_text() {
+                                   legend_text = 'Upravení Uživatele'
+                                   } set_legend_text();" {# href="/user/{{ user.programmer }}/edit" #}
+                           style="cursor:pointer;">Edit</a>
+                    </div>
+
                 </td>
             </tr>
         {% endfor %}

@@ -1,11 +1,71 @@
-<div id="removeWarn" style="position:absolute; background: white; z-index: 5">
-    <form method="GET" id="form-delete">
-        <div>
-            <h2 id="_header-delete-info">Vázně si přeješ smazat tento záznam?</h2>
-        </div>
-        <button type="submit" id="_deleteButton">Smazat</button>
-        <button type="button" id="_escButton" onclick="f(); function f() {
+<div class="outerBox_add-edit_window">
+    <div id="removeWarn" style="position:absolute; background: white; z-index: 5">
+        <form method="GET" id="form-delete">
+            <div>
+                <h2 id="_header-delete-info">Vázně si přeješ smazat tento záznam?</h2>
+            </div>
+            <button type="submit" id="_deleteButton">Smazat</button>
+            <button type="button" id="_escButton" onclick="f(); function f() {
           document.getElementById('_remove_approval').style.display = 'none'
-        }">Zrušit</button>
-    </form>
+        }">Zrušit
+            </button>
+        </form>
+
+        <script>
+            cancel_remove_warn()
+
+            /*$(document).on('click', event => {
+                if (!$(event.target).closest('#removeWarn').length) {
+                    console.log("Clikc")
+                    $('#_addEdit_window').css('display', 'none')
+                    $('#removeWarn').remove()
+                }
+            });*/
+            var self_statement
+            function set_remove_statement(statement) {
+                self_statement = statement
+                console.log(statement)
+            }
+
+
+            function cancel_remove_warn() {
+                console.log("ready")
+                $('#_addEdit_window').css('display', 'block')
+                $('#_escButton').click(function () {
+                    $('#_addEdit_window').css('display', 'none')
+                    $('#removeWarn').remove()
+                })
+            }
+
+            $(function () { //odstranění uzivatele pomocí ajax protokolu
+                $('#form-delete').submit(function (event) {
+                    console.log(self_statement)
+                    event.preventDefault()
+                    if (self_statement === "user") {
+                        $.ajax({
+                            type: "POST",
+                            url: "/user/" + itemId + "/delete/",
+                            success: function (response) {
+                                console.log("PASS")
+                                get_user_table('/app/appUpt/updateUserList');
+                                $('#removeWarn').remove()
+                                $('#_addEdit_window').css('display', 'none')
+                            },
+                        });
+                    } else if (self_statement === "record") {
+                        $.ajax({
+                            type: "POST",
+                            url: "/app/" + record_id + "/delete/",
+                            success: function (response) {
+                                sortWithoutRefresh()
+                                $('#removeWarn').remove()
+                                $('#_addEdit_window').css('display', 'none')
+                            },
+                        });
+                    }
+                });
+            });
+        </script>
+    </div>
 </div>
+

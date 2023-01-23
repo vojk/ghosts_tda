@@ -10,10 +10,11 @@
 
     <script src="{{ url_for('static', filename='js/jquery-3.6.3.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/records.js') }}"></script>
 </head>
 <body>
-<div id="_remove_approval" style="display: none">
-    {% include 'removeWarn.html' %}
+<div id="_addEdit_window" style="position: absolute; width: 100%; height: 100%; z-index: 5">
+
 </div>
 <div id="sort-filter">
     <form method="GET" id="filter-form">
@@ -63,7 +64,7 @@
             </td>
             <td>
                 Popis
-                <div  style="visibility: hidden; width: 16px; position: relative;" class="ui-sort-control-hand">
+                <div style="visibility: hidden; width: 16px; position: relative;" class="ui-sort-control-hand">
                     <img id="sort-button-programmingLang-az" style="width: 10px; position: absolute; bottom: 2px;"
                          src="{{ url_for('static', filename='svg/caret-up.png') }}" alt="">
                     <img id="sort-button-programmingLang-za" style="width: 10px; position: absolute;"

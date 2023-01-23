@@ -1,6 +1,6 @@
 /*records.css*/
 
-#table{
+#table {
     display: flex;
     flex-direction: column;
     border: 2px solid black;
@@ -9,10 +9,12 @@
     margin-top: 10px;
     margin-bottom: 10px;
 }
-#table table{
+
+#table table {
     table-layout: fixed;
 }
-#sort-filter{
+
+#sort-filter {
     display: flex;
     flex-direction: column;
     border: 2px solid black;
@@ -22,40 +24,45 @@
     margin-top: 10px;
     font-size: 17px;
 }
-body{
+
+body {
     width: 50%;
     display: flex;
     flex-direction: column;
     margin: auto;
 }
-#edit{
+
+#edit {
     text-decoration: none;
     border-radius: 5px;
     background-color: #0f89ec;
     color: white;
     font-weight: bold;
 }
-#edit:hover{
+
+#edit:hover {
     background-color: blue;
 }
 
-#delete{
+#delete {
     border-radius: 5px;
     background-color: lightcoral;
     font-weight: bold;
 }
-#delete:hover{
+
+#delete:hover {
     background-color: red;
 }
 
-.button{
+.button {
     padding: 0.25rem 1rem;
 }
-#records{
+
+#records {
     border: 1px solid black;
 }
 
-.filter{
+.filter {
     padding: 1px 10px;
     font-weight: bold;
     background-color: white;
@@ -64,24 +71,25 @@ body{
     font-size: 15px;
     height: 25px;
 }
-.filter:hover{
+
+.filter:hover {
     background-color: blue;
     color: white;
 }
 
-#sort-form, #filter-form{
+#sort-form, #filter-form {
     margin: 3px;
 }
 
-#filter_programmingLangs, #filter_programmers, #filter_min_date, #filter_max_date{
+#filter_programmingLangs, #filter_programmers, #filter_min_date, #filter_max_date {
     margin-left: 5px;
     margin-right: 5px;
     min-height: 20px;
     border-radius: 7px;
-    border: solid 1px ;
+    border: solid 1px;
 }
 
-#_deleteButton{
+#_deleteButton {
     background-color: lightcoral;
     border: none;
     border-radius: 5px;
@@ -90,11 +98,12 @@ body{
     margin-bottom: 10px;
     padding-bottom: 0;
 }
-#_deleteButton:hover{
+
+#_deleteButton:hover {
     background-color: red;
 }
 
-#_escButton{
+#_escButton {
     height: 25px;
     border-radius: 5px;
     border: 2px solid blue;
@@ -103,29 +112,35 @@ body{
     margin-bottom: 10px;
     padding-bottom: 0;
 }
-#_escButton:hover{
+
+#_escButton:hover {
     background-color: blue;
     color: white;
 }
 
-#removeWarn{
+#removeWarn {
     border: 2px solid black;
     border-radius: 10px;
-    padding:0 15px;
+    padding: 0 15px;
 }
 
-#filter_programmingLangs{
-    
-}
-
-#filter_programmers{
+#filter_programmingLangs {
 
 }
 
-#filter_min_date{
+#filter_programmers {
 
 }
 
-#filter_max_date{
+#filter_min_date {
 
+}
+
+#filter_max_date {
+
+}
+
+
+#_addEdit_window {
+    display: none;
 }

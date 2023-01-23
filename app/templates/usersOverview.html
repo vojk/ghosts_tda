@@ -5,26 +5,31 @@
     <title>Title</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/userOverview.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 
     <script src="{{ url_for('static', filename='js/jquery-3.6.3.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/deleteModal.js') }}"></script>
     <script src="{{ url_for('static', filename='js/userOverview.js') }}"></script>
 </head>
-<body>
+<body style="margin: 0">
 
-<div id="_addEdit_window">
+<div id="_addEdit_window" style="position: absolute; width: 100%; height: 100%; z-index: 5">
 
 </div>
-
-<div id="_remove_approval" style="display: none">
+{#
+<div id="_remove_approval" style="display: none; position: absolute; width: 100%; height: 100%; z-index: 5">
     {% include 'removeWarn.html' %}
 </div>
+#}
 
-<div class="container-user-overview">
+
+<div class="container-user-overview" style="position:relative;">
     <div class="container-user-overview-inner">
         <div style="display: flex; justify-content: space-between; margin-top: 10px;">
-            <h1>Přehled Uživatelů</h1>
-            <a class="button" id="button-add-user" style="cursor: pointer">
+            <h1 style="font-size: 1.75rem;">Přehled Uživatelů</h1>
+            <a class="button" id="button-add-user" style="cursor: pointer" onclick="function set_legend_text() {
+              legend_text = 'Přidání Uživatele'
+            } set_legend_text()">
                 <img src="{{ url_for('static', filename='svg/user-add.svg') }}" alt="">
             </a>
         </div>
