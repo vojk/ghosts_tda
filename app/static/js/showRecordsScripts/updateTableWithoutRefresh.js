@@ -23,6 +23,8 @@ var sort_rating_statement = ""
 let sort_temp_complete_statement = [];
 let sort_element_to_remove = ""
 
+let filter_programmingLangs = [];
+
 var itemId
 
 $(function () { //sort form získání a zobrazení dat
@@ -46,6 +48,34 @@ $(function () { //filter form získání a zobrazení dat
         sortWithoutRefresh()
     });
 });
+
+$(function () {
+    $('#filter_programmingLangs option').on('click', function () {
+        console.log(this.value)
+        const index = filter_programmingLangs.findIndex(element => {
+            if (element.includes(this.value)) {
+                return true;
+            }
+        });
+        var ids = this.id
+        ids = ids.replace(" option", "")
+        console.log(ids)
+
+        if (index !== -1) {
+            filter_programmingLangs.splice(index, 1)
+        } else {
+            if (this.value !== "None") {
+                filter_programmingLangs.push(this.value)
+                $('#' + ids).css("background-color", "green")
+            } else {
+                filter_programmingLangs = []
+            }
+        }
+
+        if (filter_programmingLangs)
+            console.log(filter_programmingLangs)
+    })
+})
 
 //sortování
 $(function () {
@@ -337,7 +367,7 @@ function getValues() { //získání hodnot ze selectorů
     filterMaxRating = $('#max_rating').val();
     filterMinTime = $('#min_time').val();
     filterMaxTime = $('#max_time').val();
-    filterprogramingLangs = $('#filter_programmingLangs').val();
+    //filterprogramingLangs = $('#filter_programmingLangs').val();
     sortField = $('#sort_field').val();
     sortParameter = $('#sort_order').val();
     filterProgrammer = $('#filter_programmers').val();
@@ -346,10 +376,9 @@ function getValues() { //získání hodnot ze selectorů
     filterRating = filterMinRating + "," + filterMaxRating
     filterTime = filterMinTime + "," + filterMaxTime
     //sortParameterFormatted = sortField + " " + sortParameter
-    for (const element of filterprogramingLangs.split(",")) {
+    for (const element of filter_programmingLangs) {
         filterprogramingLangsFormated += element + ","
     }
-
     filterprogramingLangsFormated = filterprogramingLangsFormated.slice(0, -1)
 }
 

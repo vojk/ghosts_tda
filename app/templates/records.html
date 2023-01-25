@@ -23,9 +23,14 @@
             <option value="None">None</option>
             {% for def in defs %}
                 <option id="option_{{ def.progLangs }}"
-                        value="{{ def.progLangs }}">{{ def.progLangs }}</option>
+                        value="{{ def.progLangs }}">
+                    {{ def.progLangs }}
+                </option>
             {% endfor %}
         </select>
+
+        {% include 'customElements/multipleSelect.html' %}
+
         <select name="filter_programmers" id="filter_programmers">
             <option id="option_None" value="None">None</option>
             {% for programmer in programmers %}
@@ -108,12 +113,12 @@
 
 
 <script>
-    $("[id$=sharp]").each(function () {
+    /*$("[id$=sharp]").each(function () {
         var text = $(this).text();
 
         text = text.replace('sharp', '#');
         $(this).text(text);
-    })
+    })*/
 </script>
 <script src="{{ url_for('static', filename='js/showRecordsScripts/updateTableWithoutRefresh.js') }}"></script>
 <script src="{{ url_for('static', filename='js/deleteModal.js') }}"></script>

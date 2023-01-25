@@ -1,0 +1,90 @@
+<link rel="stylesheet" href="../../static/main.css">
+<link rel="stylesheet" href="../../static/css/custom_dropbox_css.css">
+
+<style>
+
+</style>
+<div class="container_dropbox">
+    <div>
+        <label class="popis_textBox" for="custom_dropdown_menu_button">Programovací Jazyky</label>
+        <div class="textfield flex"
+             id="custom_dropdown_menu_button">
+            <div class="inner_dropbox">
+                <span id="tool_help_langs">Všechny jazyky</span>
+                <img src="{{ url_for('static', filename='svg/chevron-down.svg') }}" alt="">
+            </div>
+            <div id="programmingLangs_list">
+
+            </div>
+        </div>
+    </div>
+
+    <div id="custom_dropdown_menu_items">
+        <ul>
+            {% for def in defs %}
+                <li class="custom_multipleSelect" id="option_{{ def.progLangs }}" value="{{ def.progLangs }}"
+                    style="">
+                    <div class="radio_check">
+                        <img src="{{ url_for('static', filename='svg/radio-check.svg') }}" class="custom_multipleSelect_check" alt="">
+                        <img src="{{ url_for('static', filename='svg/radio-checked.svg') }}" class="custom_multipleSelect_checked"
+                             alt="">
+                    </div>
+                    <div>
+                        <span>{{ def.progLangs }}</span>
+                    </div>
+                </li>
+            {% endfor %}
+
+
+        </ul>
+    </div>
+</div>
+
+
+<script !src="">
+    var listLentgh_filter_programmingLangs
+
+    $(function () {
+        $('#custom_dropdown_menu_button').on("click", function () {
+            if ($('#custom_dropdown_menu_items').css("display") === "flex") {
+                $('#custom_dropdown_menu_items').css("display", "none")
+            } else {
+                $('#custom_dropdown_menu_items').css("display", "flex")
+            }
+        })
+        $('.custom_multipleSelect').on("click", function () {
+            const index = filter_programmingLangs.findIndex(element => {
+                if (element.includes($(this).attr('value'))) {
+                    return true;
+                }
+            });
+            var ids = this.id
+            console.log(ids)
+
+            if (index !== -1) {
+                filter_programmingLangs.splice(index, 1)
+                $('#' + this.id).css("background-color", "")
+                $('#' + this.id + ' .custom_multipleSelect_check').css("display", "inline")
+                $('#' + this.id + ' .custom_multipleSelect_checked').css("display", "none")
+                $('#embend' + this.id).remove()
+                if (filter_programmingLangs.length !== 0) {
+                    $("#tool_help_langs").text('Počet vybraných jazyků: ' + filter_programmingLangs.length)
+                } else {
+                    $("#tool_help_langs").text("Všechny jazyky")
+                }
+            } else {
+                if (this.value !== "None") {
+                    filter_programmingLangs.push($(this).attr('value'))
+                    $('#' + this.id).css("background-color", "rgba(15, 137, 236, 0.29)")
+                    $('#' + this.id + ' .custom_multipleSelect_check').css("display", "none")
+                    $('#' + this.id + ' .custom_multipleSelect_checked').css("display", "inline")
+                    $("#tool_help_langs").text('Počet vybraných jazyků: ' + filter_programmingLangs.length)
+                } else {
+                    filter_programmingLangs = []
+                }
+            }
+
+            console.log(filter_programmingLangs)
+        })
+    })
+</script>

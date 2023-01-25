@@ -1,0 +1,54 @@
+.custom_multipleSelect:hover {
+    background-color: rgba(15, 137, 236, 0.29);
+    transition: all 100ms ease-in-out;
+}
+
+.container_dropbox {
+    max-width: 312px;
+    width: 100%;
+    position: relative;
+}
+
+.inner_dropbox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#programmingLangs_list {
+    margin-left: 5px;
+    display: flex
+}
+
+#custom_dropdown_menu_items {
+    position: absolute;
+    width: 100%;
+    padding: 2px;
+    display: none;
+    background-color: white;
+    border-radius: 0 4px 0 4px;
+    box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+#custom_dropdown_menu_items ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.custom_multipleSelect {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.custom_multipleSelect .radio_check{
+    margin-right: 5px; display: flex
+}
+
+.custom_multipleSelect_checked{
+    display: none
+}
