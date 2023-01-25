@@ -43,11 +43,11 @@ h1 {
 }
 
 .container-user-overview {
-    padding: 10px;
+    padding: 15px;
     border-radius: 8px;
     background-color: white;
     width: fit-content;
-    min-height: 200px;
+    min-height: 450px;
 }
 
 .container-user-overview-inner {
@@ -75,4 +75,45 @@ h1 {
 
 #_addEdit_window {
     display: none;
+}
+
+#userOverview_info {
+    text-align: right;
+}
+
+#userOverview_paginate {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#userOverview_paginate span {
+    margin: 0 10px;
+}
+
+.paginate_button {
+    margin: 0 2px;
+    cursor: pointer;
+}
+
+#userOverview_paginate span .current {
+    text-decoration: underline;
+}
+
+#userOverview_paginate .disabled {
+    opacity: 0.5;
+}
+
+#userOverview_previous, #userOverview_next {
+    display: flex;
+}
+
+.table-info{
+    margin-top: 10px;
+}
+
+#userOverview_wrapper {
+    height: 406px;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
 }

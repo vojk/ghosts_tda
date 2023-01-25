@@ -1,10 +1,13 @@
 {% block userTable %}
     <table id="userOverview">
+        <thead>
         <tr>
             <td>#</td>
             <td>Programátor</td>
             <td>Akce</td>
         </tr>
+        </thead>
+        <tbody>
         {% for user in users %}
             <tr>
                 <td style="width: 1%; text-align: center">{{ user.id }}</td>
@@ -14,7 +17,7 @@
                 <a href="/user/{{ user.programmer }}/delete">Delete</a>
                 #}
                     <div style="display: flex; justify-content: space-between;">
-                        <a onclick="getUsername('{{ user.programmer }}');remove_user();"
+                        <a onclick="getUsername('{{ user.programmer }}');remove_user();set_remove_statement('user')"
                            id="button_delete_user" style="cursor:pointer;">Delete</a>
                         <a class="button_edit_user"
                            onclick="getUsername('{{ user.programmer }}');edit_user(); function set_legend_text() {
@@ -26,5 +29,12 @@
                 </td>
             </tr>
         {% endfor %}
+        </tbody>
     </table>
+    <div id="both-div"></div>
+    <script>
+        if (window.page) {
+            page()
+        }
+    </script>
 {% endblock %}

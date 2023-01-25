@@ -25,8 +25,10 @@
                 <li class="custom_multipleSelect" id="option_{{ def.progLangs }}" value="{{ def.progLangs }}"
                     style="">
                     <div class="radio_check">
-                        <img src="{{ url_for('static', filename='svg/radio-check.svg') }}" class="custom_multipleSelect_check" alt="">
-                        <img src="{{ url_for('static', filename='svg/radio-checked.svg') }}" class="custom_multipleSelect_checked"
+                        <img src="{{ url_for('static', filename='svg/radio-check.svg') }}"
+                             class="custom_multipleSelect_check" alt="">
+                        <img src="{{ url_for('static', filename='svg/radio-checked.svg') }}"
+                             class="custom_multipleSelect_checked"
                              alt="">
                     </div>
                     <div>
@@ -44,12 +46,18 @@
 <script !src="">
     var listLentgh_filter_programmingLangs
 
+    $("html").click(function (event) {
+        $("#custom_dropdown_menu_items").css("display", "none");
+        console.log("HI")
+    });
+
     $(function () {
         $('#custom_dropdown_menu_button').on("click", function () {
             if ($('#custom_dropdown_menu_items').css("display") === "flex") {
                 $('#custom_dropdown_menu_items').css("display", "none")
             } else {
                 $('#custom_dropdown_menu_items').css("display", "flex")
+                event.stopPropagation();
             }
         })
         $('.custom_multipleSelect').on("click", function () {
@@ -85,6 +93,7 @@
             }
 
             console.log(filter_programmingLangs)
+            event.stopPropagation();
         })
     })
 </script>

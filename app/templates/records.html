@@ -19,15 +19,6 @@
 <div id="sort-filter">
     <form method="GET" id="filter-form">
         <label for="filter_rating">Filter by:</label>
-        <select name="filter_programmingLangs" id="filter_programmingLangs">
-            <option value="None">None</option>
-            {% for def in defs %}
-                <option id="option_{{ def.progLangs }}"
-                        value="{{ def.progLangs }}">
-                    {{ def.progLangs }}
-                </option>
-            {% endfor %}
-        </select>
 
         {% include 'customElements/multipleSelect.html' %}
 
@@ -40,7 +31,8 @@
         </select>
         <input type="date" name="filter_min_date" id="filter_min_date">
         <input type="date" name="filter_max_date" id="filter_max_date">
-        {% include 'customElements/slider.html' %}
+        {% include 'customElements/slider-Time.html' %}
+        {% include 'customElements/slider-Rating.html' %}
         <button class="filter" type="submit">Filter</button>
     </form>
 </div>

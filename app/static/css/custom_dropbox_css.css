@@ -9,6 +9,10 @@
     position: relative;
 }
 
+.container_dropbox span {
+    user-select: none;
+}
+
 .inner_dropbox {
     display: flex;
     align-items: center;
@@ -27,7 +31,7 @@
     padding: 2px;
     display: none;
     background-color: white;
-    border-radius: 0 4px 0 4px;
+    border-radius: 0 0 4px 4px;
     box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.25);
 }
 
@@ -45,10 +49,11 @@
     cursor: pointer;
 }
 
-.custom_multipleSelect .radio_check{
-    margin-right: 5px; display: flex
+.custom_multipleSelect .radio_check {
+    margin-right: 5px;
+    display: flex
 }
 
-.custom_multipleSelect_checked{
+.custom_multipleSelect_checked {
     display: none
 }

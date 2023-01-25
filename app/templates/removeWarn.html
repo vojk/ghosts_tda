@@ -1,32 +1,24 @@
 <div class="outerBox_add-edit_window">
     <div id="removeWarn" style="position:absolute; background: white; z-index: 5">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/customElements/removeWarn.css') }}">
         <form method="GET" id="form-delete">
-            <div>
-                <h2 id="_header-delete-info">Vázně si přeješ smazat tento záznam?</h2>
+            <div class="removeWarn_texts">
+                <h2 id="_header-delete-info" style="font-size: 1.5rem">Vazne si prejes smazat tento zaznam?</h2>
+                <h2 style="font-size: 1rem">Tato akce je nevratna!</h2>
             </div>
-            <button type="submit" id="_deleteButton">Smazat</button>
-            <button type="button" id="_escButton" onclick="f(); function f() {
+            <div style="display: flex; width: 230px; justify-content: space-between; margin-top: 40px">
+                <button type="button" id="_escButton" class="button_removeWarn button_text" onclick="f(); function f() {
           document.getElementById('_remove_approval').style.display = 'none'
-        }">Zrušit
-            </button>
+        }" style="color: #E75050;"><span class="button_text-text">Zrušit</span>
+                </button>
+                <button type="submit" id="_deleteButton" style="background-color: #E75050; border-color: #E75050" class="button_removeWarn button_filled">
+                    <span class="button_filled-text">Smazat</span>
+                </button>
+            </div>
         </form>
 
         <script>
             cancel_remove_warn()
-
-            /*$(document).on('click', event => {
-                if (!$(event.target).closest('#removeWarn').length) {
-                    console.log("Clikc")
-                    $('#_addEdit_window').css('display', 'none')
-                    $('#removeWarn').remove()
-                }
-            });*/
-            var self_statement
-            function set_remove_statement(statement) {
-                self_statement = statement
-                console.log(statement)
-            }
-
 
             function cancel_remove_warn() {
                 console.log("ready")
