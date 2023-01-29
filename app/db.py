@@ -3,7 +3,7 @@ from flask import abort
 
 import os
 
-user = "records"  # základní uživatel
+user = "u_default"  # základní uživatel
 
 databasePath = ''
 
@@ -22,6 +22,18 @@ if not databaseExists:  # ověřuje existenci databáze - zda-li existuje soubor
         'programmerId INT NOT NULL)')
     connection.executescript(
         'CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, programmer TEXT NOT NULL)')
+    connection.executescript(
+        'CREATE TABLE categories(id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT NOT NULL, '
+        'color TEXT NOT NULL, description TEXT NOT NULL);')
+    connection.executescript(
+        'CREATE TABLE categories_records(id INTEGER PRIMARY KEY AUTOINCREMENT, category_id INTEGER, '
+        'record_id INTEGER, FOREIGN KEY (record_id) REFERENCES records(id), FOREIGN KEY (category_id) REFERENCES categories(id));')
+
+    connection.row_factory = sqlite3.Row
+
+    connection.execute(
+        'INSERT INTO users (programmer) '
+        'VALUES ("u_default")')
 
     cur = connection.cursor()  # Vytvoří kursor
     connection.commit()  # vloží data do databáze

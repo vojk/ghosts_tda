@@ -13,6 +13,7 @@ var filterRating
 var filterTime
 var sortParameterFormatted
 var filterProgrammer
+var filterCategories
 
 var sort_programmer_statement = ""
 var sort_programLang_statement = ""
@@ -24,6 +25,7 @@ let sort_temp_complete_statement = [];
 let sort_element_to_remove = ""
 
 let filter_programmingLangs = [];
+let filter_categories = [];
 
 var itemId
 
@@ -352,7 +354,8 @@ function sortWithoutRefresh() { //funkce pro sort
         filter_programmingLangs: filterprogramingLangsFormated,
         filter_formatted_date: dateFormated,
         filter_time: filterTime,
-        filter_programmer: filterProgrammer
+        filter_programmer: filterProgrammer,
+        filter_categories: filterCategories
     }, function (data) {
         // data is the HTML of the updated table
         $('#table-content').html(data);
@@ -372,6 +375,7 @@ function getValues() { //získání hodnot ze selectorů
     sortParameter = $('#sort_order').val();
     filterProgrammer = $('#filter_programmers').val();
     filterprogramingLangsFormated = "";
+    filterCategories = "";
     dateFormated = filterMinDate + "," + filterMaxDate
     filterRating = filterMinRating + "," + filterMaxRating
     filterTime = filterMinTime + "," + filterMaxTime
@@ -379,7 +383,14 @@ function getValues() { //získání hodnot ze selectorů
     for (const element of filter_programmingLangs) {
         filterprogramingLangsFormated += element + ","
     }
+
+    for (const element of filter_categories) {
+        filterCategories += element + ","
+    }
     filterprogramingLangsFormated = filterprogramingLangsFormated.slice(0, -1)
+    filterCategories = filterCategories.slice(0, -1)
+
+    console.log(filterCategories)
 }
 
 $(function () {

@@ -1,0 +1,149 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/categories_overview.css') }}">
+
+<script src="{{ url_for('static', filename='js/ntc.js') }}"></script>
+
+<ul class="cat_over_list">
+    <li id="cat_NULL" class="cat_over_item">
+        <div class="hover_wrap_cat_over">
+                    <span class="cat_over_item_span_cont" id="_cat_NULL" value="NULL">
+                        <span class="chck_box_cat">
+                            <input type="checkbox"
+                                   style="margin-right: 14px; width: 0; height: 0; border: none; display: none"
+                                   name="check_NULL" id="check_NULL" class="cat_checkBox">
+                            <span class="checkbox_imgs">
+                                <img class="cat_check" src="{{ url_for('static', filename='svg/check.svg') }}"
+                                     style="width: 20px; margin-right: 12px; display: flex;">
+                                <img class="cat_checked" src="{{ url_for('static', filename='svg/check-r.svg') }}"
+                                     style="width: 20px; margin-right: 12px; display: none">
+                            </span>
+                        </span>
+                <div class="cat_over_item_div_surround">
+                    <div class="cat_over_button_text">
+                        Žádný
+                    </div>
+                </div>
+
+                    <span class="moreInfo_aboutCat_wrap_span" style="">
+                <div class="moreInfo_aboutCat">
+                    <div style="width: 100%; height: 100%; padding: 2px 6px;">
+                        <span style="font-size: 0.75rem; color: white">
+                            Barva: <span style="font-size: 0.75rem; color: white" id="NULL_color">Bílá</span>, Název: Žádný
+                        </span>
+                    </div>
+                </div>
+            </span>
+            </span>
+        </div>
+    </li>
+
+    <style>
+        #cat_NULL .cat_over_button_text:before {
+            background-color: #ffffff;
+        }
+
+        #cat_NULL .cat_over_button_text {
+            background-color: #e0e0e0;
+        }
+
+        #cat_NULL .cat_over_item_div_surround:hover {
+            background-color: rgba(243, 243, 243, 0.23);
+        }
+    </style>
+    {% for categories in categories %}
+        <li id="cat_{{ categories.id }}" class="cat_over_item">
+            <div class="hover_wrap_cat_over">
+                    <span class="cat_over_item_span_cont" id="_cat_{{ categories.id }}" value="{{ categories.id }}">
+                        <span class="chck_box_cat">
+                            <input type="checkbox"
+                                   style="margin-right: 14px; width: 0; height: 0; border: none; display: none"
+                                   name="check_{{ categories.category }}" id="check_{{ categories.category }}"
+                                   class="cat_checkBox">
+                            <span class="checkbox_imgs">
+                                <img class="cat_check" src="{{ url_for('static', filename='svg/check.svg') }}"
+                                     style="width: 20px; margin-right: 12px; display: flex;">
+                                <img class="cat_checked" src="{{ url_for('static', filename='svg/check-r.svg') }}"
+                                     style="width: 20px; margin-right: 12px; display: none">
+                            </span>
+                        </span>
+                <div class="cat_over_item_div_surround">
+                    <div class="cat_over_button_text">
+                        {{ categories.category }}
+                    </div>
+                </div>
+
+                    <span class="moreInfo_aboutCat_wrap_span" style="">
+                <div class="moreInfo_aboutCat">
+                    <div style="width: 100%; height: 100%; padding: 2px 6px;">
+                        <span style="font-size: 0.75rem; color: white">
+                            Barva: <span style="font-size: 0.75rem; color: white" id="{{ categories.id }}_color"></span>, Název: {{ categories.category }}
+                        </span>
+                    </div>
+                </div>
+            </span>
+            </span>
+            </div>
+        </li>
+
+        <style>
+            #cat_{{ categories.id }} .cat_over_button_text:before {
+                background-color: {{ categories.color }}ff;
+            }
+
+            #cat_{{ categories.id }} .cat_over_button_text {
+                background-color: {{ categories.color }}4C;
+            }
+
+            #cat_{{ categories.id }} .cat_over_item_div_surround:hover {
+                background-color: {{ categories.color }}17;
+            }
+        </style>
+
+        <script id="skript{{ categories.id }}">
+            f()
+
+            function f() {
+                var n_match = ntc.name('{{ categories.color }}');
+                $('#{{ categories.id }}_color').text(n_match[1])
+            }
+
+            $('#skript{{ categories.id }}').remove()
+        </script>
+    {% endfor %}
+</ul>
+
+<script>
+    $(function () {
+        $('.cat_over_item_span_cont').on("click", function () {
+
+            const index_cat = filter_categories.findIndex(element => {
+                if (element === ($(this).attr('value'))) {
+                    return true;
+                }
+            });
+
+            console.log(index_cat)
+
+            if ($('#' + this.id + ' .cat_checkBox').prop("checked")) {
+                $('#' + this.id + ' .cat_checkBox').prop("checked", false)
+                $('#' + this.id + ' .cat_checked').css('display', 'none')
+                $('#' + this.id + ' .cat_check').css('display', 'flex')
+            } else {
+                $('#' + this.id + ' .cat_checkBox').prop("checked", true)
+                $('#' + this.id + ' .cat_check').css('display', 'none')
+                $('#' + this.id + ' .cat_checked').css('display', 'flex')
+            }
+
+            if (index_cat !== -1) {
+                filter_categories.splice(index_cat, 1)
+            } else {
+                if (this.value !== "None") {
+                    filter_categories.push($(this).attr('value'))
+                } else {
+                    filter_categories = []
+                }
+            }
+
+            console.log(filter_categories)
+        })
+    })
+</script>

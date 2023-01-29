@@ -1,0 +1,293 @@
+<ul class="cat_over_list">
+    <li id="cat_NULL" class="cat_over_item">
+        <div class="hover_wrap_cat_over">
+                    <span class="cat_over_item_span_cont" id="_cat_NULL" value="NULL">
+                        <span class="chck_box_cat">
+                            <input type="checkbox"
+                                   style="margin-right: 14px; width: 0; height: 0; border: none; display: none"
+                                   name="check_NULL" id="check_NULL" class="cat_checkBox">
+                            <span class="checkbox_imgs">
+                                <img class="cat_check" src="{{ url_for('static', filename='svg/check.svg') }}"
+                                     style="width: 20px; margin-right: 12px; display: flex;">
+                                <img class="cat_checked" src="{{ url_for('static', filename='svg/check-r.svg') }}"
+                                     style="width: 20px; margin-right: 12px; display: none">
+                            </span>
+                        </span>
+                <div class="cat_over_item_div_surround">
+                    <div class="cat_over_button_text">
+                        Žádný
+                    </div>
+                </div>
+
+                    <span class="moreInfo_aboutCat_wrap_span" style="">
+                <div class="moreInfo_aboutCat">
+                    <div style="width: 100%; height: 100%; padding: 2px 6px;">
+                        <span style="font-size: 0.75rem; color: white">
+                            Barva: <span style="font-size: 0.75rem; color: white" id="NULL_color">Bílá</span>, Název: Žádný
+                        </span>
+                    </div>
+                </div>
+            </span>
+            </span>
+            <span>
+                        <button type="button" class="cat_over_button_edit"
+                                style="width: 28px; height: 28px; background-color: transparent">
+
+                </button>
+                    </span>
+
+        </div>
+    </li>
+
+    <style>
+        #cat_NULL .cat_over_button_text:before {
+            background-color: #ffffff;
+        }
+
+        #cat_NULL .cat_over_button_text {
+            background-color: #e0e0e0;
+        }
+
+        #cat_NULL .cat_over_item_div_surround:hover {
+            background-color: rgba(243, 243, 243, 0.23);
+        }
+    </style>
+    {% for categories in categories %}
+        <li id="cat_{{ categories.id }}" class="cat_over_item">
+            <div class="hover_wrap_cat_over">
+                    <span class="cat_over_item_span_cont" id="_cat_{{ categories.id }}" value="{{ categories.id }}">
+                        <span class="chck_box_cat">
+                            <input type="checkbox"
+                                   style="margin-right: 14px; width: 0; height: 0; border: none; display: none"
+                                   name="check_{{ categories.category }}" id="check_{{ categories.category }}"
+                                   class="cat_checkBox">
+                            <span class="checkbox_imgs">
+                                <img class="cat_check" src="{{ url_for('static', filename='svg/check.svg') }}"
+                                     style="width: 20px; margin-right: 12px; display: flex;">
+                                <img class="cat_checked" src="{{ url_for('static', filename='svg/check-r.svg') }}"
+                                     style="width: 20px; margin-right: 12px; display: none">
+                            </span>
+                        </span>
+                <div class="cat_over_item_div_surround">
+                    <div class="cat_over_button_text">
+                        {{ categories.category }}
+                    </div>
+                </div>
+
+                    <span class="moreInfo_aboutCat_wrap_span" style="">
+                <div class="moreInfo_aboutCat">
+                    <div style="width: 100%; height: 100%; padding: 2px 6px;">
+                        <span style="font-size: 0.75rem; color: white">
+                            Barva: <span style="font-size: 0.75rem; color: white" id="{{ categories.id }}_color"></span>, Název: {{ categories.category }}
+                        </span>
+                    </div>
+                </div>
+            </span>
+            </span>
+                <span>
+                        <button type="button" class="cat_over_button_edit" id="{{ categories.id }}_remove"
+                                value_name="{{ categories.category }}" value_color="{{ categories.color }}"
+                                value_desc="{{ categories.description }}">
+                    <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                    >
+  <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M21.2635 2.29289C20.873 1.90237 20.2398 1.90237 19.8493 2.29289L18.9769 3.16525C17.8618 2.63254 16.4857 2.82801 15.5621 3.75165L4.95549 14.3582L10.6123 20.0151L21.2189 9.4085C22.1426 8.48486 22.338 7.1088 21.8053 5.99367L22.6777 5.12132C23.0682 4.7308 23.0682 4.09763 22.6777 3.70711L21.2635 2.29289ZM16.9955 10.8035L10.6123 17.1867L7.78392 14.3582L14.1671 7.9751L16.9955 10.8035ZM18.8138 8.98525L19.8047 7.99429C20.1953 7.60376 20.1953 6.9706 19.8047 6.58007L18.3905 5.16586C18 4.77534 17.3668 4.77534 16.9763 5.16586L15.9853 6.15683L18.8138 8.98525Z"
+          fill="currentColor"
+  />
+  <path
+          d="M2 22.9502L4.12171 15.1717L9.77817 20.8289L2 22.9502Z"
+          fill="currentColor"
+  />
+</svg>
+                </button>
+                    </span>
+
+            </div>
+        </li>
+
+        <style>
+            #cat_{{ categories.id }} .cat_over_button_text:before {
+                background-color: {{ categories.color }}ff;
+            }
+
+            #cat_{{ categories.id }} .cat_over_button_text {
+                background-color: {{ categories.color }}4C;
+            }
+
+            #cat_{{ categories.id }} .cat_over_item_div_surround:hover {
+                background-color: {{ categories.color }}17;
+            }
+        </style>
+
+        <script id="skript{{ categories.id }}">
+            f()
+
+            function f() {
+                var n_match = ntc.name('{{ categories.color }}');
+                $('#{{ categories.id }}_color').text(n_match[1])
+            }
+
+            $('#skript{{ categories.id }}').remove()
+        </script>
+    {% endfor %}
+</ul>
+
+
+<script>
+    $(function () {
+        $('.cat_over_item_span_cont').on("click", function () {
+
+            const index_cat = filter_categories.findIndex(element => {
+                if (element === ($(this).attr('value'))) {
+                    return true;
+                }
+            });
+
+            console.log(index_cat)
+
+            if ($('#' + this.id + ' .cat_checkBox').prop("checked")) {
+                $('#' + this.id + ' .cat_checkBox').prop("checked", false)
+                $('#' + this.id + ' .cat_checked').css('display', 'none')
+                $('#' + this.id + ' .cat_check').css('display', 'flex')
+            } else {
+                $('#' + this.id + ' .cat_checkBox').prop("checked", true)
+                $('#' + this.id + ' .cat_check').css('display', 'none')
+                $('#' + this.id + ' .cat_checked').css('display', 'flex')
+            }
+
+            if (index_cat !== -1) {
+                filter_categories.splice(index_cat, 1)
+            } else {
+                if (this.value !== "None") {
+                    filter_categories.push($(this).attr('value'))
+                } else {
+                    filter_categories = []
+                }
+            }
+
+            console.log(filter_categories)
+        })
+
+        $('.coloredButtons').on("click", function () {
+
+            $(prevSelector).removeClass("coloredButtonsSelected")
+            $(this).addClass("coloredButtonsSelected")
+            prevSelector = this
+
+            colorToSave = rgb2hex($(this.children).css("background-color"));
+            $('#form_color_hex').val(colorToSave)
+
+            console.log($('#form_color_hex').val())
+        })
+
+        $('#form_categories').one("submit", function (event) {
+            console.log(cat_editAddStatement)
+            event.preventDefault()
+            form = $(this)
+            add_edit_function(form)
+        })
+
+        $('.cat_over_button_edit').on("click", function () {
+            id_cat = this.id.replace("_remove", "")
+            console.log(id_cat)
+            cat_editAddStatement = "edit"
+
+            $('#list_cat').css('display', 'none')
+            $('#editadd_cat').css('display', 'flex')
+            $('#remove_cat').css('display', '')
+
+            $('#form_name_category').val($(this).attr("value_name"))
+            $('#form_desc_category').val($(this).attr("value_desc"))
+
+            $('#legend_cat_edit_add').text("Upravení Kategorie")
+
+            var color = $(this).attr("value_color")
+            var testColor;
+
+            $('.coloredButtons').each(function () {
+                testColor = rgb2hex($(this.children).css("background-color"))
+                console.log(color)
+                if (testColor === color) {
+                    console.log(color)
+                    $(prevSelector).removeClass("coloredButtonsSelected")
+                    $(this).addClass("coloredButtonsSelected")
+                    prevSelector = this
+
+                    colorToSave = rgb2hex($(this.children).css("background-color"));
+                    $('#form_color_hex').val(colorToSave)
+                }
+            })
+        })
+
+        $('#remove_cat').on("click", function () {
+            $.ajax({
+                type: "POST",
+                url: "/app/categories/remove/" + id_cat,
+                success: function (response) {
+                    console.log("Done")
+                    $.get('/app/categories/update', function (data) {
+                        $('#list_of_categories').html(data)
+                    })
+                    $('#list_cat').css('display', 'flex')
+                    $('#editadd_cat').css('display', 'none')
+                },
+            });
+        })
+
+        $('#cat_add_button').on("click", function () {
+            $('#list_cat').css('display', 'none')
+            $('#editadd_cat').css('display', 'flex')
+            $('#remove_cat').css('display', 'none')
+
+            $('#form_name_category').val("")
+            $('#form_desc_category').val("")
+
+            $('#legend_cat_edit_add').text("Přidání Kategorie")
+
+            cat_editAddStatement = "add"
+        })
+
+        $('#cat_back').on("click", function () {
+            $('#list_cat').css('display', 'flex')
+            $('#editadd_cat').css('display', 'none')
+        })
+    })
+
+
+    function add_edit_function(form) {
+        if (cat_editAddStatement === "add") {
+            $.ajax({
+                type: "POST",
+                url: "/app/categories/add/",
+                data: form.serialize(),
+                success: function (response) {
+                    $('#list_cat').css('display', 'flex')
+                    $('#editadd_cat').css('display', 'none')
+                    $.get('/app/categories/update', function (data) {
+                        $('#list_of_categories').html(data)
+                    })
+                },
+            });
+        } else if (cat_editAddStatement === "edit") {
+            $.ajax({
+                type: "POST",
+                url: "/app/categories/edit/" + id_cat,
+                data: form.serialize(),
+                success: function (response) {
+                    $.get('/app/categories/update', function (data) {
+                        $('#list_of_categories').html(data)
+                    })
+                    $('#list_cat').css('display', 'flex')
+                    $('#editadd_cat').css('display', 'none')
+                },
+            });
+        }
+    }
+</script>

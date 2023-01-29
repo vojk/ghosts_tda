@@ -1,0 +1,34 @@
+<style>
+    .mrgntop_sections {
+        margin-top: 15px
+    }
+
+    .filters_cont {
+        background-color: white;
+        padding: 10px;
+        border-radius: 8px;
+    }
+</style>
+
+<div class="filters_cont">
+    <div>
+        <span>
+            Filtry
+        </span>
+    </div>
+
+    <div class="mrgntop_sections">
+        {% include 'customElements/multipleSelect.html' %}
+    </div>
+
+    <div class="mrgntop_sections">
+    <span>
+        Kategorie
+    </span>
+        <div style="max-height: 162px; overflow-y: auto; overflow-x: hidden">
+            {% include 'customElements/categories_list_filter.html' %}
+        </div>
+
+    </div>
+</div>
+

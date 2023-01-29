@@ -1,9 +1,12 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, abort, jsonify
+from flask import Flask, render_template, request, redirect, url_for, abort
 import db
 import secrets
 import sorting
 
-proglangs = [{'progLangs': 'JAVA'}, {'progLangs': 'PYTHON'}, {'progLangs': 'Csharp'}]
+pre_proglangs = [{'progLangs': 'Java'}, {'progLangs': 'Python'}, {'progLangs': 'C'}, {'progLangs': 'Ruby'},
+                 {'progLangs': 'JavaScript'}, {'progLangs': 'TypeScript'}, {'progLangs': 'Kotlin'}]
+
+proglangs = sorted(pre_proglangs, key=lambda x: x['progLangs'])
 
 app = Flask(__name__)
 
@@ -19,9 +22,11 @@ def index():
 def app_wind():
     conn = db.get_db_connection()
     programmers = conn.execute("SELECT * FROM users").fetchall()
+    categorie = conn.execute("SELECT * FROM categories").fetchall()
     conn.close()
     return render_template('records.html', texts=sorting.pre_sort(None, None, None, None,
-                                                                  None, None), defs=proglangs, programmers=programmers)
+                                                                  None, None, None), defs=proglangs,
+                           programmers=programmers, categories=categorie)
 
 
 @app.route('/sort')
@@ -32,15 +37,17 @@ def sort():
     filter_programmingLangs = request.args.get('filter_programmingLangs')
     filter_time = request.args.get('filter_time')
     filter_programmer = request.args.get('filter_programmer')
+    filter_categories = request.args.get('filter_categories')
+    print("pred " + str(filter_categories))
     print(sort_field)
     records = sorting.pre_sort(sort_field, filter_rating, filter_programmingLangs,
                                filter_formatted_date,
-                               filter_time, filter_programmer)
+                               filter_time, filter_programmer, filter_categories)
 
     return render_template('table_records.html',
                            texts=sorting.pre_sort(sort_field, filter_rating, filter_programmingLangs,
                                                   filter_formatted_date,
-                                                  filter_time, filter_programmer))
+                                                  filter_time, filter_programmer, filter_categories))
 
 
 @app.route("/add/", methods=('GET', 'POST'))  # přidání záznamu
@@ -64,12 +71,18 @@ def create_record():
             print("No desc found")
         else:
             conn = db.get_db_connection()
+            cursor = conn.cursor()
             programmer_id = db.get_id_of_user(programmer)
             print(programmer_id[0][0])
-            conn.execute(
+            cursor.execute(
                 'INSERT INTO records (dates, timeInMinutes, programmingLang, rating, description, programmer, programmerId) '
                 'VALUES (?, ?, ?, ?, ?, ?, ?)',
                 (date, minutes, progLang, rating, desc, programmer, programmer_id[0][0]))
+            conn.commit()
+            last_id = cursor.lastrowid
+            cursor.execute(
+                'INSERT INTO categories_records (category_id, record_id) '
+                'VALUES (?, ?)', ('NULL', last_id))
             conn.commit()
             conn.close()
             return redirect(url_for('app_wind'))
@@ -224,6 +237,62 @@ def users_overview():
     users = conn.execute("SELECT * FROM users").fetchall()
     conn.close()
     return render_template('usersOverview.html', users=users)
+
+
+@app.route('/app/categories')
+def categories_overview():
+    conn = db.get_db_connection()
+    categorie = conn.execute("SELECT * FROM categories").fetchall()
+    conn.close()
+    return render_template('categoriesOverview.html', categories=categorie)
+
+
+@app.route('/app/categories/add/', methods=["GET", "POST"])
+def categories_add():
+    if request.method == "POST":
+        name_cat = request.form["form_name_category"]
+        desc_cat = request.form["form_desc_category"]
+        color_cat = request.form["form_color_hex"]
+        print(name_cat)
+        conn = db.get_db_connection()
+        conn.execute("INSERT INTO categories (category, color, description) VALUES (?,?,?)",
+                     (name_cat, color_cat, desc_cat,))
+        conn.commit()
+        conn.close()
+    return "done"
+
+@app.route('/app/categories/edit/<string:id>', methods=["GET", "POST"])
+def categories_edit(id):
+    if request.method == "POST":
+        name_cat = request.form["form_name_category"]
+        desc_cat = request.form["form_desc_category"]
+        color_cat = request.form["form_color_hex"]
+        print(name_cat)
+        conn = db.get_db_connection()
+        conn.execute("UPDATE categories SET category = ?, color = ?, description = ? WHERE id = ?",
+                     (name_cat, color_cat, desc_cat, id,))
+        conn.commit()
+        conn.close()
+    return "done"
+
+
+@app.route('/app/categories/remove/<string:id>', methods=["GET", "POST"])
+def categories_remove(id):
+    if request.method == "POST":
+        conn = db.get_db_connection()
+        conn.execute("DELETE FROM categories WHERE id = ?", (id,))
+        conn.execute("DELETE FROM categories_records WHERE category_id = ?", (id,))
+        conn.commit()
+        conn.close()
+    return "done"
+
+
+@app.route('/app/categories/update')
+def categories_overview_update():
+    conn = db.get_db_connection()
+    categorie = conn.execute("SELECT * FROM categories").fetchall()
+    conn.close()
+    return render_template('customElements/categories_list.html', categories=categorie)
 
 
 if __name__ == '__main__':

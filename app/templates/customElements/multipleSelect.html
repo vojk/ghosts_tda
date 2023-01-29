@@ -62,7 +62,7 @@
         })
         $('.custom_multipleSelect').on("click", function () {
             const index = filter_programmingLangs.findIndex(element => {
-                if (element.includes($(this).attr('value'))) {
+                if (element === ($(this).attr('value'))) {
                     return true;
                 }
             });
