@@ -1,0 +1,240 @@
+<style>
+    table {
+        width: 1576px;
+        table-layout: fixed;
+        border-collapse: collapse;
+    }
+
+    td {
+        border-bottom: 1px solid #D0D0D0;
+        border-top: 1px solid #D0D0D0
+    }
+
+    th {
+        border-bottom: 1px solid #D0D0D0;
+        border-top: 1px solid #D0D0D0
+    }
+
+    table tr td:first-child, table tr th:first-child {
+        padding: 0 0 0 10px;
+    }
+
+    table tr td:last-child, table tr th:last-child {
+        padding: 0 10px 0 0;
+    }
+
+    table tr {
+        height: 55px;
+        width: 1576px;
+    }
+
+    table tr td, table tr th {
+        padding: 0;
+        padding: 0 5px;
+    }
+
+    table tr td:nth-child(1), table tr th:nth-child(1) {
+        text-align: center;
+        width: 155px;
+    }
+
+    table tr td:nth-child(2), table tr th:nth-child(2) {
+        text-align: left;
+        width: 162px
+    }
+
+    table tr td:nth-child(3), table tr th:nth-child(3) {
+        text-align: left;
+        width: 157px
+    }
+
+    table tr td:nth-child(4), table tr th:nth-child(4) {
+        width: 85px
+    }
+
+    table tr td:nth-child(5), table tr th:nth-child(5) {
+        text-align: left;
+        width: 532px
+    }
+
+    table tr td:nth-child(6), table tr th:nth-child(6) {
+        text-align: left;
+        width: 124px
+    }
+
+    table tr td:nth-child(7), table tr th:nth-child(7) {
+        text-align: left;
+        width: 86px
+    }
+
+    table tr td:nth-child(8), table tr th:nth-child(8) {
+        text-align: center;
+        width: 98px
+    }
+
+    table tbody tr:hover {
+        background-color: rgba(0, 0, 0, 0.07);
+    }
+
+    table thead tr th {
+        cursor: pointer;
+    }
+</style>
+<div style="border: 1px #626262 solid; border-radius: 4px;">
+    <div style="width: 1576px;">
+        <div style="width: 100%; height: 55px; display: flex; align-items: center">
+            <div style="display: flex; width: 100%; align-items: center; position:relative;">
+                <div style="position:absolute; left: 59px">
+                    <span>Záznamy</span>
+                </div>
+                <div style="display: flex; width: fit-content; align-items: center; padding: 10px 40px; border-radius: 12px; border: 1px black solid; position:absolute; right: 32px">
+                    <img src="../../static/svg/filter.png" alt="" style="width: 18px; margin-right: 5px">
+                    <span>Filtry</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <table id="records_table" style="" class="display">
+        <thead>
+        <tr style=" height: 55px;">
+            <th style="" class="datatable-nosort">id</th>
+            <th id="sort-button-programmer" class="ui-sort-control">
+                <div style="display: flex; align-items: center;">
+                    <span>
+                        Programátor
+                    </span>
+                    <div style="width: 16px; position: relative;" class="ui-sort-control-hand">
+                        <img id="sort-button-programmer-az" style="width: 10px; display: none"
+                             src="{{ url_for('static', filename='svg/caret-up.png') }}" alt="">
+                        <img id="sort-button-programmer-za" style="width: 10px; display: none"
+                             src="{{ url_for('static', filename='svg/caret-down.png') }}" alt="">
+                    </div>
+
+                </div>
+
+            </th>
+            <th id="sort-button-programLang" class="ui-sort-control">
+                <div style="display: flex; align-items: center;">
+                    <span>
+                        Jazyk
+                    </span>
+                    <div style="width: 16px; position: relative;" class="ui-sort-control-hand">
+                        <img id="sort-button-programmingLang-az"
+                             style="width: 10px; display: none"
+                             src="{{ url_for('static', filename='svg/caret-up.png') }}" alt="">
+                        <img id="sort-button-programmingLang-za" style="width: 10px; display: none"
+                             src="{{ url_for('static', filename='svg/caret-down.png') }}" alt="">
+                    </div>
+
+                </div>
+            </th>
+            <th id="sort-button-time" class="ui-sort-control">
+                <div style="display: flex; align-items: center;">
+                    <span>
+                        Čas (m)
+                    </span>
+                    <div style="width: 16px; position: relative;" class="ui-sort-control-hand">
+                        <img id="sort-button-timeInMinutes-az" style="width: 10px; display: none"
+                             src="{{ url_for('static', filename='svg/caret-up.png') }}" alt="">
+                        <img id="sort-button-timeInMinutes-za" style="width: 10px; display: none"
+                             src="{{ url_for('static', filename='svg/caret-down.png') }}" alt="">
+                    </div>
+
+                </div>
+            </th>
+            <th style="cursor: auto;">
+                Popis
+            </th>
+            <th id="sort-button-date" class="ui-sort-control">
+                <div style="display: flex; align-items: center;">
+                    <span>
+                        Datum
+                    </span>
+                    <div style="width: 16px; position: relative;" class="ui-sort-control-hand">
+                        <img id="sort-button-dates-az" style="width: 10px; display: none"
+                             src="{{ url_for('static', filename='svg/caret-up.png') }}" alt="">
+                        <img id="sort-button-dates-za" style="width: 10px; display: none"
+                             src="{{ url_for('static', filename='svg/caret-down.png') }}" alt="">
+                    </div>
+                </div>
+            </th>
+            <th id="sort-button-rating" class="ui-sort-control">
+                <div style="display: flex; align-items: center;">
+                    <span>
+                        Hodnocení
+                    </span>
+                    <div style="width: 16px; position: relative;" class="ui-sort-control-hand">
+                        <img id="sort-button-rating-az" style="width: 10px; display: none"
+                             src="{{ url_for('static', filename='svg/caret-up.png') }}" alt="">
+                        <img id="sort-button-rating-za" style="width: 10px; display: none"
+                             src="{{ url_for('static', filename='svg/caret-down.png') }}" alt="">
+                    </div>
+                </div>
+            </th>
+            <th style="">Akce</th>
+        </tr>
+        </thead>
+
+        <tbody id="table-content">
+        {% for record in texts %}
+            <tr style="">
+                <td style="text-align: center">{{ record.id }}</td>
+                <td>{{ record.programmer }}</td>
+                <td>{{ record.programmingLang }}</td>
+                <td style="text-align: left">{{ record.timeInMinutes }}</td>
+                <td>{{ record.description }}</td>
+                <td>{{ record.dates }}</td>
+                <td style="text-align: center">{{ record.rating }}/5</td>
+                <td>
+                    <div>
+                        <a style="cursor:pointer;" class="contextMenu_record_more_section">
+                            <img src="../../static/svg/more-vertical-alt.svg">
+                        </a>
+                        <div style="" class="contextMenu_record">
+                            <ul style="">
+                                <li style="">
+                                    <a onclick="get_record_id('{{ record.id }}'); edit_record();">Upravit</a>
+                                </li>
+                                <li style="">
+                                    <a onclick="set_remove_statement('record'); get_record_id('{{ record.id }}'); remove_record();">Smazat</a>
+                                </li>
+                                <li style="">
+                                    <a onclick="">Zobrazit</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    page()
+
+    function page() {
+        table = $('#records_table').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": false,
+            "columnDefs": [
+                {"targets": [4, 7], "orderable": false}
+            ],
+            "aaSorting": [],
+            "info": true,
+            "autoWidth": false,
+            "dom": 't<".table-info-records"ip>',
+            language: {
+                paginate: {
+                    next: '&#8594;', // or '→'
+                    previous: '&#8592;' // or '←'
+                }
+            }
+        });
+    }
+</script>

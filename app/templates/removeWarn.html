@@ -11,7 +11,8 @@
           document.getElementById('_remove_approval').style.display = 'none'
         }" style="color: #E75050;"><span class="button_text-text">Zrušit</span>
                 </button>
-                <button type="submit" id="_deleteButton" style="background-color: #E75050; border-color: #E75050" class="button_removeWarn button_filled">
+                <button type="submit" id="_deleteButton" style="background-color: #E75050; border-color: #E75050"
+                        class="button_removeWarn button_filled">
                     <span class="button_filled-text">Smazat</span>
                 </button>
             </div>
@@ -22,11 +23,21 @@
 
             function cancel_remove_warn() {
                 console.log("ready")
-                $('#_addEdit_window').css('display', 'block')
-                $('#_escButton').click(function () {
-                    $('#_addEdit_window').css('display', 'none')
-                    $('#removeWarn').remove()
-                })
+
+                if (self_statement === "user") {
+                    $('#_addEdit_window_users').css('display', 'block')
+                    $('#_escButton').click(function () {
+                        $('#_addEdit_window_users').css('display', 'none')
+                        $('#removeWarn').remove()
+                    })
+                } else {
+                    $('#_addEdit_window').css('display', 'block')
+                    $('#_escButton').click(function () {
+                        $('#_addEdit_window').css('display', 'none')
+                        $('#removeWarn').remove()
+                    })
+                }
+
             }
 
             $(function () { //odstranění uzivatele pomocí ajax protokolu
@@ -41,7 +52,7 @@
                                 console.log("PASS")
                                 get_user_table('/app/appUpt/updateUserList');
                                 $('#removeWarn').remove()
-                                $('#_addEdit_window').css('display', 'none')
+                                $('#_addEdit_window_users').css('display', 'none')
                             },
                         });
                     } else if (self_statement === "record") {

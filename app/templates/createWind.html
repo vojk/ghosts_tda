@@ -1,93 +1,131 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-
-    <script src="{{ url_for('static', filename='js/helpers.js') }}"></script>
-
-</head>
-<body>
 {% block create %}
-    <script src="{{ url_for('static', filename='js/jquery-3.6.3.min.js') }}"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <div class="outerBox_add-edit_window">
+        <div id="addWindow" style="position:absolute; z-index: 5">
+            <script src="{{ url_for('static', filename='js/helpers.js') }}"></script>
 
-    <div class="float">
-        <form name="addRecord" method="post" class="flex_pres" onsubmit="return validateForm()">
-            <div style="margin: 2rem;">
-                <legend>Přidat Záznam</legend>
+            <div class="float">
+                <form name="addRecord" id="addRecord" method="post" class="flex_pres" onsubmit="return validateForm()">
+                    <div style="margin: 2rem;">
+                        <legend>Přidat Záznam</legend>
 
-                <div class="flex_row spaceBetween" style="margin-top: 2rem">
-                    <div class="wrap">
-                        <label class="popis_textBox" for="_formProgLang_select">Programovací Jazyky</label>
-                        <select name="formProgLang_select" id="_formProgLang_select" class="textfield" itemid="0">
-                            <option value="None">None</option>
-                            {% for def in defs %}
-                                <option id="option_{{ def.progLangs }}"
-                                        value="{{ def.progLangs }}">{{ def.progLangs }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="ratingslider">
-                        <input type="range" name="formRating" id="_formRating" max="5" min="0" value="0">
-                        <p id="slider_value">0</p>
-                    </div>
-                </div>
-                <div class="flex_row spaceBetween descForm">
-                    <div class="wrap">
-                        <label class="popis_textBox" for="_formProgLang_select">Programátoři</label>
-                        <select name="formProgrammer_select" id="_formProgrammer_select" class="textfield" itemid="0">
-                            <option value="None">None</option>
-                            {% for programmer in programmers %}
-                                <option id="option_{{ programmer.programmer }}"
-                                        value="{{ programmer.programmer }}">{{ programmer.programmer }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-
-                <div class="flex_row spaceBetween descForm">
-                    <div style="width: 45%" class="wrap">
-                        <label class="popis_textBox" for="_formDate">Datum</label>
-                        <input type="date" name="formDate" class="textfield" id="_formDate" placeholder="dd-mm-yyyy">
-                    </div>
-                    <div class="wrap">
-                        <label class="popis_textBox" for="_formMinutes">Čas</label>
-                        <input type="number" name="formMinutes" class="textfield" id="_formMinutes" min="0" value="0">
-                    </div>
-                </div>
-
-                <div class="wrap descForm">
-                    <label class="popis_textBox" for="_formDesc">Popis</label>
-                    <textarea name="formDesc" class="textbox" id="_formDesc" cols="70" rows="10" ></textarea>
-                </div>
-
-                <div class="center flex buttonForm">
-                    <div class="flex_row buttons_action">
-                        <div>
-                            <button type="submit" id="Cancel">Cancel</button>
+                        <div class="flex_row spaceBetween" style="margin-top: 2rem">
+                            <div class="wrap">
+                                <label class="popis_textBox" for="_formProgLang_select">Programovací Jazyky</label>
+                                <select name="formProgLang_select" id="_formProgLang_select" class="textfield"
+                                        itemid="0">
+                                    <option value="None">None</option>
+                                    {% for def in defs %}
+                                        <option id="option_{{ def.progLangs }}"
+                                                value="{{ def.progLangs }}">{{ def.progLangs }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="ratingslider">
+                                <input type="range" name="formRating" id="_formRating" max="5" min="0" value="0">
+                                <p id="slider_value">0</p>
+                            </div>
                         </div>
-                        <div>
-                            <button type="submit" id="Submit">Submit</button>
+                        <div class="flex_row spaceBetween descForm">
+                            <div class="wrap">
+                                <label class="popis_textBox" for="_formProgLang_select">Programátoři</label>
+                                <select name="formProgrammer_select" id="_formProgrammer_select" class="textfield"
+                                        itemid="0">
+                                    <option value="None">None</option>
+                                    {% for programmer in programmers %}
+                                        <option id="option_{{ programmer.programmer }}"
+                                                value="{{ programmer.programmer }}">{{ programmer.programmer }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
+                        <div class="flex_row spaceBetween descForm">
+                            <div style="width: 45%" class="wrap">
+                                <label class="popis_textBox" for="_formDate">Datum</label>
+                                <input type="date" name="formDate" class="textfield" id="_formDate"
+                                       placeholder="dd-mm-yyyy">
+                            </div>
+                            <div class="wrap">
+                                <label class="popis_textBox" for="_formMinutes">Čas</label>
+                                <input type="number" name="formMinutes" class="textfield" id="_formMinutes" min="0"
+                                       value="0">
+                            </div>
+                        </div>
+
+                        <div class="wrap descForm">
+                            <label class="popis_textBox" for="_formDesc">Popis</label>
+                            <textarea name="formDesc" class="textbox" id="_formDesc" cols="70" rows="10"></textarea>
+                        </div>
+
+                        <div class="center flex buttonForm">
+                            <div class="flex_row buttons_action">
+                                <div>
+                                    <button type="button" class="button_text" id="cancel_add">
+                                        <span class="button_text-text">
+                                                Zrušit
+                                        </span>
+                                    </button>
+                                </div>
+                                <div>
+                                    <button type="submit" id="Submit" class="button_filled">
+                                        <span class="button_filled-text"
+                                              style="padding-left: 11px; padding-right: 11px">
+                                                Uložit
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+
+                <script src="{{ url_for('static', filename='js/checkForFormAndNumber.js') }}"></script>
+
+                <script>
+                    document.getElementById('_formDate').valueAsDate = new Date();
+
+                    document.getElementById('_formRating').addEventListener("input", function () {
+                        document.getElementById('slider_value').innerHTML = document.getElementById('_formRating').value
+                    })
+                </script>
             </div>
-        </form>
-
-        <script src="{{ url_for('static', filename='js/checkForFormAndNumber.js') }}"></script>
-
-        <script>
-            document.getElementById('_formDate').valueAsDate = new Date();
-
-            document.getElementById('_formRating').addEventListener("input", function () {
-                document.getElementById('slider_value').innerHTML = document.getElementById('_formRating').value
-            })
-        </script>
+        </div>
     </div>
+
+    <script>
+        cancel_remove_warn()
+
+        function cancel_remove_warn() {
+            console.log("ready")
+            $('#_addEdit_window').css('display', 'block')
+            $('#cancel_add').click(function () {
+                $('#_addEdit_window').css('display', 'none')
+                $('#addWindow').remove()
+            })
+        }
+
+        $(function () { //odstranění uzivatele pomocí ajax protokolu
+            $('#addRecord').submit(function (event) {
+                console.log(self_statement)
+                event.preventDefault()
+                validateForm()
+                form = $(this)
+                if (canBePosted) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/app/add/",
+                        data: form.serialize(),
+                        success: function (response) {
+                            sortWithoutRefresh()
+                            $('#addWindow').remove()
+                            $('#_addEdit_window').css('display', 'none')
+                        },
+                    });
+                }
+
+            });
+        });
+    </script>
+
 {% endblock %}
-
-
-</body>
-</html>

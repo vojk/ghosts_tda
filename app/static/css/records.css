@@ -1,13 +1,11 @@
 /*records.css*/
 
-#table {
+.table_center {
     display: flex;
-    flex-direction: column;
-    border: 2px solid black;
-    border-radius: 10px;
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    width: 100%;
+    height: 95vh;
+    justify-content: center;
+    align-items: center;
 }
 
 #table table {
@@ -26,121 +24,78 @@
 }
 
 body {
-    width: 50%;
     display: flex;
-    flex-direction: column;
-    margin: auto;
+    flex-direction: row;
 }
 
-#edit {
-    text-decoration: none;
-    border-radius: 5px;
-    background-color: #0f89ec;
-    color: white;
-    font-weight: bold;
+#records_table_info {
+    text-align: right;
 }
 
-#edit:hover {
-    background-color: blue;
+#records_table_paginate {
+    display: flex;
+    justify-content: flex-end;
 }
 
-#delete {
-    border-radius: 5px;
-    background-color: lightcoral;
-    font-weight: bold;
+#records_table_paginate span {
+    margin: 0 10px;
 }
 
-#delete:hover {
-    background-color: red;
+.paginate_button {
+    margin: 0 2px;
+    cursor: pointer;
 }
 
-.button {
-    padding: 0.25rem 1rem;
+#records_table_paginate span .current {
+    text-decoration: underline;
 }
 
-#records {
-    border: 1px solid black;
+#records_table_paginate .disabled {
+    opacity: 0.5;
 }
 
-.filter {
-    padding: 1px 10px;
-    font-weight: bold;
+#records_table_previous, #records_table_next {
+    display: flex;
+}
+
+.table-info-records {
+    position: absolute;
+    right: 0;
+    bottom: -50px;
+    z-index: 1;
+}
+
+#records_table_wrapper {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    height: 625px;
+    position: relative;
+}
+
+.contextMenu_record {
+    position: absolute;
+    width: fit-content;
+    height: fit-content;
     background-color: white;
-    border: 2px solid blue;
-    border-radius: 15px;
-    font-size: 15px;
-    height: 25px;
-}
-
-.filter:hover {
-    background-color: blue;
-    color: white;
-}
-
-#sort-form, #filter-form {
-    margin: 3px;
-}
-
-#filter_programmingLangs, #filter_programmers, #filter_min_date, #filter_max_date {
-    margin-left: 5px;
-    margin-right: 5px;
-    min-height: 20px;
-    border-radius: 7px;
-    border: solid 1px;
-}
-
-#_deleteButton {
-    background-color: lightcoral;
-    border: none;
-    border-radius: 5px;
-    height: 25px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    padding-bottom: 0;
-}
-
-#_deleteButton:hover {
-    background-color: red;
-}
-
-#_escButton {
-    height: 25px;
-    border-radius: 5px;
-    border: 2px solid blue;
-    background-color: white;
-    font-weight: bold;
-    margin-bottom: 10px;
-    padding-bottom: 0;
-}
-
-#_escButton:hover {
-    background-color: blue;
-    color: white;
-}
-
-#removeWarn {
-    border: 2px solid black;
-    border-radius: 10px;
-    padding: 0 15px;
-}
-
-#filter_programmingLangs {
-
-}
-
-#filter_programmers {
-
-}
-
-#filter_min_date {
-
-}
-
-#filter_max_date {
-
-}
-
-
-#_addEdit_window {
     display: none;
+    z-index: 5;
+    padding: 15px;
+    padding-right: 50px;
+    border-radius: 4px;
+    box-shadow: 4px 4px 16px #00000024;
+}
+
+.contextMenu_record ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+.contextMenu_record ul li {
+    width: 100%;
+    font-size: 1.2rem;
+    margin: 2px 0;
+    cursor: pointer;
 }

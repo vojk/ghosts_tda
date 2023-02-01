@@ -141,6 +141,9 @@
 
 
 <script>
+    var color = $(this).attr("value_color")
+    var testColor;
+
     $(function () {
         $('.cat_over_item_span_cont').on("click", function () {
 
@@ -184,33 +187,6 @@
             colorToSave = rgb2hex($(this.children).css("background-color"));
             $('#form_color_hex').val(colorToSave)
 
-            console.log($('#form_color_hex').val())
-        })
-
-        $('#form_categories').one("submit", function (event) {
-            console.log(cat_editAddStatement)
-            event.preventDefault()
-            form = $(this)
-            add_edit_function(form)
-        })
-
-        $('.cat_over_button_edit').on("click", function () {
-            id_cat = this.id.replace("_remove", "")
-            console.log(id_cat)
-            cat_editAddStatement = "edit"
-
-            $('#list_cat').css('display', 'none')
-            $('#editadd_cat').css('display', 'flex')
-            $('#remove_cat').css('display', '')
-
-            $('#form_name_category').val($(this).attr("value_name"))
-            $('#form_desc_category').val($(this).attr("value_desc"))
-
-            $('#legend_cat_edit_add').text("Upravení Kategorie")
-
-            var color = $(this).attr("value_color")
-            var testColor;
-
             $('.coloredButtons').each(function () {
                 testColor = rgb2hex($(this.children).css("background-color"))
                 console.log(color)
@@ -224,24 +200,39 @@
                     $('#form_color_hex').val(colorToSave)
                 }
             })
+            console.log($('#form_color_hex').val())
         })
 
-        $('#remove_cat').on("click", function () {
-            $.ajax({
-                type: "POST",
-                url: "/app/categories/remove/" + id_cat,
-                success: function (response) {
-                    console.log("Done")
-                    $.get('/app/categories/update', function (data) {
-                        $('#list_of_categories').html(data)
-                    })
-                    $('#list_cat').css('display', 'flex')
-                    $('#editadd_cat').css('display', 'none')
-                },
-            });
+        $('#form_categories').one("submit", function (event) {
+            console.log(cat_editAddStatement)
+            event.preventDefault()
+            form = $(this)
+            add_edit_function(form)
         })
 
-        $('#cat_add_button').on("click", function () {
+        $('.cat_over_button_edit').one("click", function () {
+            id_cat = this.id.replace("_remove", "")
+            console.log(id_cat)
+            cat_editAddStatement = "edit"
+
+            $('#list_cat').css('display', 'none')
+            $('#editadd_cat').css('display', 'flex')
+            $('#remove_cat').css('display', '')
+
+            $('#form_name_category').val($(this).attr("value_name"))
+            $('#form_desc_category').val($(this).attr("value_desc"))
+
+            $('#legend_cat_edit_add').text("Upravení Kategorie")
+
+
+        })
+
+        $('#remove_cat').one("click", function () {
+            cat_editAddStatement = "remove"
+            add_edit_function($('#form_categories'))
+        })
+
+        $('#cat_add_button').one("click", function () {
             $('#list_cat').css('display', 'none')
             $('#editadd_cat').css('display', 'flex')
             $('#remove_cat').css('display', 'none')
@@ -257,11 +248,15 @@
         $('#cat_back').on("click", function () {
             $('#list_cat').css('display', 'flex')
             $('#editadd_cat').css('display', 'none')
+            cat_editAddStatement = ""
         })
     })
 
 
     function add_edit_function(form) {
+        if ($('#form_color_hex').val() === ""){
+            $('#form_color_hex').val("#e0e0e0")
+        }
         if (cat_editAddStatement === "add") {
             $.ajax({
                 type: "POST",
@@ -288,6 +283,21 @@
                     $('#editadd_cat').css('display', 'none')
                 },
             });
+        } else if (cat_editAddStatement === "remove") {
+            $.ajax({
+                type: "POST",
+                url: "/app/categories/remove/" + id_cat,
+                success: function (response) {
+                    console.log("Done")
+                    $.get('/app/categories/update', function (data) {
+                        $('#list_of_categories').html(data)
+                    })
+                    $('#list_cat').css('display', 'flex')
+                    $('#editadd_cat').css('display', 'none')
+                },
+            });
         }
+
+        cat_editAddStatement = ""
     }
 </script>

@@ -6,9 +6,10 @@ h1 {
     margin: 0;
 }
 
-#table {
+#table_users {
     display: flex;
-    width: fit-content;
+    flex-flow: column;
+    width: 690px;
     margin-top: 15px;
     table-layout: auto;
 }
@@ -18,9 +19,10 @@ h1 {
     width: 550px;
 }
 
-#userOverview tr td:nth-child(1) {
+#userOverview tbody tr td:nth-child(1) {
     width: max-content;
     padding-right: 15px;
+    padding-left: 15px;
 }
 
 #userOverview tr {
@@ -73,6 +75,10 @@ h1 {
     height: 100%;
 }
 
+#_addEdit_window_users {
+    display: none;
+}
+
 #_addEdit_window {
     display: none;
 }
@@ -107,8 +113,12 @@ h1 {
     display: flex;
 }
 
-.table-info{
+.table-info {
     margin-top: 10px;
+    text-align: right;
+    position: absolute;
+    right: 0;
+    bottom: 0;
 }
 
 #userOverview_wrapper {
@@ -116,4 +126,22 @@ h1 {
     display: flex;
     flex-flow: column;
     justify-content: space-between;
+}
+
+#table_users_s {
+    width: 100%;
+    table-layout: auto;
+}
+
+#table_users_s tr td {
+    border: 1px gray solid;
+}
+
+#table_users_s_wrapper {
+    height: 379px;
+    position: relative;
+}
+
+#table_users{
+    position: relative;
 }

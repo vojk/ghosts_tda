@@ -44,7 +44,7 @@ def sort():
                                filter_formatted_date,
                                filter_time, filter_programmer, filter_categories)
 
-    return render_template('table_records.html',
+    return render_template('customElements/table_row.html',
                            texts=sorting.pre_sort(sort_field, filter_rating, filter_programmingLangs,
                                                   filter_formatted_date,
                                                   filter_time, filter_programmer, filter_categories))
@@ -124,7 +124,6 @@ def edit(id):
                 (date, minutes, progLang, rating, desc, programmer, programmer_id[0][0], id))
             conn.commit()
             conn.close()
-            return redirect(url_for('app_wind'))
     conn = db.get_db_connection()
     programmers = conn.execute("SELECT * FROM users").fetchall()
     conn.close()
@@ -192,7 +191,7 @@ def app_edit_user_save(username):
             conn.execute("ROLLBACK")
             raise
         conn.close()
-        return redirect(url_for('app_wind'))
+    return 'show'
 
 
 @app.route('/user/<string:username>/edit/', methods=["GET", "POST"])  # funkce pro upravení uživatele
@@ -260,6 +259,7 @@ def categories_add():
         conn.commit()
         conn.close()
     return "done"
+
 
 @app.route('/app/categories/edit/<string:id>', methods=["GET", "POST"])
 def categories_edit(id):

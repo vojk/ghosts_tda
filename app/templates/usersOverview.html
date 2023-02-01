@@ -1,70 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<div class="outerBox_add-edit_window">
+    <div id="addWindow" style="position:absolute; z-index: 5">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/userOverview.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+        <div id="_addEdit_window_users" style="position: absolute; width: 100%; height: 100%; z-index: 5">
 
-    <script src="{{ url_for('static', filename='js/jquery-3.6.3.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/deleteModal.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/userOverview.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/vars_default.js') }}"></script>
-</head>
-<body style="margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh">
-
-<div id="_addEdit_window" style="position: absolute; width: 100%; height: 100%; z-index: 5">
-
-</div>
-{#
+        </div>
+        {#
 <div id="_remove_approval" style="display: none; position: absolute; width: 100%; height: 100%; z-index: 5">
     {% include 'removeWarn.html' %}
 </div>
 #}
-
-
-<div class="container-user-overview" style="position:relative;">
-    <div class="container-user-overview-inner">
-        <div style="display: flex; justify-content: space-between; margin-top: 10px;">
-            <h1 style="font-size: 1.75rem;">Přehled Uživatelů</h1>
-            <a class="button" id="button-add-user" style="cursor: pointer" onclick="function set_legend_text() {
+        <div class="container-user-overview" style="position:relative;">
+            <div class="container-user-overview-inner">
+                <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                    <h1 style="font-size: 1.75rem;">Přehled Uživatelů</h1>
+                    <a class="button" id="button-add-user" style="cursor: pointer" onclick="function set_legend_text() {
               legend_text = 'Přidání Uživatele'
-            } set_legend_text()">
-                <img src="{{ url_for('static', filename='svg/user-add.svg') }}" alt="">
-            </a>
+            } set_legend_text(); addUser_window()">
+                        <img src="{{ url_for('static', filename='svg/user-add.svg') }}" alt="">
+                    </a>
+                </div>
+
+                <div id="table_users">
+                    {% include 'customElements/tableForUsers.html' %}
+                </div>
+
+
+            </div>
         </div>
 
-        <div id="table">
-            {% include 'customElements/tableForUsers.html' %}
-        </div>
+        <script>
+            $(document).ready(function () {
+                page_users()
+            });
+
+            function page_users() {
+                $('#table_users_s').DataTable().destroy()
+                $('#table_users_s').DataTable({
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": false,
+                    "ordering": false,
+                    "info": true,
+                    "pageLength": 5,
+                    "autoWidth": false,
+                    "dom": 't<".table-info"ip>',
+                    language: {
+                        paginate: {
+                            next: '&#8594;', // or '→'
+                            previous: '&#8592;' // or '←'
+                        }
+                    }
+                });
+            }
+
+            cancel_remove_warn()
+
+            function cancel_remove_warn() {
+                console.log("ready")
+                $('#_addEdit_window').css('display', 'block')
+                $('#cancel_edit').click(function () {
+                    $('#_addEdit_window').css('display', 'none')
+                    $('#addWindow').remove()
+                })
+            }
+
+            $(".outerBox_add-edit_window").click(function (event) {
+                $('#_addEdit_window').css('display', 'none')
+                $('#addWindow').remove()
+                console.log("HIIII")
+            });
+
+            $('#addWindow').click(function (event) {
+                event.stopPropagation()
+            })
+        </script>
+        <script src="{{ url_for('static', filename='js/deleteModal.js') }}"></script>
     </div>
 </div>
 
-<script>
-    $(document).ready(function () {
-        page()
-    });
-
-    function page() {
-        $('#userOverview').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": false,
-            "info": true,
-            "autoWidth": false,
-            "dom": 't<".table-info"ip>',
-            language: {
-                paginate: {
-                    next: '&#8594;', // or '→'
-                    previous: '&#8592;' // or '←'
-                }
-            }
-        });
-    }
-</script>
-
-</body>
-</html>

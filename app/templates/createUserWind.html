@@ -41,9 +41,9 @@
             function cancel_add_edit_user() {
                 $('#legend_create-edit_user').text(legend_text)
                 console.log("ready")
-                $('#_addEdit_window').css('display', 'block')
+                $('#_addEdit_window_users').css('display', 'block')
                 $('#user_add-edit_button_cancel').click(function () {
-                    $('#_addEdit_window').css('display', 'none')
+                    $('#_addEdit_window_users').css('display', 'none')
                     $('#user_add-edit_window_container').remove()
                 })
             }
@@ -60,7 +60,7 @@
                             success: function (response) {
                                 get_user_table('/app/appUpt/updateUserList');
                                 $('#user_add-edit_window_container').remove()
-                                $('#_addEdit_window').css('display', 'none')
+                                $('#_addEdit_window_users').css('display', 'none')
                             },
                         });
                     } else if (_statement === 'button_edit_user') {
@@ -68,6 +68,17 @@
                         $.ajax({
                             type: "POST",
                             url: "/app/user/" + localUsername + "/edit/",
+                            success: function (response) {
+                                get_user_table('/app/appUpt/updateUserList');
+                                $('#user_add-edit_window_container').remove()
+                                $('#_addEdit_window_users').css('display', 'none')
+                            },
+                        });
+                    } else if (_statement === 'button-add-user-out') {
+                        console.log("TEST")
+                        $.ajax({
+                            type: "POST",
+                            url: "/app/user/" + localUsername + "/add/",
                             success: function (response) {
                                 get_user_table('/app/appUpt/updateUserList');
                                 $('#user_add-edit_window_container').remove()

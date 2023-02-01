@@ -84,16 +84,16 @@ $(function () {
     $('#sort-button-programmer').click(function () {
         if (sort_programmer_statement === "") {
             sort_programmer_statement = "programmer ASC"
-            $('#sort-button-programmer-az').css("opacity", "0")
-            $('#sort-button-programmer-za').css("opacity", "1")
+            $('#sort-button-programmer-az').css("display", "none")
+            $('#sort-button-programmer-za').css("display", "block")
         } else if (sort_programmer_statement === "programmer ASC") {
             sort_programmer_statement = "programmer DESC"
-            $('#sort-button-programmer-az').css("opacity", "1")
-            $('#sort-button-programmer-za').css("opacity", "0")
+            $('#sort-button-programmer-az').css("display", "block")
+            $('#sort-button-programmer-za').css("display", "none")
         } else {
             sort_programmer_statement = ""
-            $('#sort-button-programmer-az').css("opacity", "1")
-            $('#sort-button-programmer-za').css("opacity", "1")
+            $('#sort-button-programmer-az').css("display", "block")
+            $('#sort-button-programmer-za').css("display", "block")
             sort_element_to_remove = "programmer DESC"
         }
         console.log(sort_programmer_statement)
@@ -106,16 +106,16 @@ $(function () {
     $('#sort-button-programLang').click(function () {
         if (sort_programLang_statement === "") {
             sort_programLang_statement = "programmingLang ASC"
-            $('#sort-button-programmingLang-az').css("opacity", "0")
-            $('#sort-button-programmingLang-za').css("opacity", "1")
+            $('#sort-button-programmingLang-az').css("display", "none")
+            $('#sort-button-programmingLang-za').css("display", "block")
         } else if (sort_programLang_statement === "programmingLang ASC") {
             sort_programLang_statement = "programmingLang DESC"
-            $('#sort-button-programmingLang-az').css("opacity", "1")
-            $('#sort-button-programmingLang-za').css("opacity", "0")
+            $('#sort-button-programmingLang-az').css("display", "block")
+            $('#sort-button-programmingLang-za').css("display", "none")
         } else {
             sort_programLang_statement = ""
-            $('#sort-button-programmingLang-az').css("opacity", "1")
-            $('#sort-button-programmingLang-za').css("opacity", "1")
+            $('#sort-button-programmingLang-az').css("display", "block")
+            $('#sort-button-programmingLang-za').css("display", "block")
             sort_element_to_remove = "programmingLang DESC"
         }
         console.log(sort_programLang_statement)
@@ -128,16 +128,16 @@ $(function () {
     $('#sort-button-time').click(function () {
         if (sort_time_statement === "") {
             sort_time_statement = "timeInMinutes ASC"
-            $('#sort-button-timeInMinutes-az').css("opacity", "0")
-            $('#sort-button-timeInMinutes-za').css("opacity", "1")
+            $('#sort-button-timeInMinutes-az').css("display", "none")
+            $('#sort-button-timeInMinutes-za').css("display", "block")
         } else if (sort_time_statement === "timeInMinutes ASC") {
             sort_time_statement = "timeInMinutes DESC"
-            $('#sort-button-timeInMinutes-az').css("opacity", "1")
-            $('#sort-button-timeInMinutes-za').css("opacity", "0")
+            $('#sort-button-timeInMinutes-az').css("display", "block")
+            $('#sort-button-timeInMinutes-za').css("display", "none")
         } else {
             sort_time_statement = ""
-            $('#sort-button-timeInMinutes-az').css("opacity", "1")
-            $('#sort-button-timeInMinutes-za').css("opacity", "1")
+            $('#sort-button-timeInMinutes-az').css("display", "block")
+            $('#sort-button-timeInMinutes-za').css("display", "block")
             sort_element_to_remove = "timeInMinutes DESC"
         }
         console.log(sort_time_statement)
@@ -151,16 +151,16 @@ $(function () {
     $('#sort-button-date').click(function () {
         if (sort_dates_statement === "") {
             sort_dates_statement = "dates ASC"
-            $('#sort-button-dates-az').css("opacity", "0")
-            $('#sort-button-dates-za').css("opacity", "1")
+            $('#sort-button-dates-az').css("display", "none")
+            $('#sort-button-dates-za').css("display", "block")
         } else if (sort_dates_statement === "dates ASC") {
             sort_dates_statement = "dates DESC"
-            $('#sort-button-dates-az').css("opacity", "1")
-            $('#sort-button-dates-za').css("opacity", "0")
+            $('#sort-button-dates-az').css("display", "block")
+            $('#sort-button-dates-za').css("display", "none")
         } else {
             sort_dates_statement = ""
-            $('#sort-button-dates-az').css("opacity", "1")
-            $('#sort-button-dates-za').css("opacity", "1")
+            $('#sort-button-dates-az').css("display", "block")
+            $('#sort-button-dates-za').css("display", "block")
             sort_element_to_remove = "dates DESC"
         }
         console.log(sort_dates_statement)
@@ -173,16 +173,16 @@ $(function () {
     $('#sort-button-rating').click(function () {
         if (sort_rating_statement === "") {
             sort_rating_statement = "rating ASC"
-            $('#sort-button-rating-az').css("opacity", "0")
-            $('#sort-button-rating-za').css("opacity", "1")
+            $('#sort-button-rating-az').css("display", "none")
+            $('#sort-button-rating-za').css("display", "block")
         } else if (sort_rating_statement === "rating ASC") {
             sort_rating_statement = "rating DESC"
-            $('#sort-button-rating-az').css("opacity", "1")
-            $('#sort-button-rating-za').css("opacity", "0")
+            $('#sort-button-rating-az').css("display", "block")
+            $('#sort-button-rating-za').css("display", "none")
         } else {
             sort_rating_statement = ""
-            $('#sort-button-rating-az').css("opacity", "1")
-            $('#sort-button-rating-za').css("opacity", "1")
+            $('#sort-button-rating-az').css("display", "block")
+            $('#sort-button-rating-za').css("display", "block")
             sort_element_to_remove = "rating DESC"
         }
         console.log(sort_rating_statement)
@@ -215,8 +215,8 @@ function appendListOfSort(newElement) {
             prevElement_temp = prevElement.replace(" DESC", "")
         }
 
-        $('#sort-button-' + prevElement_temp + '-az').css("opacity", "1")
-        $('#sort-button-' + prevElement_temp + '-za').css("opacity", "1")
+        $('#sort-button-' + prevElement_temp + '-az').css("display", "none")
+        $('#sort-button-' + prevElement_temp + '-za').css("display", "none")
 
         switch (prevElement_temp) {
             case 'programmer':
@@ -358,7 +358,28 @@ function sortWithoutRefresh() { //funkce pro sort
         filter_categories: filterCategories
     }, function (data) {
         // data is the HTML of the updated table
-        $('#table-content').html(data);
+        $('#records_table').DataTable().destroy();
+        $('#table-content').html($(data).find("#table-content").html());
+        $('#records_table').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": false,
+            "columnDefs": [
+                {"targets": [4, 7], "orderable": false}
+            ],
+            "aaSorting": [],
+            "info": true,
+            "autoWidth": false,
+            "dom": 't<".table-info-records"ip>',
+            language: {
+                paginate: {
+                    next: '&#8594;', // or '→'
+                    previous: '&#8592;' // or '←'
+                }
+            }
+        });
+        table_contextMenu()
     });
 }
 
@@ -394,6 +415,6 @@ function getValues() { //získání hodnot ze selectorů
 }
 
 $(function () {
-    document.getElementById('filter_max_date').valueAsDate = new Date()
+    //document.getElementById('filter_max_date').valueAsDate = new Date()
 })
 

@@ -1,0 +1,42 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/side_bar_menu.css') }}">
+<div class="menu_container" style="">
+    <div class="menu_container_inner" style="">
+        <div class="menu_items" style="">
+            <a class="menu_item" onclick="add_record()">
+                <div class="menu_item_wrap" style="">
+                    <div class="menu_item_wrap_img">
+                        <img src="../static/svg/play-list-add.svg" alt="" style="">
+                    </div>
+
+                    <span style="">
+                            Přidat Záznam
+                        </span>
+                </div>
+            </a>
+
+            <a class="menu_item" onclick="showUsers()">
+                <div class="menu_item_wrap" style="margin-top: 3px">
+                    <div class="menu_item_wrap_img">
+                        <img src="../static/svg/user-list.svg" alt="" style="">
+                    </div>
+
+                    <span style="">
+                            Zobrazit Uživatele
+                        </span>
+                </div>
+            </a>
+
+            <a class="menu_item" onclick="addUser_window_outOfBox()">
+                <div class="menu_item_wrap" style="margin-top: 3px">
+                    <div class="menu_item_wrap_img">
+                        <img src="../static/svg/user-add.svg" alt="" style="">
+                    </div>
+
+                    <span style="margin-top: 3px">
+                            Přidat Uživatele
+                        </span>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

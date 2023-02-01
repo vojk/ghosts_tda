@@ -37,6 +37,9 @@ function validateForm() {
 
     if (date.value === "" || time.value === "" || time.value === "0" || desc.value === "" || programmer.value === "None") {
         return false;
+        canBePosted = false
+    } else{
+        canBePosted = true
     }
 }
 

@@ -9,6 +9,10 @@
     font-size: 1rem;
 }
 
+body{
+    margin: 0;
+}
+
 p, label {
     font-size: 1rem;
 }
@@ -140,12 +144,13 @@ legend {
 }
 
 .float {
-    position: fixed;
+    /*position: fixed;*/
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100vw;
-    height: 100vh;
+    /*width: 100vw;*/
+    /*height: 100vh;*/
+    border-radius: 25px;
 }
 
 .button_filled {
