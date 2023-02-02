@@ -1,8 +1,11 @@
+<script>
+    rgb2hex = (rgb) => `#${rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/).slice(1).map(n => parseInt(n, 10).toString(16).padStart(2, '0')).join('')}`
+</script>
 <ul class="cat_over_list">
     <li id="cat_NULL" class="cat_over_item">
         <div class="hover_wrap_cat_over">
                     <span class="cat_over_item_span_cont" id="_cat_NULL" value="NULL">
-                        <span class="chck_box_cat">
+                        {# <span class="chck_box_cat">
                             <input type="checkbox"
                                    style="margin-right: 14px; width: 0; height: 0; border: none; display: none"
                                    name="check_NULL" id="check_NULL" class="cat_checkBox">
@@ -12,7 +15,7 @@
                                 <img class="cat_checked" src="{{ url_for('static', filename='svg/check-r.svg') }}"
                                      style="width: 20px; margin-right: 12px; display: none">
                             </span>
-                        </span>
+                        </span> #}
                 <div class="cat_over_item_div_surround">
                     <div class="cat_over_button_text">
                         Žádný
@@ -30,7 +33,7 @@
             </span>
             </span>
             <span>
-                        <button type="button" class="cat_over_button_edit"
+                        <button type="button" disabled class="cat_over_button_edit"
                                 style="width: 28px; height: 28px; background-color: transparent">
 
                 </button>
@@ -56,7 +59,7 @@
         <li id="cat_{{ categories.id }}" class="cat_over_item">
             <div class="hover_wrap_cat_over">
                     <span class="cat_over_item_span_cont" id="_cat_{{ categories.id }}" value="{{ categories.id }}">
-                        <span class="chck_box_cat">
+                        {# <span class="chck_box_cat">
                             <input type="checkbox"
                                    style="margin-right: 14px; width: 0; height: 0; border: none; display: none"
                                    name="check_{{ categories.category }}" id="check_{{ categories.category }}"
@@ -67,7 +70,7 @@
                                 <img class="cat_checked" src="{{ url_for('static', filename='svg/check-r.svg') }}"
                                      style="width: 20px; margin-right: 12px; display: none">
                             </span>
-                        </span>
+                        </span> #}
                 <div class="cat_over_item_div_surround">
                     <div class="cat_over_button_text">
                         {{ categories.category }}
@@ -118,7 +121,7 @@
             }
 
             #cat_{{ categories.id }} .cat_over_button_text {
-                background-color: {{ categories.color }}4C;
+                background-color: {{ categories.color }}70;
             }
 
             #cat_{{ categories.id }} .cat_over_item_div_surround:hover {
@@ -143,6 +146,60 @@
 <script>
     var color = $(this).attr("value_color")
     var testColor;
+    var submit_allow = false
+    var color_to_have_to_be
+
+    load_all_()
+
+    function setColor(color) {
+        color_to_have_to_be = color
+    }
+
+    function load_all_() {
+
+        $('.cat_over_button_edit').one("click", function () {
+            id_cat = this.id.replace("_remove", "")
+            console.log(id_cat)
+            cat_editAddStatement = "edit"
+
+            $('#list_cat').css('display', 'none')
+            $('#editadd_cat').css('display', 'flex')
+            $('#remove_cat').css('display', '')
+
+            $('#form_name_category').val($(this).attr("value_name"))
+            $('#form_desc_category').val($(this).attr("value_desc"))
+            color_to_have_to_be = $(this).attr("value_color")
+
+            $('.coloredButtons').each(function () {
+                testColor = rgb2hex($(this.children).css("background-color"))
+                console.log(color)
+                if (testColor === color_to_have_to_be) {
+                    console.log(color)
+                    $(prevSelector).removeClass("coloredButtonsSelected")
+                    $(this).addClass("coloredButtonsSelected")
+                    prevSelector = this
+
+                    colorToSave = rgb2hex($(this.children).css("background-color"));
+                    $('#form_color_hex').val(colorToSave)
+                }
+            })
+
+            $('#legend_cat_edit_add').text("Upravení Kategorie")
+        })
+
+        $('#cat_add_button').one("click", function () {
+            $('#list_cat').css('display', 'none')
+            $('#editadd_cat').css('display', 'flex')
+            $('#remove_cat').css('display', 'none')
+
+            $('#form_name_category').val("")
+            $('#form_desc_category').val("")
+
+            $('#legend_cat_edit_add').text("Přidání Kategorie")
+
+            cat_editAddStatement = "add"
+        })
+    }
 
     $(function () {
         $('.cat_over_item_span_cont').on("click", function () {
@@ -205,99 +262,78 @@
 
         $('#form_categories').one("submit", function (event) {
             console.log(cat_editAddStatement)
+            $(prevSelector).removeClass("coloredButtonsSelected")
             event.preventDefault()
             form = $(this)
             add_edit_function(form)
         })
 
-        $('.cat_over_button_edit').one("click", function () {
-            id_cat = this.id.replace("_remove", "")
-            console.log(id_cat)
-            cat_editAddStatement = "edit"
-
-            $('#list_cat').css('display', 'none')
-            $('#editadd_cat').css('display', 'flex')
-            $('#remove_cat').css('display', '')
-
-            $('#form_name_category').val($(this).attr("value_name"))
-            $('#form_desc_category').val($(this).attr("value_desc"))
-
-            $('#legend_cat_edit_add').text("Upravení Kategorie")
-
-
-        })
-
-        $('#remove_cat').one("click", function () {
+        $('#remove_cat').off().one("click", function () {
             cat_editAddStatement = "remove"
             add_edit_function($('#form_categories'))
-        })
-
-        $('#cat_add_button').one("click", function () {
-            $('#list_cat').css('display', 'none')
-            $('#editadd_cat').css('display', 'flex')
-            $('#remove_cat').css('display', 'none')
-
-            $('#form_name_category').val("")
-            $('#form_desc_category').val("")
-
-            $('#legend_cat_edit_add').text("Přidání Kategorie")
-
-            cat_editAddStatement = "add"
+            $('#form_name_category').removeClass('invalid')
         })
 
         $('#cat_back').on("click", function () {
             $('#list_cat').css('display', 'flex')
             $('#editadd_cat').css('display', 'none')
             cat_editAddStatement = ""
+            $('#form_name_category').removeClass('invalid')
+            load_all_()
         })
     })
 
 
     function add_edit_function(form) {
-        if ($('#form_color_hex').val() === ""){
-            $('#form_color_hex').val("#e0e0e0")
-        }
-        if (cat_editAddStatement === "add") {
-            $.ajax({
-                type: "POST",
-                url: "/app/categories/add/",
-                data: form.serialize(),
-                success: function (response) {
-                    $('#list_cat').css('display', 'flex')
-                    $('#editadd_cat').css('display', 'none')
-                    $.get('/app/categories/update', function (data) {
-                        $('#list_of_categories').html(data)
-                    })
-                },
-            });
-        } else if (cat_editAddStatement === "edit") {
-            $.ajax({
-                type: "POST",
-                url: "/app/categories/edit/" + id_cat,
-                data: form.serialize(),
-                success: function (response) {
-                    $.get('/app/categories/update', function (data) {
-                        $('#list_of_categories').html(data)
-                    })
-                    $('#list_cat').css('display', 'flex')
-                    $('#editadd_cat').css('display', 'none')
-                },
-            });
-        } else if (cat_editAddStatement === "remove") {
-            $.ajax({
-                type: "POST",
-                url: "/app/categories/remove/" + id_cat,
-                success: function (response) {
-                    console.log("Done")
-                    $.get('/app/categories/update', function (data) {
-                        $('#list_of_categories').html(data)
-                    })
-                    $('#list_cat').css('display', 'flex')
-                    $('#editadd_cat').css('display', 'none')
-                },
-            });
-        }
+        if (cat_editAddStatement !== "") {
+            if ($('#form_color_hex').val() === "") {
+                $('#form_color_hex').val("#e0e0e0")
+            }
+            if (cat_editAddStatement === "add") {
+                $.ajax({
+                    type: "POST",
+                    url: "/app/categories/add/",
+                    data: form.serialize(),
+                    success: function (response) {
+                        $('#list_cat').css('display', 'flex')
+                        $('#editadd_cat').css('display', 'none')
+                        $.get('/app/categories/update', function (data) {
+                            $('#list_of_categories').html(data)
+                        })
+                    },
+                });
+            } else if (cat_editAddStatement === "edit") {
+                $.ajax({
+                    type: "POST",
+                    url: "/app/categories/edit/" + id_cat,
+                    data: form.serialize(),
+                    success: function (response) {
+                        $.get('/app/categories/update', function (data) {
+                            $('#list_of_categories').html(data)
+                        })
+                        $('#list_cat').css('display', 'flex')
+                        $('#editadd_cat').css('display', 'none')
+                    },
+                });
+            } else if (cat_editAddStatement === "remove") {
+                cat_editAddStatement = ""
+                $.ajax({
+                    type: "POST",
+                    url: "/app/categories/remove/" + id_cat,
+                    success: function (response) {
+                        $.get('/app/categories/update', function (data) {
+                            $('#list_of_categories').html(data)
+                        })
+                        $('#list_cat').css('display', 'flex')
+                        $('#editadd_cat').css('display', 'none')
+                    },
+                });
+            }
 
-        cat_editAddStatement = ""
+            document.getElementById("form_categories").reset();
+            cat_editAddStatement = ""
+        } else {
+            cat_editAddStatement = ""
+        }
     }
 </script>

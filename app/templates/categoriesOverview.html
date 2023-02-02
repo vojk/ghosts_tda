@@ -1,145 +1,166 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='css/categories_overview.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+<div class="outerBox_add-edit_window">
+    <div id="addWindow" style="position:absolute; z-index: 5">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/categories_overview.css') }}">
 
-<script src="{{ url_for('static', filename='js/jquery-3.6.3.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
+        <script>
 
-<script src="{{ url_for('static', filename='js/ntc.js') }}"></script>
+        </script>
 
-<script>
-    var form
-    let colorToSave
-    let cat_editAddStatement
-
-    let id_cat
-    let prevSelector
-    var filter_categories = []
-
-    const rgb2hex = (rgb) => `#${rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/).slice(1).map(n => parseInt(n, 10).toString(16).padStart(2, '0')).join('')}`
-</script>
-
-<div class="cat_over_main_cont">
-    <div class="cat_list_cont" id="list_cat">
-        <div class="cat_list_cont_header">
+        <div class="cat_over_main_cont">
+            <div class="cat_list_cont" id="list_cat">
+                <div class="cat_list_cont_header">
             <span>
                 Kategorie
             </span>
-            <span style="position: absolute; right: 5px; cursor:pointer;">
+                    <span style="position: absolute; right: 5px; cursor:pointer; user-select: none"
+                          id="close_cat_close">
                 X
             </span>
-        </div>
-        <div class="cat_list_wrap">
-            <div>
+                </div>
+                <div class="cat_list_wrap">
+                    <div>
                 <span>
                     Kategorie
                 </span>
-            </div>
+                    </div>
 
-            <div id="list_of_categories">
-                {% include 'customElements/categories_list.html' %}
-            </div>
+                    <div id="list_of_categories">
+                        {% include 'customElements/categories_list.html' %}
+                    </div>
 
 
-            <div class="cat_list_add_button_cont">
-                <div class="cat_list_add_button" id="cat_add_button">
+                    <div class="cat_list_add_button_cont">
+                        <div class="cat_list_add_button" id="cat_add_button">
                     <span class="">
                         Přidat Kategorii
                     </span>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div class="cat_edit_cont" id="editadd_cat" style="display: none; flex-flow: column; position: relative">
-        <div class="cat_list_cont_header">
-            <div class="cat_list_cont_header_back">
-                <a id="cat_back"><-</a>
-            </div>
-            <span id="legend_cat_edit_add">
+            <div class="cat_edit_cont" id="editadd_cat" style="display: none; flex-flow: column; position: relative">
+                <div class="cat_list_cont_header">
+                    <div class="cat_list_cont_header_back">
+                        <a id="cat_back">
+                            <img src="{{ url_for('static', filename='svg/arrow-left.svg') }}" alt=""
+                                 style="width: 24px; cursor: pointer">
+                        </a>
+                    </div>
+                    <span id="legend_cat_edit_add">
                 Přidání kategorie
             </span>
-        </div>
-        <div style="margin-top: 5px">
-            <form method="post" id="form_categories">
-                <div class="flex_pres" style="min-height: auto; align-items: inherit">
-                    <div class="wrap" style="margin-top: 15px">
-                        <label for="form_name_category" class="popis_textBox">Název</label>
-                        <input type="text" name="form_name_category" id="form_name_category" class="textfield"
-                               style="width: 100%">
-                    </div>
-                    <div class="wrap" style="margin-top: 15px">
-                        <label for="form_desc_category" class="popis_textBox">Popis</label>
-                        <input type="text" name="form_desc_category" id="form_desc_category" class="textfield"
-                               style="width: 100%">
-                    </div>
                 </div>
+                <div style="margin-top: 5px">
+                    <form method="post" id="form_categories">
+                        <div class="flex_pres" style="min-height: auto; align-items: inherit">
+                            <div class="wrap" style="margin-top: 15px">
+                                <label for="form_name_category" class="popis_textBox">Název</label>
+                                <input type="text" name="form_name_category" id="form_name_category" class="textfield"
+                                       style="width: 100%" autocomplete="off" required>
+                            </div>
+                            <div class="wrap" style="margin-top: 15px">
+                                <label for="form_desc_category" class="popis_textBox">Popis</label>
+                                <input type="text" name="form_desc_category" id="form_desc_category" class="textfield"
+                                       style="width: 100%" autocomplete="off">
+                            </div>
+                        </div>
 
-                <div style="display: flex; flex-flow: row wrap; margin-top: 10px; justify-content: center; align-content: space-between;">
-                    <span>Barva</span>
-                    <div class="coloredButtons_grid">
-                        <div class="coloredButtons">
-                            <div class="inner_coloredButtons" style="background-color: #9e0142;">
-                            </div>
-                        </div>
-                        <div class="coloredButtons">
-                            <div class="inner_coloredButtons" style="background-color: #d53e4f;">
-                            </div>
-                        </div>
-                        <div class="coloredButtons">
-                            <div class="inner_coloredButtons" style="background-color: #f46d43;">
-                            </div>
-                        </div>
-                        <div class="coloredButtons">
-                            <div class="inner_coloredButtons" style="background-color: #fdae61;">
-                            </div>
-                        </div>
-                        <div class="coloredButtons">
-                            <div class="inner_coloredButtons" style="background-color: #fee08b;">
-                            </div>
-                        </div>
-                        <div class="coloredButtons">
-                            <div class="inner_coloredButtons" style="background-color: #e6f598;">
-                            </div>
-                        </div>
-                        <div class="coloredButtons">
-                            <div class="inner_coloredButtons" style="background-color: #abdda4;">
-                            </div>
-                        </div>
-                        <div class="coloredButtons">
-                            <div class="inner_coloredButtons" style="background-color: #66c2a5;">
-                            </div>
-                        </div>
-                        <div class="coloredButtons">
-                            <div class="inner_coloredButtons" style="background-color: #3288bd;">
-                            </div>
-                        </div>
-                        <div class="coloredButtons">
-                            <div class="inner_coloredButtons" style="background-color: #5e4fa2;">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        <div style="display: flex; flex-flow: row wrap; margin-top: 10px; justify-content: center; align-content: space-between;">
+                            <span>Barva</span>
+                            <div class="coloredButtons_grid">
+                                <div class="coloredButtons">
+                                    <div class="inner_coloredButtons" style="background-color: #9e0142;">
+                                    </div>
+                                </div>
+                                <div class="coloredButtons">
+                                    <div class="inner_coloredButtons" style="background-color: #d53e4f;">
+                                    </div>
+                                </div>
+                                <div class="coloredButtons">
+                                    <div class="inner_coloredButtons" style="background-color: #f46d43;">
+                                    </div>
+                                </div>
+                                <div class="coloredButtons">
+                                    <div class="inner_coloredButtons" style="background-color: #fdae61;">
+                                    </div>
+                                </div>
+                                <div class="coloredButtons">
+                                    <div class="inner_coloredButtons" style="background-color: #fee08b;">
+                                    </div>
+                                </div>
+                                <div class="coloredButtons">
+                                    <div class="inner_coloredButtons" style="background-color: #e6f598;">
+                                    </div>
+                                </div>
+                                <div class="coloredButtons">
+                                    <div class="inner_coloredButtons" style="background-color: #abdda4;">
+                                    </div>
+                                </div>
+                                <div class="coloredButtons">
+                                    <div class="inner_coloredButtons" style="background-color: #66c2a5;">
+                                    </div>
+                                </div>
+                                <div class="coloredButtons">
+                                    <div class="inner_coloredButtons" style="background-color: #3288bd;">
+                                    </div>
+                                </div>
+                                <div class="coloredButtons">
+                                    <div class="inner_coloredButtons" style="background-color: #5e4fa2;">
+                                    </div>
+                                </div>
 
-                <input type="text" name="form_color_hex" id="form_color_hex" style="display: none">
+                            </div>
+                            <div class="coloredButtons" style="width: 100%" id="NoneColor">
+                                <div class="inner_coloredButtons" style="background-color: #e1e9f6;
+display: flex;
+justify-content: center;
+align-items: center;">
+                                    Bez Barvy
+                                </div>
+                            </div>
+                        </div>
 
-                <div class="buttonForm flex_row" style="justify-content: space-between">
-                    <button type="submit" class="button_filled" id="cat_submit">
+                        <input type="text" name="form_color_hex" id="form_color_hex" style="display: none">
+
+                        <div class="buttonForm flex_row" style="justify-content: space-between">
+                            <button type="submit" class="button_filled" id="cat_submit">
                         <span class="button_filled-text">
                             Uložit
                         </span>
-                    </button>
-                    <button type="button" class="button_filled"
-                            style="background-color: #b70b0b; border-color: #b70b0b;" id="remove_cat">
+                            </button>
+                            <button type="button" class="button_filled"
+                                    style="background-color: #b70b0b; border-color: #b70b0b;" id="remove_cat">
                         <span class="button_filled-text">
                             Smazat
                         </span>
-                    </button>
+                            </button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
+
+        <script>
+            cancel_remove_warn()
+
+            function cancel_remove_warn() {
+                console.log("ready")
+                $('#_addEdit_window').css('display', 'block')
+                $('#close_cat_close').click(function () {
+                    $('#_addEdit_window').css('display', 'none')
+                    $('#addWindow').remove()
+                })
+            }
+
+            $('html').on("click", function () {
+                $('#_addEdit_window').css('display', 'none')
+                $('#addWindow').remove()
+            })
+
+            $('.cat_over_main_cont').on("click", function () {
+                event.stopPropagation()
+            })
+        </script>
     </div>
 </div>
-
-<script>
-
-</script>

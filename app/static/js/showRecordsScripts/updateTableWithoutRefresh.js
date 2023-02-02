@@ -1,33 +1,4 @@
-var filterMinDate
-var filterMaxDate
-var filterMinRating
-var filterMaxRating
-var filterMinTime
-var filterMaxTime
-var filterprogramingLangs
-var sortField
-var sortParameter
-var filterprogramingLangsFormated = "";
-var dateFormated
-var filterRating
-var filterTime
-var sortParameterFormatted
-var filterProgrammer
-var filterCategories
 
-var sort_programmer_statement = ""
-var sort_programLang_statement = ""
-var sort_time_statement = ""
-var sort_dates_statement = ""
-var sort_rating_statement = ""
-
-let sort_temp_complete_statement = [];
-let sort_element_to_remove = ""
-
-let filter_programmingLangs = [];
-let filter_categories = [];
-
-var itemId
 
 $(function () { //sort form získání a zobrazení dat
     $('#sort-form').submit(function (event) {
@@ -42,9 +13,7 @@ $(function () { //sort form získání a zobrazení dat
 $(function () { //filter form získání a zobrazení dat
     $('#filter-form').submit(function (event) {
         event.preventDefault();
-        shortDesc()
         getValues()
-
         console.log(filterprogramingLangs)
 
         sortWithoutRefresh()
@@ -347,7 +316,7 @@ $(function () { //odstranění záznamu pomocí ajax protokolu
 });
 
 function sortWithoutRefresh() { //funkce pro sort
-    $.get('/sort', {
+    $.get('/sort/', {
         sort_field: sortParameterFormatted,
         sort_parameter: sortParameter,
         filter_rating: filterRating,
@@ -357,6 +326,7 @@ function sortWithoutRefresh() { //funkce pro sort
         filter_programmer: filterProgrammer,
         filter_categories: filterCategories
     }, function (data) {
+        console.log("Sorted")
         // data is the HTML of the updated table
         $('#records_table').DataTable().destroy();
         $('#table-content').html($(data).find("#table-content").html());
@@ -411,7 +381,7 @@ function getValues() { //získání hodnot ze selectorů
     filterprogramingLangsFormated = filterprogramingLangsFormated.slice(0, -1)
     filterCategories = filterCategories.slice(0, -1)
 
-    console.log(filterCategories)
+    console.log(dateFormated)
 }
 
 $(function () {

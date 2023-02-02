@@ -5,7 +5,7 @@
 }
 
 .cat_over_list li {
-    cursor: pointer;
+    cursor: default;
 }
 
 .cat_over_list {

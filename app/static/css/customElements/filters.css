@@ -1,0 +1,22 @@
+.mrgntop_sections {
+    margin-top: 15px
+}
+
+.filters_cont {
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    flex-flow: column nowrap;
+}
+
+.main_filter_section{
+    display: flex;
+    flex-flow: column;
+    margin-top: 15px;
+}
+
+.sliders_filter_wind{
+    display: flex;
+}

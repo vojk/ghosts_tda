@@ -1,5 +1,10 @@
 # Ghosts - TDA aplikace
 
+
+## Členové týmu Ghosts
+Tmej Vojtěch </br>
+Lovska Bohdana 
+
 ## Dokumentace
 
 ### Důležité akce před začátkem vývoje
@@ -41,5 +46,3 @@ Momentálně máš nainstalovaný WSL2 s distrubucí Ubuntu, Docker a stáhlý r
 
 <p>Aplikace bude dostupná na <code>http://127.0.0.1:8080</code></p>
 
-
-NOTE: TEAM_SECRET se vloží nějakou tu chvíli před tím než to budeme chtít odevzdávat

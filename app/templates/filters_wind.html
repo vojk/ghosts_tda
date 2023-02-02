@@ -1,34 +1,90 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/rangeSlider.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/records.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sortControl.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/customElements/filters.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+
 <style>
-    .mrgntop_sections {
-        margin-top: 15px
-    }
 
-    .filters_cont {
-        background-color: white;
-        padding: 10px;
-        border-radius: 8px;
-    }
 </style>
-
-<div class="filters_cont">
-    <div>
+<div style="background-color: white; height: 100vh; display: flex; align-items: center;padding: 20px;" class="filters_main_window">
+    <form action="GET" id="filter-form">
+        <div class="filters_cont">
+            <div>
         <span>
             Filtry
         </span>
-    </div>
+            </div>
+            <div class="main_filter_section">
+                <div class="mrgntop_sections">
+                    {% include 'customElements/multipleSelect.html' %}
+                </div>
+                <div class="mrgntop_sections">
+                    <div class="wrap">
+                        {% include 'customElements/singleSelect.html' %}
+                    </div>
+                </div>
 
-    <div class="mrgntop_sections">
-        {% include 'customElements/multipleSelect.html' %}
-    </div>
-
-    <div class="mrgntop_sections">
+                <div class="mrgntop_sections">
     <span>
         Kategorie
     </span>
-        <div style="max-height: 162px; overflow-y: auto; overflow-x: hidden">
-            {% include 'customElements/categories_list_filter.html' %}
-        </div>
+                    <div style="max-height: 175px; overflow-y: auto; overflow-x: hidden; display: flex; justify-content: center">
+                        {% include 'customElements/categories_list_filter.html' %}
+                    </div>
+                </div>
 
-    </div>
+
+                <div class="mrgntop_sections">
+    <span>
+        Datum
+    </span>
+                    <div style="display: flex; flex-flow: column">
+                        <div class="wrap" style="margin-top: 10px">
+                            <label for="filter_min_date" class="popis_textBox">Od</label>
+                            <input type="date" name="filter_min_date" id="filter_min_date" class="textfield">
+                        </div>
+
+                        <div class="wrap" style="margin-top: 10px">
+                            <label for="filter_max_date" class="popis_textBox">Do</label>
+                            <input type="date" name="filter_max_date" id="filter_max_date" class="textfield">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mrgntop_sections " style="position: relative;">
+    <span>
+        Čas (m)
+    </span>
+                    <div class="sliders_filter_wind">
+                        {% include 'customElements/slider-Time.html' %}
+                    </div>
+                </div>
+
+                <div class="mrgntop_sections " style="position: relative;">
+    <span>
+        Hodnocení
+    </span>
+                    <div class="sliders_filter_wind">
+                        {% include 'customElements/slider-Rating.html' %}
+                    </div>
+                </div>
+
+                <div style="display: flex;justify-content: center; margin-top: 10px;">
+                    <button class="button_filled" type="submit">
+                <span class="button_filled-text">
+                    Filtrovat
+                </span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </form>
 </div>
+
+
+<script src="{{ url_for('static', filename='js/records.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sliderScript.js') }}"></script>
 

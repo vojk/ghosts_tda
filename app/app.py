@@ -26,10 +26,10 @@ def app_wind():
     conn.close()
     return render_template('records.html', texts=sorting.pre_sort(None, None, None, None,
                                                                   None, None, None), defs=proglangs,
-                           programmers=programmers, categories=categorie)
+                           programmers=programmers, categories=categorie, users=programmers)
 
 
-@app.route('/sort')
+@app.route('/sort/')
 def sort():
     sort_field = request.args.get('sort_field')
     filter_rating = request.args.get('filter_rating')
@@ -38,7 +38,7 @@ def sort():
     filter_time = request.args.get('filter_time')
     filter_programmer = request.args.get('filter_programmer')
     filter_categories = request.args.get('filter_categories')
-    print("pred " + str(filter_categories))
+    print(filter_formatted_date)
     print(sort_field)
     records = sorting.pre_sort(sort_field, filter_rating, filter_programmingLangs,
                                filter_formatted_date,
@@ -60,6 +60,9 @@ def create_record():
         progLang = request.form['formProgLang_select']
         desc = request.form['formDesc']
         programmer = request.form['formProgrammer_select']
+        categories = request.form['categories_overall']
+
+        categories = categories.split(",")
 
         if not date:
             print("No date found")
@@ -80,16 +83,18 @@ def create_record():
                 (date, minutes, progLang, rating, desc, programmer, programmer_id[0][0]))
             conn.commit()
             last_id = cursor.lastrowid
-            cursor.execute(
-                'INSERT INTO categories_records (category_id, record_id) '
-                'VALUES (?, ?)', ('NULL', last_id))
-            conn.commit()
+            for categ in categories:
+                cursor.execute(
+                    'INSERT INTO categories_records (category_id, record_id) '
+                    'VALUES (?, ?)', (categ, last_id))
+                conn.commit()
             conn.close()
             return redirect(url_for('app_wind'))
     conn = db.get_db_connection()
     programmers = conn.execute("SELECT * FROM users").fetchall()
+    categorie = conn.execute("SELECT * FROM categories").fetchall()
     conn.close()
-    return render_template('createWind.html', defs=proglangs, programmers=programmers)
+    return render_template('createWind.html', defs=proglangs, programmers=programmers, categories=categorie)
 
 
 @app.route('/<int:id>/edit/', methods=('GET', 'POST'))  # úprava záznamu
@@ -106,6 +111,9 @@ def edit(id):
         progLang = request.form['formProgLang_select']
         desc = request.form['formDesc']
         programmer = request.form['formProgrammer_select']
+        categories = request.form['categories_overall']
+
+        categories = categories.split(",")
 
         if not date:
             print("No date found")
@@ -118,16 +126,24 @@ def edit(id):
         else:
             conn = db.get_db_connection()
             programmer_id = db.get_id_of_user(programmer)
+            conn.execute("DELETE FROM categories_records WHERE record_id = ?", (id,))
             conn.execute(
                 'UPDATE records SET dates = ?, timeInMinutes = ?, programmingLang = ?, rating = ?, description = ?, programmer = ?, programmerId = ? '
                 'WHERE id = ?',
                 (date, minutes, progLang, rating, desc, programmer, programmer_id[0][0], id))
             conn.commit()
+            for categ in categories:
+                conn.execute(
+                    'INSERT INTO categories_records (category_id, record_id) '
+                    'VALUES (?, ?)', (categ, id))
+                conn.commit()
             conn.close()
     conn = db.get_db_connection()
     programmers = conn.execute("SELECT * FROM users").fetchall()
+    categorie = conn.execute("SELECT * FROM categories").fetchall()
+    categorie_selected = conn.execute("SELECT category_id FROM categories_records WHERE record_id = ?", (id,)).fetchall()
     conn.close()
-    return render_template('editWind.html', record=record, defs=proglangs, programmers=programmers)
+    return render_template('editWind.html', record=record, defs=proglangs, programmers=programmers, categories=categorie, selected_categories=categorie_selected)
 
 
 @app.route('/<int:id>/delete/', methods=('GET', 'POST'))  # samže záznam
@@ -141,6 +157,7 @@ def delete(id):
 
         conn = db.get_db_connection()
         conn.execute('DELETE FROM records WHERE id = ?', (id,))
+        conn.execute("DELETE FROM categories_records WHERE record_id = ?", (id,))
         conn.commit()
         conn.close()
     return render_template('removeWarn.html')
@@ -238,7 +255,7 @@ def users_overview():
     return render_template('usersOverview.html', users=users)
 
 
-@app.route('/app/categories')
+@app.route('/app/categories/')
 def categories_overview():
     conn = db.get_db_connection()
     categorie = conn.execute("SELECT * FROM categories").fetchall()
@@ -293,6 +310,15 @@ def categories_overview_update():
     categorie = conn.execute("SELECT * FROM categories").fetchall()
     conn.close()
     return render_template('customElements/categories_list.html', categories=categorie)
+
+
+@app.route('/app/beta/filters')
+def filters():
+    conn = db.get_db_connection()
+    programmers = conn.execute("SELECT * FROM users").fetchall()
+    categorie = conn.execute("SELECT * FROM categories").fetchall()
+    conn.close()
+    return render_template('filters_wind.html', defs=proglangs, users=programmers, categories=categorie)
 
 
 if __name__ == '__main__':

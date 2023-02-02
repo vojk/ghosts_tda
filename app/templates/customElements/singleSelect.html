@@ -1,0 +1,72 @@
+<link rel="stylesheet" href="../../static/main.css">
+<link rel="stylesheet" href="../../static/css/custom_dropbox_css.css">
+
+<style>
+
+</style>
+<div class="container_dropbox">
+    <div>
+        <label class="popis_textBox" for="custom_dropdown_menu_button">Programátor</label>
+        <div class="textfield flex"
+             id="custom_dropdown_menu_button_programmer">
+            <div class="inner_dropbox">
+                <span id="tool_help_programmer">Všichni programátoři</span>
+                <img src="{{ url_for('static', filename='svg/chevron-down.svg') }}" alt="">
+            </div>
+            <div id="programmers_list">
+
+            </div>
+        </div>
+    </div>
+
+    <div id="custom_dropdown_menu_items_programmer">
+        <ul>
+            <li class="custom_singleSelect" id="option_None" value="None"
+                style="">
+                <div>
+                    <span>None</span>
+                </div>
+            </li>
+            {% for user in users %}
+                <li class="custom_singleSelect" id="option_{{ user.programmer }}" value="{{ user.programmer }}"
+                    style="">
+                    <div>
+                        <span>{{ user.programmer }}</span>
+                    </div>
+                </li>
+            {% endfor %}
+
+
+        </ul>
+    </div>
+</div>
+
+
+<script !src="">
+    $("html").click(function (event) {
+        $("#custom_dropdown_menu_items_programmer").css("display", "none");
+        console.log("HI")
+    });
+
+    $(function () {
+        $('#custom_dropdown_menu_button_programmer').on("click", function () {
+            if ($("#custom_dropdown_menu_items_programmer").css("display") === "flex") {
+                $("#custom_dropdown_menu_items_programmer").css("display", "none")
+            } else {
+                $("#custom_dropdown_menu_items_programmer").css("display", "flex")
+                event.stopPropagation();
+            }
+        })
+        $('.custom_singleSelect').on("click", function () {
+            filterProgrammer = $(this).attr('value')
+            if (filterProgrammer !== "" || filterProgrammer !== "None") {
+                $('#tool_help_programmer').text(filterProgrammer)
+            } else {
+                $('#tool_help_programmer').text("Všichni programátoři")
+            }
+            $("#custom_dropdown_menu_items_programmer").css("display", "none")
+            console.log(filterProgrammer)
+            event.stopPropagation();
+        })
+    })
+</script>

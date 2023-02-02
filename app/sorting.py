@@ -40,7 +40,7 @@ def pre_sort(f_sort_type, f_filter_rating, f_filter_proglangs, f_filter_dates, f
         for x in f_filter_proglangs_temp:
             f_filter_proglangs.append({'progLangs': x})
         print(f_filter_proglangs)
-    if f_filter_dates is None or f_filter_dates == "":
+    if f_filter_dates is None or f_filter_dates == "" or f_filter_dates == ",":
         f_filter_dates_min = '2000-01-01'
         f_filter_dates_max = datetime.today().date()
     else:

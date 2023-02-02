@@ -1,8 +1,8 @@
-let date = document.forms["addRecord"]["formDate"];
-let time = document.forms["addRecord"]["formMinutes"];
-let desc = document.forms["addRecord"]["formDesc"];
-let programmer = document.forms["addRecord"]["formProgrammer_select"];
-let progLang = document.forms["addRecord"]["formProgLang_select"];
+date = document.forms["addRecord"]["formDate"];
+time = document.forms["addRecord"]["formMinutes"];
+desc = document.forms["addRecord"]["formDesc"];
+programmer = document.forms["addRecord"]["formProgrammer_select"];
+progLang = document.forms["addRecord"]["formProgLang_select"];
 
 function validateForm() {
     if (date.value == "" && !(date.classList.contains('invalid'))) {

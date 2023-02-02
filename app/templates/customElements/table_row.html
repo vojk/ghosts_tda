@@ -87,10 +87,12 @@
                 <div style="position:absolute; left: 59px">
                     <span>Záznamy</span>
                 </div>
+                {#
                 <div style="display: flex; width: fit-content; align-items: center; padding: 10px 40px; border-radius: 12px; border: 1px black solid; position:absolute; right: 32px">
                     <img src="../../static/svg/filter.png" alt="" style="width: 18px; margin-right: 5px">
                     <span>Filtry</span>
                 </div>
+#}
             </div>
 
         </div>
@@ -98,7 +100,9 @@
     <table id="records_table" style="" class="display">
         <thead>
         <tr style=" height: 55px;">
-            <th style="" class="datatable-nosort">id</th>
+            <th class="datatable-nosort">
+                id
+            </th>
             <th id="sort-button-programmer" class="ui-sort-control">
                 <div style="display: flex; align-items: center;">
                     <span>
@@ -179,7 +183,9 @@
         <tbody id="table-content">
         {% for record in texts %}
             <tr style="">
-                <td style="text-align: center">{{ record.id }}</td>
+                <td style="text-align: center; position:relative;">
+                    {{ record.id }}
+                </td>
                 <td>{{ record.programmer }}</td>
                 <td>{{ record.programmingLang }}</td>
                 <td style="text-align: left">{{ record.timeInMinutes }}</td>
