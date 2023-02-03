@@ -1,4 +1,4 @@
-<div class="range">
+<div class="range-rating">
     <div>
         <div class="range-slider">
             <span class="range-selected"></span>
@@ -22,3 +22,66 @@ bottom: -11px;">
     </div>
 </div>
 
+<script !src="">
+    rangess = document.querySelectorAll(".range-rating");
+    rangess.forEach((range) => {
+        console.log("test")
+        const rangeSelecteds = range.querySelector(".range-selected");
+        const rangeInputs = range.querySelectorAll(".range-input input");
+        const rangePrices = range.querySelectorAll(".range-price input");
+
+        rangeInputs.forEach((input) => {
+            input.addEventListener("input", (e) => {
+                let minRange = parseFloat(rangeInputs[0].value);
+                let maxRange = parseFloat(rangeInputs[1].value);
+
+                if (maxRange - minRange < rangeMins) {
+                    if (e.target.className === "min") {
+                        rangeInputs[0].value = maxRange - rangeMins;
+                    } else {
+                        rangeInputs[1].value = minRange + rangeMins;
+                    }
+                } else {
+                    rangePrices[0].value = minRange;
+                    rangePrices[1].value = maxRange;
+                    rangeSelecteds.style.left = (minRange / rangeInputs[0].max) * 100 + "%";
+                    rangeSelecteds.style.width = ((maxRange - minRange) / rangeInputs[0].max) * 100 + "%";
+                    rangeInputs[0].style.zIndex = 1;
+                    rangeInputs[1].style.zIndex = 1;
+                }
+
+                // Check which input was last clicked and set the z-index accordingly
+                if (e.target.className === "min") {
+                    rangeInputs[0].style.zIndex = 2;
+                } else {
+                    rangeInputs[1].style.zIndex = 2;
+                }
+
+                console.log(rangePrices[0].value)
+            });
+        });
+
+        rangePrices.forEach((input) => {
+            input.addEventListener("input", (e) => {
+                let minPrice = rangePrices[0].value;
+                let maxPrice = rangePrices[1].value;
+                if (maxPrice - minPrice >= rangeMins && maxPrice <= rangeInputs[1].max) {
+                    if (e.target.className === "min") {
+                        rangeInputs[0].value = minPrice;
+                        rangeSelecteds.style.left = (minPrice / rangeInputs[0].max) * 100 + "%";
+                    } else {
+                        rangeInputs[1].value = maxPrice;
+                        rangeSelecteds.style.right = 100 - (maxPrice / rangeInputs[1].max) * 100 + "%";
+                    }
+                } else if (e.target.className === "min") {
+                    rangePrices[0].value = rangeInputs[0].value;
+                } else {
+                    rangePrices[1].value = rangeInputs[1].value;
+                }
+            });
+        });
+
+    });
+
+    console.log("Running")
+</script>

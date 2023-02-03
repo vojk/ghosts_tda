@@ -1,4 +1,4 @@
-.range {
+.range-rating, .range-time {
     width: 100%;
     margin-top: 20px;
     display: block;
@@ -60,17 +60,17 @@
 }
 
 
-.range-price {
+.range-price, .range-prices {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.range-price label {
+.range-price label, .range-prices label {
     margin-right: 5px;
 }
 
-.range-price input {
+.range-price input, .range-prices input {
     width: 40px;
     padding: 5px;
     border-radius: 6px;
@@ -80,7 +80,7 @@
 }
 
 .range-price input::-webkit-outer-spin-button,
-.range-price input::-webkit-inner-spin-button {
+.range-price input::-webkit-inner-spin-button{
     -webkit-appearance: none;
     margin: 0;
 }

@@ -49,10 +49,6 @@ var itemId
 
 var textToBesShorten
 
-//sliders
-let rangeMin = 0;
-const ranges = document.querySelectorAll(".range");
-
 //records
 let record_id
 let table = ""
@@ -66,6 +62,12 @@ let currentPos = "10"
 let currentPosF = "-375"
 
 
+//sliders
+let rangeMin = 0;
+let ranges
+
+let rangeMins = 0;
+let rangess
 
 
 let rgb2hex = (rgb) => `#${rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/).slice(1).map(n => parseInt(n, 10).toString(16).padStart(2, '0')).join('')}`

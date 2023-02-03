@@ -92,12 +92,15 @@ def pre_sort(f_sort_type, f_filter_rating, f_filter_proglangs, f_filter_dates, f
         conn.close()
         f_filter_categories = ','.join([str(category_id_[0]) for category_id_ in category_id])
         f_filter_categories = f_filter_categories.split(',')
+    elif f_filter_categories == "NULL":
+        f_filter_categories = ['']
     else:
         f_filter_categories_temp = f_filter_categories.split(",")
         f_filter_categories = []
         for x in f_filter_categories_temp:
             f_filter_categories.append(x)
-        print(f_filter_proglangs)
+
+    print("Kategorie " + str(f_filter_categories))
 
     return sorting(f_sort_type, f_filter_timeinminutes_min, f_filter_timeinminutes_max, f_filter_rating_min,
                    f_filter_rating_max, f_filter_proglangs,
