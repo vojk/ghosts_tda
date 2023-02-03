@@ -145,56 +145,56 @@
                         selectElement('_formProgrammer_select', '{{ record.programmer }}')
                         selectElement('_formRating', '{{ record.rating }}')
                     </script>
+
+                    <script>
+                        cancel_remove_warn()
+
+                        function cancel_remove_warn() {
+                            console.log("ready")
+                            $('#_addEdit_window').css('display', 'block')
+                            $('#cancel_edit').click(function () {
+                                $('#_addEdit_window').css('display', 'none')
+                                $('#addWindow').remove()
+                            })
+                        }
+
+                        $(function () { //odstranění uzivatele pomocí ajax protokolu
+                            $('#editRecord').submit(function (event) {
+                                console.log(self_statement)
+                                event.preventDefault()
+                                form = $(this)
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/app/" + record_id + "/edit/",
+                                    data: form.serialize(),
+                                    success: function (response) {
+                                        sortWithoutRefresh()
+                                        $('#editRecord').remove()
+                                        $('#_addEdit_window').css('display', 'none')
+                                    },
+                                });
+                            });
+                        });
+
+                        $('#addWindow').on("click", function () {
+                            event.stopPropagation()
+                        })
+
+                        $('#edit_categories_button').on("click", function () {
+                            $('#edit_categories').css("display", "none")
+                        })
+
+                        $('#categories_add_edit').on("click", function () {
+                            $('#edit_categories').css("display", "block")
+                        })
+
+                        $('html').on("click", function () {
+                            $('#_addEdit_window').css('display', 'none')
+                            $('#addWindow').remove()
+                        })
+                    </script>
                 </div>
             {% endfor %}
         </div>
     </div>
-
-    <script>
-        cancel_remove_warn()
-
-        function cancel_remove_warn() {
-            console.log("ready")
-            $('#_addEdit_window').css('display', 'block')
-            $('#cancel_edit').click(function () {
-                $('#_addEdit_window').css('display', 'none')
-                $('#addWindow').remove()
-            })
-        }
-
-        $(function () { //odstranění uzivatele pomocí ajax protokolu
-            $('#editRecord').submit(function (event) {
-                console.log(self_statement)
-                event.preventDefault()
-                form = $(this)
-                $.ajax({
-                    type: "POST",
-                    url: "/app/" + record_id + "/edit/",
-                    data: form.serialize(),
-                    success: function (response) {
-                        sortWithoutRefresh()
-                        $('#editRecord').remove()
-                        $('#_addEdit_window').css('display', 'none')
-                    },
-                });
-            });
-        });
-
-        $('#addWindow').on("click", function () {
-            event.stopPropagation()
-        })
-
-        $('#edit_categories_button').on("click", function () {
-            $('#edit_categories').css("display", "none")
-        })
-
-        $('#categories_add_edit').on("click", function () {
-            $('#edit_categories').css("display", "block")
-        })
-
-        $('html').on("click", function () {
-            $('#_addEdit_window').css('display', 'none')
-            $('#addWindow').remove()
-        })
-    </script>
 {% endblock %}

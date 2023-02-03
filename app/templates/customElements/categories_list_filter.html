@@ -1,7 +1,7 @@
 <ul class="cat_over_list">
     <li id="cat_NULL_filter" class="cat_over_item">
         <div class="hover_wrap_cat_over">
-                    <span class="cat_over_item_span_cont" id="_cat_NULL" value="NULL">
+                    <span class="cat_over_item_span_cont_filt" id="_cat_NULL" value="NULL">
                         <span class="chck_box_cat">
                             <input type="checkbox"
                                    style="margin-right: 14px; width: 0; height: 0; border: none; display: none"
@@ -48,7 +48,7 @@
     {% for categories in categories %}
         <li id="cat_{{ categories.id }}_filter" class="cat_over_item">
             <div class="hover_wrap_cat_over">
-                    <span class="cat_over_item_span_cont" id="_cat_{{ categories.id }}" value="{{ categories.id }}">
+                    <span class="cat_over_item_span_cont_filt" id="_cat_{{ categories.id }}" value="{{ categories.id }}">
                         <span class="chck_box_cat">
                             <input type="checkbox"
                                    style="margin-right: 14px; width: 0; height: 0; border: none; display: none"
@@ -108,8 +108,9 @@
 </ul>
 
 <script>
-    $(function () {
-        $('.cat_over_item_span_cont').on("click", function () {
+    cat_reset()
+    function cat_reset() {
+        $('.cat_over_item_span_cont_filt').on("click", function () {
 
             const index_cat = filter_categories.findIndex(element => {
                 if (element === ($(this).attr('value'))) {
@@ -141,5 +142,5 @@
 
             console.log(filter_categories)
         })
-    })
+    }
 </script>

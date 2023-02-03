@@ -43,6 +43,12 @@
     width: 100%;
 }
 
+.cat_over_item_span_cont_filt {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
 .cat_over_item_div_surround {
     width: 100%;
     transition: 0.2s all ease;
