@@ -1,7 +1,5 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='css/categories_overview.css') }}">
-
 <ul class="cat_over_list">
-    <li id="cat_NULL" class="cat_over_item">
+    <li id="cat_NULL_filter" class="cat_over_item">
         <div class="hover_wrap_cat_over">
                     <span class="cat_over_item_span_cont" id="_cat_NULL" value="NULL">
                         <span class="chck_box_cat">
@@ -35,20 +33,20 @@
     </li>
 
     <style>
-        #cat_NULL .cat_over_button_text:before {
+        #cat_NULL_filter .cat_over_button_text:before {
             background-color: #ffffff;
         }
 
-        #cat_NULL .cat_over_button_text {
+        #cat_NULL_filter .cat_over_button_text {
             background-color: #e0e0e0;
         }
 
-        #cat_NULL .cat_over_item_div_surround:hover {
+        #cat_NULL_filter .cat_over_item_div_surround:hover {
             background-color: rgba(243, 243, 243, 0.23);
         }
     </style>
     {% for categories in categories %}
-        <li id="cat_{{ categories.id }}" class="cat_over_item">
+        <li id="cat_{{ categories.id }}_filter" class="cat_over_item">
             <div class="hover_wrap_cat_over">
                     <span class="cat_over_item_span_cont" id="_cat_{{ categories.id }}" value="{{ categories.id }}">
                         <span class="chck_box_cat">
@@ -83,15 +81,15 @@
         </li>
 
         <style>
-            #cat_{{ categories.id }} .cat_over_button_text:before {
+            #cat_{{ categories.id }}_filter .cat_over_button_text:before {
                 background-color: {{ categories.color }}ff;
             }
 
-            #cat_{{ categories.id }} .cat_over_button_text {
+            #cat_{{ categories.id }}_filter .cat_over_button_text {
                 background-color: {{ categories.color }}70;
             }
 
-            #cat_{{ categories.id }} .cat_over_item_div_surround:hover {
+            #cat_{{ categories.id }}_filter .cat_over_item_div_surround:hover {
                 background-color: {{ categories.color }}17;
             }
         </style>

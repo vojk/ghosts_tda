@@ -150,6 +150,7 @@
     var color_to_have_to_be
 
     load_all_()
+    start()
 
     function setColor(color) {
         color_to_have_to_be = color
@@ -194,6 +195,8 @@
 
             $('#form_name_category').val("")
             $('#form_desc_category').val("")
+            $('#form_color_hex').val("")
+            $(prevSelector).removeClass("coloredButtonsSelected")
 
             $('#legend_cat_edit_add').text("Přidání Kategorie")
 
@@ -266,6 +269,7 @@
             event.preventDefault()
             form = $(this)
             add_edit_function(form)
+            start()
         })
 
         $('#remove_cat').off().one("click", function () {

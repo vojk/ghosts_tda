@@ -1,6 +1,5 @@
 <div class="outerBox_add-edit_window">
     <div id="user_add-edit_window_container">
-        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
         <form id="form_add_edit_user" method="GET" class="flex_pres" style="min-height: fit-content">
             <legend style="margin-bottom: 1rem; align-items: flex-start" id="legend_create-edit_user">Přidání
                 uživatele
@@ -9,7 +8,7 @@
                 <div class="wrap">
                     <label for="form_username" class="popis_textBox">Jméno Programátora</label>
                     <input type="text" name="form_username" autocomplete="off" id="form_username" class="textfield"
-                           value="{{ username }}">
+                           value="{{ username }}" required>
                 </div>
 
                 <div class="flex_row space_between_el" style="justify-content: space-evenly;">
@@ -86,6 +85,7 @@
                             },
                         });
                     }
+                    start()
                 });
             });
         </script>

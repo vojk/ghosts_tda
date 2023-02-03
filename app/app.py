@@ -38,7 +38,7 @@ def sort():
     filter_time = request.args.get('filter_time')
     filter_programmer = request.args.get('filter_programmer')
     filter_categories = request.args.get('filter_categories')
-    print(filter_formatted_date)
+    print("programator: " + str(filter_programmer))
     print(sort_field)
     records = sorting.pre_sort(sort_field, filter_rating, filter_programmingLangs,
                                filter_formatted_date,
@@ -94,7 +94,8 @@ def create_record():
     programmers = conn.execute("SELECT * FROM users").fetchall()
     categorie = conn.execute("SELECT * FROM categories").fetchall()
     conn.close()
-    return render_template('createWind.html', defs=proglangs, programmers=programmers, categories=categorie)
+    return render_template('createWind.html', defs=proglangs, programmers=programmers, categories=categorie,
+                           selected_categories="")
 
 
 @app.route('/<int:id>/edit/', methods=('GET', 'POST'))  # úprava záznamu
@@ -126,11 +127,11 @@ def edit(id):
         else:
             conn = db.get_db_connection()
             programmer_id = db.get_id_of_user(programmer)
-            conn.execute("DELETE FROM categories_records WHERE record_id = ?", (id,))
             conn.execute(
                 'UPDATE records SET dates = ?, timeInMinutes = ?, programmingLang = ?, rating = ?, description = ?, programmer = ?, programmerId = ? '
                 'WHERE id = ?',
                 (date, minutes, progLang, rating, desc, programmer, programmer_id[0][0], id))
+            conn.execute("DELETE FROM categories_records WHERE record_id = ?", (id,))
             conn.commit()
             for categ in categories:
                 conn.execute(
@@ -141,9 +142,13 @@ def edit(id):
     conn = db.get_db_connection()
     programmers = conn.execute("SELECT * FROM users").fetchall()
     categorie = conn.execute("SELECT * FROM categories").fetchall()
-    categorie_selected = conn.execute("SELECT category_id FROM categories_records WHERE record_id = ?", (id,)).fetchall()
+    categorie_selected = conn.execute("SELECT category_id FROM categories_records WHERE record_id = ?",
+                                      (id,)).fetchall()
+    categorie_selected_formatted = ",".join([str(singleCat[0]) for singleCat in categorie_selected])
+    categorie_selected_formatted = categorie_selected_formatted.split(",")
     conn.close()
-    return render_template('editWind.html', record=record, defs=proglangs, programmers=programmers, categories=categorie, selected_categories=categorie_selected)
+    return render_template('editWind.html', record=record, defs=proglangs, programmers=programmers,
+                           categories=categorie, selected_categories=categorie_selected_formatted)
 
 
 @app.route('/<int:id>/delete/', methods=('GET', 'POST'))  # samže záznam
@@ -319,6 +324,24 @@ def filters():
     categorie = conn.execute("SELECT * FROM categories").fetchall()
     conn.close()
     return render_template('filters_wind.html', defs=proglangs, users=programmers, categories=categorie)
+
+
+@app.route('/app/overview/<int:id>')
+def overview(id):
+    conn = db.get_db_connection()
+    query = """
+SELECT categories.category, categories.color
+FROM categories
+JOIN categories_records ON categories.id = categories_records.category_id
+WHERE categories_records.record_id = ?
+"""
+    record = conn.execute("SELECT * FROM records WHERE id = ?", (id,)).fetchall()
+    categories = conn.execute(query, (id,)).fetchall()
+    categories_list_names = [category[0] for category in categories]
+    categories_list_colors = [category[1] for category in categories]
+    conn.close()
+    return render_template('customElements/overallInfoAboutRecord.html', record=record, names=categories_list_names,
+                           colors=categories_list_colors)
 
 
 if __name__ == '__main__':

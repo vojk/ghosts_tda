@@ -1,24 +1,13 @@
-
-
-$(function () { //sort form získání a zobrazení dat
-    $('#sort-form').submit(function (event) {
-        event.preventDefault();
-        shortDesc()
-        getValues()
-
-        sortWithoutRefresh()
-    });
-});
-
-$(function () { //filter form získání a zobrazení dat
+function filtersInit() {
     $('#filter-form').submit(function (event) {
         event.preventDefault();
         getValues()
         console.log(filterprogramingLangs)
+        animate_filters()
 
         sortWithoutRefresh()
     });
-});
+}
 
 $(function () {
     $('#filter_programmingLangs option').on('click', function () {
@@ -316,7 +305,8 @@ $(function () { //odstranění záznamu pomocí ajax protokolu
 });
 
 function sortWithoutRefresh() { //funkce pro sort
-    $.get('/sort/', {
+    console.log(filterProgrammer)
+    $.get('/sort', {
         sort_field: sortParameterFormatted,
         sort_parameter: sortParameter,
         filter_rating: filterRating,
@@ -349,6 +339,7 @@ function sortWithoutRefresh() { //funkce pro sort
                 }
             }
         });
+        shortDesc()
         table_contextMenu()
     });
 }
@@ -364,7 +355,6 @@ function getValues() { //získání hodnot ze selectorů
     //filterprogramingLangs = $('#filter_programmingLangs').val();
     sortField = $('#sort_field').val();
     sortParameter = $('#sort_order').val();
-    filterProgrammer = $('#filter_programmers').val();
     filterprogramingLangsFormated = "";
     filterCategories = "";
     dateFormated = filterMinDate + "," + filterMaxDate

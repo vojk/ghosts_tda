@@ -1,9 +1,3 @@
-let record_id
-let table = ""
-
-let contextMenu = ""
-let prevContextMenu = ""
-
 function get_record_id(record) {
     record_id = record
     console.log(record)
@@ -44,6 +38,7 @@ function remove_record() {
         if (contextMenu !== "") {
             contextMenu.css('display', 'none')
         }
+        animate_filters()
     })
 }
 
@@ -51,6 +46,7 @@ function add_record() {
     $.get('/app/add/', function (data) {
         $('#_addEdit_window').html(data);
     })
+    animate_filters()
 }
 
 function edit_record() {
@@ -59,6 +55,7 @@ function edit_record() {
         if (contextMenu !== "") {
             contextMenu.css('display', 'none')
         }
+        animate_filters()
     })
 }
 
@@ -68,10 +65,20 @@ function showUsers() {
         if (contextMenu !== "") {
             contextMenu.css('display', 'none')
         }
-
+        animate_filters()
     })
 }
 
+
+function showRecord(id) {
+    $.get('/app/overview/' + id, function (data) {
+        $('#_addEdit_window').html(data);
+        if (contextMenu !== "") {
+            contextMenu.css('display', 'none')
+        }
+        animate_filters()
+    })
+}
 
 function showCategories() {
     $.get('/app/categories/', function (data) {
@@ -79,15 +86,45 @@ function showCategories() {
         if (contextMenu !== "") {
             contextMenu.css('display', 'none')
         }
+        animate_filters()
     })
 }
 
-let currentDeg = "0"
-let currentPos = "10"
-let currentPosF = "-375"
+function animate_filters() {
+
+
+    $({deg: currentDeg}).animate({deg: 0}, {
+        duration: 250,
+        step: function (now) {
+            $('.arrow_filters').css({
+                transform: 'rotate(' + now + 'deg)'
+            })
+            currentDeg = now
+        }
+    })
+    $({pos: currentPos}).animate({pos: 10}, {
+        duration: 250,
+        step: function (pos) {
+            $('.button_filters_wrap').css({
+                right: pos + 'px'
+            })
+            currentPos = pos
+        }
+    })
+    $({posF: currentPosF}).animate({posF: -375}, {
+        duration: 250,
+        step: function (posF) {
+            $('.main_filter_section_wrapper').css({
+                right: posF + 'px'
+            })
+            currentPosF = posF
+        }
+    })
+}
+
 $(function () {
     $('.arrow_filters_button').on("click", function () {
-        if (currentDeg <= 0) {
+        if (currentDeg <= 1) {
             $({deg: currentDeg}).animate({deg: 180}, {
                 duration: 250,
                 step: function (now) {
@@ -116,34 +153,9 @@ $(function () {
                     currentPosF = posF
                 }
             })
+
         } else {
-            $({deg: currentDeg}).animate({deg: 0}, {
-                duration: 250,
-                step: function (now) {
-                    $('.arrow_filters').css({
-                        transform: 'rotate(' + now + 'deg)'
-                    })
-                    currentDeg = now
-                }
-            })
-            $({pos: currentPos}).animate({pos: 10}, {
-                duration: 250,
-                step: function (pos) {
-                    $('.button_filters_wrap').css({
-                        right: pos + 'px'
-                    })
-                    currentPos = pos
-                }
-            })
-            $({posF: currentPosF}).animate({posF: -375}, {
-                duration: 250,
-                step: function (posF) {
-                    $('.main_filter_section_wrapper').css({
-                        right: posF + 'px'
-                    })
-                    currentPosF = posF
-                }
-            })
+            animate_filters()
         }
 
 

@@ -1,11 +1,21 @@
-<link rel="stylesheet" href="{{ url_for('static', filename='css/side_bar_menu.css') }}">
 <div class="menu_container" style="">
     <div class="menu_container_inner" style="">
         <div class="menu_items" style="">
             <a class="menu_item" onclick="add_record()">
                 <div class="menu_item_wrap" style="">
                     <div class="menu_item_wrap_img">
-                        <img src="../static/svg/play-list-add.svg" alt="" style="">
+                        <svg
+  width="32"
+  height="32"
+  viewBox="0 0 24 24"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path d="M2 5H14V7H2V5Z" fill="currentColor" />
+  <path d="M2 9H14V11H2V9Z" fill="currentColor" />
+  <path d="M10 13H2V15H10V13Z" fill="currentColor" />
+  <path d="M16 9H18V13H22V15H18V19H16V15H12V13H16V9Z" fill="currentColor" />
+</svg>
                     </div>
 
                     <span style="">
@@ -17,7 +27,27 @@
             <a class="menu_item" onclick="showUsers()">
                 <div class="menu_item_wrap" style="margin-top: 3px">
                     <div class="menu_item_wrap_img">
-                        <img src="../static/svg/user-list.svg" alt="" style="">
+                        <svg
+                                width="32"
+                                height="32"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                    fill-rule="evenodd"
+                                    clip-rule="evenodd"
+                                    d="M8 11C10.2091 11 12 9.20914 12 7C12 4.79086 10.2091 3 8 3C5.79086 3 4 4.79086 4 7C4 9.20914 5.79086 11 8 11ZM8 9C9.10457 9 10 8.10457 10 7C10 5.89543 9.10457 5 8 5C6.89543 5 6 5.89543 6 7C6 8.10457 6.89543 9 8 9Z"
+                                    fill="currentColor"
+                            />
+                            <path
+                                    d="M11 14C11.5523 14 12 14.4477 12 15V21H14V15C14 13.3431 12.6569 12 11 12H5C3.34315 12 2 13.3431 2 15V21H4V15C4 14.4477 4.44772 14 5 14H11Z"
+                                    fill="currentColor"
+                            />
+                            <path d="M22 11H16V13H22V11Z" fill="currentColor"/>
+                            <path d="M16 15H22V17H16V15Z" fill="currentColor"/>
+                            <path d="M22 7H16V9H22V7Z" fill="currentColor"/>
+                        </svg>
                     </div>
 
                     <span style="">
@@ -29,7 +59,25 @@
             <a class="menu_item" onclick="addUser_window_outOfBox()">
                 <div class="menu_item_wrap" style="margin-top: 3px">
                     <div class="menu_item_wrap_img">
-                        <img src="../static/svg/user-add.svg" alt="" style="">
+                        <svg
+                                width="32"
+                                height="32"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                    fill-rule="evenodd"
+                                    clip-rule="evenodd"
+                                    d="M8 11C10.2091 11 12 9.20914 12 7C12 4.79086 10.2091 3 8 3C5.79086 3 4 4.79086 4 7C4 9.20914 5.79086 11 8 11ZM8 9C9.10457 9 10 8.10457 10 7C10 5.89543 9.10457 5 8 5C6.89543 5 6 5.89543 6 7C6 8.10457 6.89543 9 8 9Z"
+                                    fill="currentColor"
+                            />
+                            <path
+                                    d="M11 14C11.5523 14 12 14.4477 12 15V21H14V15C14 13.3431 12.6569 12 11 12H5C3.34315 12 2 13.3431 2 15V21H4V15C4 14.4477 4.44772 14 5 14H11Z"
+                                    fill="currentColor"
+                            />
+                            <path d="M18 7H20V9H22V11H20V13H18V11H16V9H18V7Z" fill="currentColor"/>
+                        </svg>
                     </div>
 
                     <span style="margin-top: 3px">
@@ -41,7 +89,26 @@
             <a class="menu_item" onclick="showCategories()">
                 <div class="menu_item_wrap" style="margin-top: 3px">
                     <div class="menu_item_wrap_img">
-                        <img src="../static/svg/user-add.svg" alt="" style="">
+                        <svg
+                                width="32"
+                                height="32"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                    fill-rule="evenodd"
+                                    clip-rule="evenodd"
+                                    d="M2 8V16C2 16.5523 2.44772 17 3 17H16.6202C16.9121 17 17.1895 16.8724 17.3795 16.6508L20.808 12.6508C21.129 12.2763 21.129 11.7237 20.808 11.3492L17.3795 7.34921C17.1895 7.12756 16.9121 7 16.6202 7H3C2.44772 7 2 7.44772 2 8ZM0 8V16C0 17.6569 1.34315 19 3 19H16.6202C17.496 19 18.328 18.6173 18.898 17.9524L22.3265 13.9524C23.2895 12.8289 23.2895 11.1711 22.3265 10.0476L18.898 6.04763C18.328 5.38269 17.496 5 16.6202 5H3C1.34315 5 0 6.34315 0 8Z"
+                                    fill="currentColor"
+                            />
+                            <path
+                                    fill-rule="evenodd"
+                                    clip-rule="evenodd"
+                                    d="M15 13C15.5523 13 16 12.5523 16 12C16 11.4477 15.5523 11 15 11C14.4477 11 14 11.4477 14 12C14 12.5523 14.4477 13 15 13ZM15 15C16.6569 15 18 13.6569 18 12C18 10.3431 16.6569 9 15 9C13.3431 9 12 10.3431 12 12C12 13.6569 13.3431 15 15 15Z"
+                                    fill="currentColor"
+                            />
+                        </svg>
                     </div>
 
                     <span style="margin-top: 3px">

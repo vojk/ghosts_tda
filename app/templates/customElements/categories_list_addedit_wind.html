@@ -5,7 +5,8 @@
     {% for categories in categories %}
         <li id="cat_{{ categories.id }}_edit" class="cat_over_item">
             <div class="hover_wrap_cat_over">
-                    <span class="cat_over_item_span_cont" id="_cat_{{ categories.id }}_edit_" value="{{ categories.id }}">
+                    <span class="cat_over_item_span_cont" id="_cat_{{ categories.id }}_edit_"
+                          value="{{ categories.id }}" value_color="{{ categories.color }}" value_name="{{ categories.category }}">
                         <span class="chck_box_cat">
                             <input type="checkbox"
                                    style="margin-right: 14px; width: 0; height: 0; border: none; display: none"
@@ -92,8 +93,70 @@
 
 <script>
     var categoriesToSave = []
+    var colorToSave_under_header
+
+    var selected_categories;
+    var currentId_ofelement
+
+    // Access the elements of the selected_categories list
+
 
     $(function () {
+        selected_categories = {{ selected_categories|tojson|safe }};
+        for (var i = 0; i < selected_categories.length; i++) {
+            if (selected_categories[i] !== "NULL") {
+                $('.cat_over_item_span_cont').each(function () {
+                    if ($(this).attr('id') === '_cat_' + selected_categories[i] + '_edit_') {
+                        $(this).addClass("thisCatIsInTheList")
+                    }
+                })
+            }
+        }
+
+        $('.thisCatIsInTheList').each(function () {
+            const index_cat = categoriesToSave.findIndex(element => {
+                if (element === ($(this).attr('value'))) {
+                    return true;
+                }
+            });
+
+            console.log(index_cat)
+
+            if ($('#' + this.id + ' .cat_checkBox').prop("checked")) {
+                $('#' + this.id + ' .cat_checkBox').prop("checked", false)
+                $('#' + this.id + ' .cat_checked').css('display', 'none')
+                $('#' + this.id + ' .cat_check').css('display', 'flex')
+            } else {
+                $('#' + this.id + ' .cat_checkBox').prop("checked", true)
+                $('#' + this.id + ' .cat_check').css('display', 'none')
+                $('#' + this.id + ' .cat_checked').css('display', 'flex')
+            }
+
+            if (index_cat !== -1) {
+                categoriesToSave.splice(index_cat, 1)
+                colorToSave_under_header = ""
+                $('#' + this.id + "_index_cat").remove()
+            } else {
+                if (this.value !== "None") {
+                    categoriesToSave.push($(this).attr('value'))
+                    colorToSave_under_header = ($(this).attr('value_color'))
+                    $('#categorie_list').append('<div style="position: relative;">' +
+                        '<div id=' + this.id + "_index_cat" + ' style="width: 24px; height: 4px; border-radius: 4px; background-color: ' + colorToSave_under_header + '" class="helper_cat">' +
+                        '<span style="text-align: center">Název: ' + $('#' + this.id).attr("value_name") + '</span>' +
+                        '</div>' +
+                        '</div>')
+                } else {
+                    categoriesToSave = []
+                    colorToSave_under_header = ""
+                    $('#categorie_list').empty()
+                }
+            }
+
+            $('#categories_overall').val(categoriesToSave)
+
+            console.log($('#categories_overall').val())
+        })
+
         $('.cat_over_item_span_cont').on("click", function () {
 
             const index_cat = categoriesToSave.findIndex(element => {
@@ -116,11 +179,21 @@
 
             if (index_cat !== -1) {
                 categoriesToSave.splice(index_cat, 1)
+                colorToSave_under_header = ""
+                $('#' + this.id + "_index_cat").remove()
             } else {
                 if (this.value !== "None") {
                     categoriesToSave.push($(this).attr('value'))
+                    colorToSave_under_header = ($(this).attr('value_color'))
+                    $('#categorie_list').append('<div style="position: relative;">' +
+                        '<div id=' + this.id + "_index_cat" + ' style="background-color: ' + colorToSave_under_header + '" class="helper_cat">' +
+                        '<span>Název: ' + $('#' + this.id).attr("value_name") + '</span>' +
+                        '</div>' +
+                        '</div>')
                 } else {
                     categoriesToSave = []
+                    colorToSave_under_header = ""
+                    $('#categorie_list').empty()
                 }
             }
 

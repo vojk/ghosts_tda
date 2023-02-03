@@ -47,6 +47,27 @@ let filter_programmingLangs = [];
 
 var itemId
 
+var textToBesShorten
+
+//sliders
+let rangeMin = 0;
+const ranges = document.querySelectorAll(".range");
+
+//records
+let record_id
+let table = ""
+
+let contextMenu = ""
+let prevContextMenu = ""
+
+//animation
+let currentDeg = "0"
+let currentPos = "10"
+let currentPosF = "-375"
+
+
+
+
 let rgb2hex = (rgb) => `#${rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/).slice(1).map(n => parseInt(n, 10).toString(16).padStart(2, '0')).join('')}`
 
 function set_remove_statement(statement) {

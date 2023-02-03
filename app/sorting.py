@@ -46,15 +46,19 @@ def pre_sort(f_sort_type, f_filter_rating, f_filter_proglangs, f_filter_dates, f
     else:
         print('else')
         f_filter_dates = f_filter_dates.split(",")
-        f_filter_dates.sort()
+        print(len(f_filter_dates))
         if 0 < len(f_filter_dates):
             f_filter_dates_min = f_filter_dates[0]
         else:
             f_filter_dates_min = 'NULL'
         if 1 < len(f_filter_dates):
-            f_filter_dates_max = f_filter_dates[1]
+            if f_filter_dates[1] != "":
+                f_filter_dates_max = f_filter_dates[1]
+            else:
+                f_filter_dates_max = datetime.today().date()
         else:
             f_filter_dates_max = datetime.today().date()
+        print(str(f_filter_dates_min) + "MAX: " + str(f_filter_dates_max))
     if f_filter_timeinminutes is None or f_filter_timeinminutes == "":
         f_filter_timeinminutes_max = "NULL"
         f_filter_timeinminutes_min = '0'

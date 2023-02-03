@@ -2,21 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Aplikace pro záznam programátorských vlastností</title>
+
+    <script src="{{ url_for('static', filename='js/jquery-3.6.3.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/ntc.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/vars_default.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/records.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/userOverview.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/showRecordsScripts/updateTableWithoutRefresh.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/sliderScript.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/deleteModal.js') }}"></script>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/rangeSlider.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/records.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/sortControl.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/userOverview.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/categories_overview.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/side_bar_menu.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom_dropbox_css.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-
-    <script src="{{ url_for('static', filename='js/jquery-3.6.3.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/jquery-ui.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/records.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/vars_default.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/userOverview.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/ntc.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/customElements/removeWarn.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/customElements/filters.css') }}">
 </head>
 <body style="overflow-x: hidden">
     <div id="_addEdit_window" style="position: absolute; width: 100%; height: 100%; z-index: 5">
@@ -28,9 +37,22 @@
 
     <div>
         <div style="position:absolute; right: 10px; top: 5px;z-index: 11; " class="button_filters_wrap">
-            <div class="arrow_filters_button" style="min-width: 48px; height: 48px; border-radius: 48px; background-color: rgba(0,0,0,0.18);display: flex; align-items: center; justify-content: center; padding: 10px 20px">
+            <div class="arrow_filters_button"
+                 style="min-width: 48px; height: 48px; border-radius: 48px; background-color: rgba(0,0,0,0.18);display: flex; align-items: center; justify-content: center; padding: 10px 20px">
                 <div style="display: flex; margin-right: 5px;">
-                    <img class="arrow_filters" src="../../static/svg/arrow-left.svg" alt="">
+                    <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="arrow_filters"
+                    >
+                        <path
+                                d="M20.3284 11.0001V13.0001L7.50011 13.0001L10.7426 16.2426L9.32842 17.6568L3.67157 12L9.32842 6.34314L10.7426 7.75735L7.49988 11.0001L20.3284 11.0001Z"
+                                fill="currentColor"
+                        />
+                    </svg>
                 </div>
                 <div>
                     Filtry
@@ -38,79 +60,10 @@
             </div>
 
         </div>
-        <div style="position:absolute; right: -375px; z-index: 10; box-shadow: -4px 4px 16px 0 rgba(0,0,0,0.18);" class="main_filter_section_wrapper">
-            {% include 'filters_wind.html' %}
+        <div style="position:absolute; right: -375px; z-index: 4; box-shadow: -4px 4px 16px 0 rgba(0,0,0,0.18);"
+             class="main_filter_section_wrapper" id="filters_window">
         </div>
     </div>
-
-    {#
-<table>
-                <thead>
-                <tr>
-                    <td id="sort-button-programmer" class="ui-sort-control">
-                        Programátor
-                        <div style="width: 16px; position: relative;" class="ui-sort-control-hand">
-                            <img id="sort-button-programmer-az" style="width: 10px; position: absolute; bottom: 2px;"
-                                 src="{{ url_for('static', filename='svg/caret-up.png') }}" alt="">
-                            <img id="sort-button-programmer-za" style="width: 10px; position: absolute;"
-                                 src="{{ url_for('static', filename='svg/caret-down.png') }}" alt="">
-                        </div>
-                    </td>
-                    <td id="sort-button-programLang" class="ui-sort-control">
-                        Jazyk
-                        <div style="width: 16px; position: relative;" class="ui-sort-control-hand">
-                            <img id="sort-button-programmingLang-az"
-                                 style="width: 10px; position: absolute; bottom: 2px;"
-                                 src="{{ url_for('static', filename='svg/caret-up.png') }}" alt="">
-                            <img id="sort-button-programmingLang-za" style="width: 10px; position: absolute;"
-                                 src="{{ url_for('static', filename='svg/caret-down.png') }}" alt="">
-                        </div>
-                    </td>
-                    <td>
-                        Popis
-                        <div style="visibility: hidden; width: 16px; position: relative;" class="ui-sort-control-hand">
-                            <img id="sort-button-programmingLang-az"
-                                 style="width: 10px; position: absolute; bottom: 2px;"
-                                 src="{{ url_for('static', filename='svg/caret-up.png') }}" alt="">
-                            <img id="sort-button-programmingLang-za" style="width: 10px; position: absolute;"
-                                 src="{{ url_for('static', filename='svg/caret-down.png') }}" alt="">
-                        </div>
-                    </td>
-                    <td id="sort-button-time" class="ui-sort-control">
-                        Čas
-                        <div style="width: 16px; position: relative;" class="ui-sort-control-hand">
-                            <img id="sort-button-timeInMinutes-az" style="width: 10px; position: absolute; bottom: 2px;"
-                                 src="{{ url_for('static', filename='svg/caret-up.png') }}" alt="">
-                            <img id="sort-button-timeInMinutes-za" style="width: 10px; position: absolute;"
-                                 src="{{ url_for('static', filename='svg/caret-down.png') }}" alt="">
-                        </div>
-                    </td>
-                    <td id="sort-button-date" class="ui-sort-control">
-                        Datum
-                        <div style="width: 16px; position: relative;" class="ui-sort-control-hand">
-                            <img id="sort-button-dates-az" style="width: 10px; position: absolute; bottom: 2px;"
-                                 src="{{ url_for('static', filename='svg/caret-up.png') }}" alt="">
-                            <img id="sort-button-dates-za" style="width: 10px; position: absolute;"
-                                 src="{{ url_for('static', filename='svg/caret-down.png') }}" alt="">
-                        </div>
-                    </td>
-                    <td id="sort-button-rating" class="ui-sort-control">
-                        Hodnocení
-                        <div style="width: 16px; position: relative;" class="ui-sort-control-hand">
-                            <img id="sort-button-rating-az" style="width: 10px; position: absolute; bottom: 2px;"
-                                 src="{{ url_for('static', filename='svg/caret-up.png') }}" alt="">
-                            <img id="sort-button-rating-za" style="width: 10px; position: absolute;"
-                                 src="{{ url_for('static', filename='svg/caret-down.png') }}" alt="">
-                        </div>
-                    </td>
-                </tr>
-                </thead>
-                <tbody id="table-content">
-                {% include 'table_records.html' %}
-                </tbody>
-            </table>
-        </div>
-#}
     <div class="table_center">
         <div id="table">
             {% include 'customElements/table_row.html' %}
@@ -119,6 +72,14 @@
 
 
     <script>
+        start()
+
+        function start() {
+            $.get("/app/beta/filters", function (data) {
+                $('#filters_window').html(data)
+            })
+        }
+
         /*$("[id$=sharp]").each(function () {
             var text = $(this).text();
 
@@ -126,8 +87,5 @@
             $(this).text(text);
         })*/
     </script>
-    <script src="{{ url_for('static', filename='js/deleteModal.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/sliderScript.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/showRecordsScripts/updateTableWithoutRefresh.js') }}"></script>
 </body>
 </html>

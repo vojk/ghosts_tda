@@ -16,6 +16,7 @@
     }
 
     table tr td:first-child, table tr th:first-child {
+        cursor: default;
         padding: 0 0 0 10px;
     }
 
@@ -109,10 +110,10 @@
                         Programátor
                     </span>
                     <div style="width: 16px; position: relative;" class="ui-sort-control-hand">
-                        <img id="sort-button-programmer-az" style="width: 10px; display: none"
-                             src="{{ url_for('static', filename='svg/caret-up.png') }}" alt="">
-                        <img id="sort-button-programmer-za" style="width: 10px; display: none"
-                             src="{{ url_for('static', filename='svg/caret-down.png') }}" alt="">
+                        <img id="sort-button-programmer-az" style="width: 24px; display: none"
+                             src="{{ url_for('static', filename='svg/sort-za.svg') }}" alt="">
+                        <img id="sort-button-programmer-za" style="width: 24px; display: none"
+                             src="{{ url_for('static', filename='svg/sort-az.svg') }}" alt="">
                     </div>
 
                 </div>
@@ -125,10 +126,10 @@
                     </span>
                     <div style="width: 16px; position: relative;" class="ui-sort-control-hand">
                         <img id="sort-button-programmingLang-az"
-                             style="width: 10px; display: none"
-                             src="{{ url_for('static', filename='svg/caret-up.png') }}" alt="">
-                        <img id="sort-button-programmingLang-za" style="width: 10px; display: none"
-                             src="{{ url_for('static', filename='svg/caret-down.png') }}" alt="">
+                             style="width: 24px; display: none"
+                             src="{{ url_for('static', filename='svg/sort-za.svg') }}" alt="">
+                        <img id="sort-button-programmingLang-za" style="width: 24px; display: none"
+                             src="{{ url_for('static', filename='svg/sort-az.svg') }}" alt="">
                     </div>
 
                 </div>
@@ -139,15 +140,15 @@
                         Čas (m)
                     </span>
                     <div style="width: 16px; position: relative;" class="ui-sort-control-hand">
-                        <img id="sort-button-timeInMinutes-az" style="width: 10px; display: none"
-                             src="{{ url_for('static', filename='svg/caret-up.png') }}" alt="">
-                        <img id="sort-button-timeInMinutes-za" style="width: 10px; display: none"
-                             src="{{ url_for('static', filename='svg/caret-down.png') }}" alt="">
+                        <img id="sort-button-timeInMinutes-az" style="width: 24px; display: none"
+                             src="{{ url_for('static', filename='svg/sort-za.svg') }}" alt="">
+                        <img id="sort-button-timeInMinutes-za" style="width: 24px; display: none"
+                             src="{{ url_for('static', filename='svg/sort-az.svg') }}" alt="">
                     </div>
 
                 </div>
             </th>
-            <th style="cursor: auto;">
+            <th style="cursor: auto;cursor: default;">
                 Popis
             </th>
             <th id="sort-button-date" class="ui-sort-control">
@@ -156,10 +157,10 @@
                         Datum
                     </span>
                     <div style="width: 16px; position: relative;" class="ui-sort-control-hand">
-                        <img id="sort-button-dates-az" style="width: 10px; display: none"
-                             src="{{ url_for('static', filename='svg/caret-up.png') }}" alt="">
-                        <img id="sort-button-dates-za" style="width: 10px; display: none"
-                             src="{{ url_for('static', filename='svg/caret-down.png') }}" alt="">
+                        <img id="sort-button-dates-az" style="width: 24px; display: none"
+                             src="{{ url_for('static', filename='svg/sort-za.svg') }}" alt="">
+                        <img id="sort-button-dates-za" style="width: 24px; display: none"
+                             src="{{ url_for('static', filename='svg/sort-az.svg') }}" alt="">
                     </div>
                 </div>
             </th>
@@ -169,14 +170,14 @@
                         Hodnocení
                     </span>
                     <div style="width: 16px; position: relative;" class="ui-sort-control-hand">
-                        <img id="sort-button-rating-az" style="width: 10px; display: none"
-                             src="{{ url_for('static', filename='svg/caret-up.png') }}" alt="">
-                        <img id="sort-button-rating-za" style="width: 10px; display: none"
-                             src="{{ url_for('static', filename='svg/caret-down.png') }}" alt="">
+                        <img id="sort-button-rating-az" style="width: 24px; display: none"
+                             src="{{ url_for('static', filename='svg/sort-za.svg') }}" alt="">
+                        <img id="sort-button-rating-za" style="width: 24px; display: none"
+                             src="{{ url_for('static', filename='svg/sort-az.svg') }}" alt="">
                     </div>
                 </div>
             </th>
-            <th style="">Akce</th>
+            <th style="cursor: default;">Akce</th>
         </tr>
         </thead>
 
@@ -189,13 +190,33 @@
                 <td>{{ record.programmer }}</td>
                 <td>{{ record.programmingLang }}</td>
                 <td style="text-align: left">{{ record.timeInMinutes }}</td>
-                <td>{{ record.description }}</td>
+                <td style="max-height: 55px; overflow-y: auto"><span class="short_desc">{{ record.description }}</span>
+                </td>
                 <td>{{ record.dates }}</td>
                 <td style="text-align: center">{{ record.rating }}/5</td>
                 <td>
                     <div>
                         <a style="cursor:pointer;" class="contextMenu_record_more_section">
-                            <img src="../../static/svg/more-vertical-alt.svg">
+                            <svg
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                        d="M14 6C14 7.10457 13.1046 8 12 8C10.8954 8 10 7.10457 10 6C10 4.89543 10.8954 4 12 4C13.1046 4 14 4.89543 14 6Z"
+                                        fill="currentColor"
+                                />
+                                <path
+                                        d="M14 12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12Z"
+                                        fill="currentColor"
+                                />
+                                <path
+                                        d="M14 18C14 19.1046 13.1046 20 12 20C10.8954 20 10 19.1046 10 18C10 16.8954 10.8954 16 12 16C13.1046 16 14 16.8954 14 18Z"
+                                        fill="currentColor"
+                                />
+                            </svg>
                         </a>
                         <div style="" class="contextMenu_record">
                             <ul style="">
@@ -206,7 +227,7 @@
                                     <a onclick="set_remove_statement('record'); get_record_id('{{ record.id }}'); remove_record();">Smazat</a>
                                 </li>
                                 <li style="">
-                                    <a onclick="">Zobrazit</a>
+                                    <a onclick="showRecord({{ record.id }})">Zobrazit</a>
                                 </li>
                             </ul>
                         </div>
@@ -221,6 +242,17 @@
 
 <script>
     page()
+
+    shortDesc()
+
+    function shortDesc() {
+        $('.short_desc').each(function () {
+            textToBesShorten = $(this).text()
+            if (textToBesShorten.length > 160) {
+                $(this).text(textToBesShorten.substring(0, 160) + '...');
+            }
+        })
+    }
 
     function page() {
         table = $('#records_table').DataTable({
