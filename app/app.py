@@ -174,7 +174,7 @@ def app_add_user():
         username = request.form['form_username']
         conn = db.get_db_connection()
         conn.execute(
-            'INSERT INTO users (programmer) '
+            'INSERT INTO users (username) '
             'VALUES (?)', (username,))
         conn.commit()
         conn.close()
@@ -186,7 +186,7 @@ def app_add_user_save(username):
     if request.method == "POST":
         conn = db.get_db_connection()
         conn.execute(
-            'INSERT INTO users (programmer) '
+            'INSERT INTO users (username) '
             'VALUES (?)', (username,))
         conn.commit()
         conn.close()
@@ -204,7 +204,7 @@ def app_edit_user_save(username):
         conn.execute("BEGIN TRANSACTION")
         try:
             conn.execute(
-                'UPDATE users SET programmer = ? WHERE id = ?',
+                'UPDATE users SET username = ? WHERE id = ?',
                 (new_username, programmer_id[0][0],))
             conn.execute('UPDATE records SET programmer = ? WHERE programmerId = ?',
                          (new_username, programmer_id[0][0],))
@@ -221,7 +221,7 @@ def app_edit_user(username):
     global programmer_id
     programmer_id = db.get_id_of_user(username)
     conn = db.get_db_connection()
-    username = conn.execute("SELECT programmer FROM users WHERE id IS ?", (programmer_id[0][0],)).fetchall()
+    username = conn.execute("SELECT username FROM users WHERE id IS ?", (programmer_id[0][0],)).fetchall()
     conn.close()
     return render_template('createUserWind.html', username=username[0][0])
 
