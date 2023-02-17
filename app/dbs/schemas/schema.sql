@@ -11,15 +11,6 @@ CREATE TABLE "records"
     PRIMARY KEY ("id" AUTOINCREMENT)
 );
 
-CREATE TABLE "categories"
-(
-    "id"          INTEGER,
-    "category"    TEXT NOT NULL,
-    "color"       TEXT NOT NULL,
-    "description" TEXT NOT NULL,
-    PRIMARY KEY ("id" AUTOINCREMENT)
-);
-
 CREATE TABLE "users"
 (
     "id"        INTEGER NOT NULL,
@@ -32,13 +23,15 @@ CREATE TABLE "users"
     PRIMARY KEY ("id" AUTOINCREMENT)
 );
 
-CREATE TABLE categories
+CREATE TABLE "categories"
 (
-    id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    category    TEXT NOT NULL,
-    color       TEXT NOT NULL,
-    description TEXT NOT NULL
+    "id"          INTEGER,
+    "category"    TEXT NOT NULL,
+    "color"       TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    PRIMARY KEY ("id" AUTOINCREMENT)
 );
+
 
 CREATE TABLE categories_records
 (
@@ -48,4 +41,3 @@ CREATE TABLE categories_records
     FOREIGN KEY (record_id) REFERENCES records (id),
     FOREIGN KEY (category_id) REFERENCES categories (id)
 );
-)

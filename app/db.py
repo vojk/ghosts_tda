@@ -15,27 +15,13 @@ elif os.name == 'nt':
 databaseExists = os.path.exists(databasePath)
 
 if not databaseExists:  # ověřuje existenci databáze - zda-li existuje soubor database.db tak se nebude tvořit znova celá tabulka
+    with open('app/dbs/schemas/schema.sql', 'r') as sql_file:
+        sql_script = sql_file.read()
     connection = sqlite3.connect(databasePath)  # připojí se a případně vytvoří databázi ./dbs/database.db
-    connection.executescript(
-        'CREATE TABLE records (id INTEGER PRIMARY KEY AUTOINCREMENT, dates DATE NOT NULL, timeInMinutes INT NOT NULL, '
-        'programmingLang TEXT NOT NULL, rating INT NOT NULL, description TEXT NOT NULL, programmer TEXT NOT NULL, '
-        'programmerId INT NOT NULL)')
-    connection.executescript(
-        'CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, programmer TEXT NOT NULL)')
-    connection.executescript(
-        'CREATE TABLE categories(id INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT NOT NULL, '
-        'color TEXT NOT NULL, description TEXT NOT NULL);')
-    connection.executescript(
-        'CREATE TABLE categories_records(id INTEGER PRIMARY KEY AUTOINCREMENT, category_id INTEGER, '
-        'record_id INTEGER, FOREIGN KEY (record_id) REFERENCES records(id), FOREIGN KEY (category_id) REFERENCES categories(id));')
-
     connection.row_factory = sqlite3.Row
+    cur = connection.cursor()
+    cur.executescript(sql_script)
 
-    connection.execute(
-        'INSERT INTO users (programmer) '
-        'VALUES ("u_default")')
-
-    cur = connection.cursor()  # Vytvoří kursor
     connection.commit()  # vloží data do databáze
     connection.close()  # Uzavře spojení s databází
 
