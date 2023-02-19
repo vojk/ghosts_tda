@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, abort
+from flask import Flask, render_template, request, redirect, url_for, abort, make_response, jsonify
+from flask_login import LoginManager, login_user, login_required, current_user, logout_user, UserMixin
 import db
 import secrets
 import sorting
@@ -8,25 +9,38 @@ pre_proglangs = [{'progLangs': 'Java'}, {'progLangs': 'Python'}, {'progLangs': '
 
 proglangs = sorted(pre_proglangs, key=lambda x: x['progLangs'])
 
+secret_key = "61c42d54bdc57fdb8fa03af867511dff"
+
+
+class User(UserMixin):
+    def __init__(self, id, username, email, password):
+        self.id = id
+        self.username = username
+        self.email = email
+        self.password = password
+
+
 app = Flask(__name__)
+app.secret_key = secret_key
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 db  # inicializuje databázi
 
 
 @app.route('/')
-def index():
-    return redirect(url_for('app_wind'))
-
-
 @app.route('/app/', methods=["GET", "POST"])
+@login_required
 def app_wind():
     conn = db.get_db_connection()
     programmers = conn.execute("SELECT * FROM users").fetchall()
-    categorie = conn.execute("SELECT * FROM categories").fetchall()
+    categorie = conn.execute("SELECT * FROM categories WHERE user_id = ?", (protected_id(),)).fetchall()
     conn.close()
     return render_template('records.html', texts=sorting.pre_sort(None, None, None, None,
-                                                                  None, None, None), defs=proglangs,
-                           programmers=programmers, categories=categorie, users=programmers)
+                                                                  None, None, None, current_user.get_id()),
+                           defs=proglangs,
+                           programmers=programmers, categories=categorie, users=programmers,
+                           user_perm=protected_user_perm())
 
 
 @app.route('/sort/')
@@ -40,14 +54,12 @@ def sort():
     filter_categories = request.args.get('filter_categories')
     print("programator: " + str(filter_programmer))
     print(sort_field)
-    records = sorting.pre_sort(sort_field, filter_rating, filter_programmingLangs,
-                               filter_formatted_date,
-                               filter_time, filter_programmer, filter_categories)
 
     return render_template('customElements/table_row.html',
                            texts=sorting.pre_sort(sort_field, filter_rating, filter_programmingLangs,
                                                   filter_formatted_date,
-                                                  filter_time, filter_programmer, filter_categories))
+                                                  filter_time, filter_programmer, filter_categories,
+                                                  current_user.get_id()))
 
 
 @app.route("/add/", methods=('GET', 'POST'))  # přidání záznamu
@@ -59,7 +71,6 @@ def create_record():
         rating = request.form['formRating']
         progLang = request.form['formProgLang_select']
         desc = request.form['formDesc']
-        programmer = request.form['formProgrammer_select']
         categories = request.form['categories_overall']
 
         categories = categories.split(",")
@@ -75,12 +86,10 @@ def create_record():
         else:
             conn = db.get_db_connection()
             cursor = conn.cursor()
-            programmer_id = db.get_id_of_user(programmer)
-            print(programmer_id[0][0])
             cursor.execute(
-                'INSERT INTO records (dates, timeInMinutes, programmingLang, rating, description, programmer, programmerId) '
-                'VALUES (?, ?, ?, ?, ?, ?, ?)',
-                (date, minutes, progLang, rating, desc, programmer, programmer_id[0][0]))
+                'INSERT INTO records (dates, timeInMinutes, programmingLang, rating, description, user_id) '
+                'VALUES (?, ?, ?, ?, ?, ?)',
+                (date, minutes, progLang, rating, desc, current_user.get_id(),))
             conn.commit()
             last_id = cursor.lastrowid
             for categ in categories:
@@ -92,7 +101,7 @@ def create_record():
             return redirect(url_for('app_wind'))
     conn = db.get_db_connection()
     programmers = conn.execute("SELECT * FROM users").fetchall()
-    categorie = conn.execute("SELECT * FROM categories").fetchall()
+    categorie = conn.execute("SELECT * FROM categories WHERE user_id = ?", (protected_id(),)).fetchall()
     conn.close()
     return render_template('createWind.html', defs=proglangs, programmers=programmers, categories=categorie,
                            selected_categories="")
@@ -111,7 +120,6 @@ def edit(id):
         rating = request.form['formRating']
         progLang = request.form['formProgLang_select']
         desc = request.form['formDesc']
-        programmer = request.form['formProgrammer_select']
         categories = request.form['categories_overall']
 
         categories = categories.split(",")
@@ -126,11 +134,10 @@ def edit(id):
             print("No desc found")
         else:
             conn = db.get_db_connection()
-            programmer_id = db.get_id_of_user(programmer)
             conn.execute(
-                'UPDATE records SET dates = ?, timeInMinutes = ?, programmingLang = ?, rating = ?, description = ?, programmer = ?, programmerId = ? '
+                'UPDATE records SET dates = ?, timeInMinutes = ?, programmingLang = ?, rating = ?, description = ? '
                 'WHERE id = ?',
-                (date, minutes, progLang, rating, desc, programmer, programmer_id[0][0], id))
+                (date, minutes, progLang, rating, desc, id))
             conn.execute("DELETE FROM categories_records WHERE record_id = ?", (id,))
             conn.commit()
             for categ in categories:
@@ -141,7 +148,7 @@ def edit(id):
             conn.close()
     conn = db.get_db_connection()
     programmers = conn.execute("SELECT * FROM users").fetchall()
-    categorie = conn.execute("SELECT * FROM categories").fetchall()
+    categorie = conn.execute("SELECT * FROM categories WHERE user_id = ?", (protected_id(),)).fetchall()
     categorie_selected = conn.execute("SELECT category_id FROM categories_records WHERE record_id = ?",
                                       (id,)).fetchall()
     categorie_selected_formatted = ",".join([str(singleCat[0]) for singleCat in categorie_selected])
@@ -168,14 +175,94 @@ def delete(id):
     return render_template('removeWarn.html')
 
 
+# ----- login/logout -----
+
+@login_manager.user_loader
+def load_user(user_id):
+    print("users_load")
+    conn = db.get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
+    user = cursor.fetchone()
+    if user is None:
+        return None
+    user = User(id=user[0], username=user[1], email=user[2], password=user[3])
+    return user
+
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    return redirect(url_for('app_login'))
+
+
+@app.route('/app/login/', methods=["POST", "GET"])
+def app_login():
+    # If user is already authenticated, redirect to the protected page
+    if current_user.is_authenticated:
+        return redirect(url_for('protected'))
+
+    if request.method == "POST":
+        username = request.form["user_username"]
+        password = request.form["user_password"]
+        conn = db.get_db_connection()
+        user = conn.execute("""SELECT * FROM users WHERE (username = ? OR email = ?) AND password = ?""",
+                            (username, username, password)).fetchone()
+        if user is not None:
+            user_obj = User(id=user[0], username=user[1], email=user[2], password=user[3])
+            login_user(user_obj)
+            return redirect(url_for('protected'))
+        else:
+            print("user is not valid")
+            return render_template("login/login.html")
+    return render_template("login/login.html")
+
+
+@app.route('/app/logout')
+def app_logout():
+    logout_user()
+    return redirect(url_for('app_login'))
+
+
+@app.route('/protected/')
+@login_required
+def protected():
+    user_id = current_user.get_id()
+    return redirect(url_for('app_wind'))
+
+
+@app.route('/protected/get_user_id/')
+@login_required
+def protected_id():
+    return current_user.get_id()
+
+
+@app.route('/protected/get_user_perm/')
+@login_required
+def protected_user_perm():
+    conn = db.get_db_connection()
+    record = conn.execute("""SELECT role FROM users WHERE id=?""", (current_user.get_id(),)).fetchall()
+    conn.close()
+    return str(record[0][0])
+
+
+# -------------------------
+
+
+# ------ users management ---------
+
 @app.route('/user/add/', methods=["GET", "POST"])  # funkce pro vytvoření uživatele
 def app_add_user():
     if request.method == "POST":
+        firstname = request.form['form_firstname']
+        lastname = request.form['form_lastname']
         username = request.form['form_username']
+        email = request.form['form_email']
+        password = request.form['form_password']
+        perm = request.form['form_perm']
         conn = db.get_db_connection()
         conn.execute(
-            'INSERT INTO users (username) '
-            'VALUES (?)', (username,))
+            'INSERT INTO users (username, firstname, lastname, password, email, role) '
+            'VALUES (?,?,?,?,?,?)', (username, firstname, lastname, password, email, perm))
         conn.commit()
         conn.close()
     return render_template('createUserWind.html', username="")
@@ -221,9 +308,10 @@ def app_edit_user(username):
     global programmer_id
     programmer_id = db.get_id_of_user(username)
     conn = db.get_db_connection()
-    username = conn.execute("SELECT username FROM users WHERE id IS ?", (programmer_id[0][0],)).fetchall()
+    username = conn.execute("SELECT * FROM users WHERE id IS ?", (programmer_id[0][0],)).fetchall()
     conn.close()
-    return render_template('createUserWind.html', username=username[0][0])
+    return render_template('createUserWind.html', username=username[0][1], firstname=username[0][2],
+                           lastname=username[0][3], password=username[0][4], email=username[0][5])
 
 
 @app.route('/user/<string:username>/delete/', methods=["GET", "POST"])  # funkce pro vytvoření uživatele
@@ -232,7 +320,7 @@ def app_delete_user(username):
         username = username
         conn = db.get_db_connection()
         programmer_id = db.get_id_of_user(username)
-        conn.execute('DELETE FROM records WHERE programmerId = ?', (programmer_id[0][0],))
+        conn.execute('DELETE FROM records WHERE user_id = ?', (programmer_id[0][0],))
         conn.execute('DELETE FROM users WHERE id = ?', (programmer_id[0][0],))
         conn.commit()
         conn.close()
@@ -260,10 +348,13 @@ def users_overview():
     return render_template('usersOverview.html', users=users)
 
 
+# ------------------------------------------------
+
+
 @app.route('/app/categories/')
 def categories_overview():
     conn = db.get_db_connection()
-    categorie = conn.execute("SELECT * FROM categories").fetchall()
+    categorie = conn.execute("SELECT * FROM categories WHERE user_id=?", (protected_id())).fetchall()
     conn.close()
     return render_template('categoriesOverview.html', categories=categorie)
 
@@ -276,8 +367,8 @@ def categories_add():
         color_cat = request.form["form_color_hex"]
         print(name_cat)
         conn = db.get_db_connection()
-        conn.execute("INSERT INTO categories (category, color, description) VALUES (?,?,?)",
-                     (name_cat, color_cat, desc_cat,))
+        conn.execute("INSERT INTO categories (category, color, description, user_id) VALUES (?,?,?,?)",
+                     (name_cat, color_cat, desc_cat, protected_id(),))
         conn.commit()
         conn.close()
     return "done"
@@ -312,7 +403,7 @@ def categories_remove(id):
 @app.route('/app/categories/update')
 def categories_overview_update():
     conn = db.get_db_connection()
-    categorie = conn.execute("SELECT * FROM categories").fetchall()
+    categorie = conn.execute("SELECT * FROM categories WHERE user_id=?", (protected_id(),)).fetchall()
     conn.close()
     return render_template('customElements/categories_list.html', categories=categorie)
 
@@ -321,7 +412,7 @@ def categories_overview_update():
 def filters():
     conn = db.get_db_connection()
     programmers = conn.execute("SELECT * FROM users").fetchall()
-    categorie = conn.execute("SELECT * FROM categories").fetchall()
+    categorie = conn.execute("SELECT * FROM categories WHERE user_id=?", (protected_id(),)).fetchall()
     conn.close()
     return render_template('filters_wind.html', defs=proglangs, users=programmers, categories=categorie)
 

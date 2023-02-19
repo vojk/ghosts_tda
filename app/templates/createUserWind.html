@@ -5,10 +5,38 @@
                 uživatele
             </legend>
             <div style="width: fit-content;">
-                <div class="wrap">
-                    <label for="form_username" class="popis_textBox">Jméno Programátora</label>
+                <div class="wrap" style="margin: 1rem 0">
+                    <label for="form_firstname" class="popis_textBox">Jméno</label>
+                    <input type="text" name="form_firstname" autocomplete="off" id="form_firstname" class="textfield"
+                           value="{{ firstname }}" required>
+                </div>
+                <div class="wrap" style="margin: 1rem 0">
+                    <label for="form_lastname" class="popis_textBox">Přijmení</label>
+                    <input type="text" name="form_lastname" autocomplete="off" id="form_lastname" class="textfield"
+                           value="{{ lastname }}" required>
+                </div>
+                <div class="wrap" style="margin: 1rem 0">
+                    <label for="form_username" class="popis_textBox">Uživatelské jméno</label>
                     <input type="text" name="form_username" autocomplete="off" id="form_username" class="textfield"
                            value="{{ username }}" required>
+                </div>
+                <div class="wrap" style="margin: 1rem 0">
+                    <label for="form_email" class="popis_textBox">E-mail</label>
+                    <input type="email" name="form_email" autocomplete="off" id="form_email" class="textfield"
+                           value="{{ email }}" required>
+                </div>
+                <div class="wrap" style="margin: 1rem 0">
+                    <label for="form_password" class="popis_textBox">Heslo</label>
+                    <input type="password" name="form_password" autocomplete="off" id="form_password" class="textfield"
+                           value="{{ password }}" required>
+                </div>
+                <div class="wrap" style="margin: 1rem 0">
+                    <label for="form_perm" class="popis_textBox">Heslo</label>
+                    <select name="form_perm" autocomplete="off" id="form_perm" class="textfield"
+                            required>
+                        <option value="uzivatel">Uživatelský účet</option>
+                        <option value="admin">Adminkský účet</option>
+                    </select>
                 </div>
 
                 <div class="flex_row space_between_el" style="justify-content: space-evenly;">
@@ -55,7 +83,8 @@
                     if (_statement === 'button-add-user') {
                         $.ajax({
                             type: "POST",
-                            url: "/app/user/" + localUsername + "/add/",
+                            url: "/user/add/",
+                            data: form.serialize(),
                             success: function (response) {
                                 get_user_table('/app/appUpt/updateUserList');
                                 $('#user_add-edit_window_container').remove()
@@ -75,9 +104,11 @@
                         });
                     } else if (_statement === 'button-add-user-out') {
                         console.log("TEST")
+                        form = $(this)
                         $.ajax({
                             type: "POST",
-                            url: "/app/user/" + localUsername + "/add/",
+                            url: "/user/add/",
+                            data: form.serialize(),
                             success: function (response) {
                                 get_user_table('/app/appUpt/updateUserList');
                                 $('#user_add-edit_window_container').remove()

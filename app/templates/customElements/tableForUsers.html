@@ -11,18 +11,18 @@
         {% for user in users %}
             <tr>
                 <td style="width: 9%; text-align: center; padding: 15px 0;">{{ user.id }}</td>
-                <td style="padding-left: 15px">{{ user.programmer }}</td>
+                <td style="padding-left: 15px">{{ user.username }}</td>
                 <td style="width: 20%; padding: 0">
                     {#
                 <a href="/user/{{ user.programmer }}/delete">Delete</a>
                 #}
                     <div style="display: flex; justify-content: space-around;">
                         <a class="button_edit_user"
-                           onclick="getUsername('{{ user.programmer }}');edit_user(); function set_legend_text() {
+                           onclick="getUsername('{{ user.username }}');edit_user(); function set_legend_text() {
                                    legend_text = 'Upravení Uživatele'
                                    } set_legend_text();" {# href="/user/{{ user.programmer }}/edit" #}
                            style="cursor:pointer;">Edit</a>
-                        <a onclick="getUsername('{{ user.programmer }}');remove_user();set_remove_statement('user')"
+                        <a onclick="getUsername('{{ user.username }}');remove_user();set_remove_statement('user')"
                            id="button_delete_user" style="cursor:pointer;">Delete</a>
                     </div>
 

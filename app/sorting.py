@@ -7,7 +7,7 @@ sortTypes = ('dates', 'time_in_minutes', 'programming_lang', 'rating', 'None')
 
 
 def pre_sort(f_sort_type, f_filter_rating, f_filter_proglangs, f_filter_dates, f_filter_timeinminutes,
-             f_filter_programmer, f_filter_categories):
+             f_filter_programmer, f_filter_categories, user_id):
     print("Kategorie:" + str(f_filter_categories))
     if f_sort_type is None or f_sort_type == "":
         f_sort_type = [{'sortTypes': 'NULL'}]
@@ -104,12 +104,12 @@ def pre_sort(f_sort_type, f_filter_rating, f_filter_proglangs, f_filter_dates, f
 
     return sorting(f_sort_type, f_filter_timeinminutes_min, f_filter_timeinminutes_max, f_filter_rating_min,
                    f_filter_rating_max, f_filter_proglangs,
-                   f_filter_dates_min, f_filter_dates_max, f_filter_programmer, f_filter_categories)
+                   f_filter_dates_min, f_filter_dates_max, f_filter_programmer, f_filter_categories, user_id)
 
 
 def sorting(sorting_parameter, f_filter_timeinminutes_min, f_filter_timeinminutes_max, f_filter_rating_min,
             f_filter_rating_max, proglangs, f_filter_dates_min,
-            f_filter_dates_max, f_filter_programmer, f_filter_categories):
+            f_filter_dates_max, f_filter_programmer, f_filter_categories, user_id):
     print(f_filter_categories)
     conn = db.get_db_connection()
     cursor = conn.cursor()
@@ -128,21 +128,16 @@ def sorting(sorting_parameter, f_filter_timeinminutes_min, f_filter_timeinminute
             f"LEFT JOIN categories_records ON records.id=categories_records.record_id " \
             f"LEFT JOIN categories ON categories.id=categories_records.category_id " \
             f"WHERE timeInMinutes BETWEEN ? AND ? AND (rating BETWEEN ? AND ? OR rating IS NULL) AND programmingLang IN ({placeholders}) AND dates BETWEEN ? AND ? " \
-            f"AND programmerId IN ({placeholders_programmers}) AND category_id IN ({placeholders_categories}) " \
+            f"AND category_id IN ({placeholders_categories}) AND records.user_id = {user_id} " \
             f"GROUP BY records.id " \
             f"ORDER BY {placeholders_sort}"
     print(query)
     values = [f_filter_timeinminutes_min, f_filter_timeinminutes_max, f_filter_rating_min, f_filter_rating_max] + [
         d['progLangs'] for d in proglangs] + [
-                 f_filter_dates_min, f_filter_dates_max] + [user for user in f_filter_programmer] + [x for x in f_filter_categories]
+                 f_filter_dates_min, f_filter_dates_max] + [x for x in f_filter_categories]
     records = cursor.execute(query, values).fetchall()
 
     print([x for x in f_filter_categories])
-    for record in records:
-        if record[8] is None:
-            print("Record ID:", record[0], "Record Name:", record[1], "Category: Not Assigned")
-        else:
-            print("Record ID:", record[0], "Record Name:", record[1], "Category:", record[8])
     cursor.close()
     conn.close()
     return records

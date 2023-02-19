@@ -6,22 +6,24 @@ CREATE TABLE "records"
     "programmingLang" TEXT NOT NULL,
     "rating"          INT  NOT NULL,
     "description"     TEXT NOT NULL,
-    "programmer"      TEXT NOT NULL,
-    "programmerId"    INT  NOT NULL,
+    "user_id"         INT  NOT NULL,
     PRIMARY KEY ("id" AUTOINCREMENT)
 );
 
 CREATE TABLE "users"
 (
     "id"        INTEGER NOT NULL,
-    "username"  TEXT    NOT NULL,
-    "firstname" TEXT    NOT NULL,
-    "lastname"  TEXT    NOT NULL,
-    "password"  TEXT    NOT NULL,
-    "email"     TEXT    NOT NULL,
-    "role"      TEXT    NOT NULL,
+    "username"  TEXT,
+    "firstname" TEXT,
+    "lastname"  TEXT,
+    "password"  TEXT,
+    "email"     TEXT,
+    "role"      TEXT,
     PRIMARY KEY ("id" AUTOINCREMENT)
 );
+
+INSERT INTO "users" (username, password, role)
+VALUES ("admin", "123456", "admin");
 
 CREATE TABLE "categories"
 (
@@ -29,6 +31,7 @@ CREATE TABLE "categories"
     "category"    TEXT NOT NULL,
     "color"       TEXT NOT NULL,
     "description" TEXT NOT NULL,
+    "user_id"     INT  NOT NULL,
     PRIMARY KEY ("id" AUTOINCREMENT)
 );
 

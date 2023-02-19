@@ -50,7 +50,7 @@ def get_data_from_db_by_id(post_id):  # čte data z databáze
 
 def get_id_of_user(username):
     conn = get_db_connection()
-    query = "SELECT id FROM users WHERE programmer IS ?"
+    query = "SELECT id FROM users WHERE users.username IS ?"
     values = [username]
     programmer_id = conn.execute(query, values).fetchall()
     conn.close()
