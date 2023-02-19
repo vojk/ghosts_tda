@@ -5,6 +5,7 @@ FROM python:3.10-buster
 WORKDIR /app
 
 RUN pip install pipenv
+RUN pip install flask_login
 
 COPY Pipfile .
 COPY Pipfile.lock .
