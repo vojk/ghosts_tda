@@ -50,6 +50,15 @@
             </div>
         </form>
 
+        <script>
+            _selectElement()
+
+            function _selectElement() {
+                let element = document.getElementById('form_perm');
+                element.value = "{{perm}}";
+            }
+        </script>
+
 
         <script !src="">
             cancel_add_edit_user()

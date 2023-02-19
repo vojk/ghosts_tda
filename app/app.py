@@ -307,7 +307,7 @@ def app_edit_user(user_id):
     username = conn.execute("SELECT * FROM users WHERE id IS ?", (user_id,)).fetchall()
     conn.close()
     return render_template('createUserWind.html', username=username[0][1], firstname=username[0][2],
-                           lastname=username[0][3], password=username[0][4], email=username[0][5])
+                           lastname=username[0][3], password=username[0][4], email=username[0][5], perm=username[0][6])
 
 
 @app.route('/user/<string:username>/delete/', methods=["GET", "POST"])  # funkce pro vytvoření uživatele
