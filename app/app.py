@@ -260,55 +260,51 @@ def app_add_user():
         password = request.form['form_password']
         perm = request.form['form_perm']
         conn = db.get_db_connection()
-        conn.execute(
-            'INSERT INTO users (username, firstname, lastname, password, email, role) '
-            'VALUES (?,?,?,?,?,?)', (username, firstname, lastname, password, email, perm))
-        conn.commit()
+        how_many_of_it_is_username = conn.execute("""SELECT COUNT(*) FROM users WHERE username = ?;""",
+                                                  (username,)).fetchall()
+        how_many_of_it_is_email = conn.execute("""SELECT COUNT(*) FROM users WHERE email = ?;""",
+                                               (email,)).fetchall()
+        if not int(how_many_of_it_is_username[0][0]) >= 1:
+            if not int(how_many_of_it_is_email[0][0]) >= 1:
+                conn.execute(
+                    'INSERT INTO users (username, firstname, lastname, password, email, role) '
+                    'VALUES (?,?,?,?,?,?)', (username, firstname, lastname, password, email, perm))
+                conn.commit()
+            else:
+                return "1"
+        else:
+            return "1"
         conn.close()
+        return "0"
     return render_template('createUserWind.html', username="")
 
 
-@app.route('/app/user/<string:username>/add/', methods=["GET", "POST"])  # funkce pro vytvoření uživatele
-def app_add_user_save(username):
-    if request.method == "POST":
-        conn = db.get_db_connection()
-        conn.execute(
-            'INSERT INTO users (username) '
-            'VALUES (?)', (username,))
-        conn.commit()
-        conn.close()
-    return render_template('createUserWind.html', username="")
-
-
-programmer_id = ""
-
-
-@app.route('/app/user/<string:username>/edit/', methods=["GET", "POST"])
-def app_edit_user_save(username):
-    if request.method == "POST":
-        new_username = username
-        conn = db.get_db_connection()
-        conn.execute("BEGIN TRANSACTION")
-        try:
-            conn.execute(
-                'UPDATE users SET username = ? WHERE id = ?',
-                (new_username, programmer_id[0][0],))
-            conn.execute('UPDATE records SET programmer = ? WHERE programmerId = ?',
-                         (new_username, programmer_id[0][0],))
-            conn.execute("COMMIT")
-        except:
-            conn.execute("ROLLBACK")
-            raise
-        conn.close()
-    return 'show'
-
-
-@app.route('/user/<string:username>/edit/', methods=["GET", "POST"])  # funkce pro upravení uživatele
-def app_edit_user(username):
-    global programmer_id
-    programmer_id = db.get_id_of_user(username)
+@app.route('/user/<int:user_id>/edit/', methods=["GET", "POST"])  # funkce pro upravení uživatele
+def app_edit_user(user_id):
+    print("id uživatele: " + str(user_id))
     conn = db.get_db_connection()
-    username = conn.execute("SELECT * FROM users WHERE id IS ?", (programmer_id[0][0],)).fetchall()
+    if request.method == "POST":
+        firstname = request.form['form_firstname']
+        lastname = request.form['form_lastname']
+        username = request.form['form_username']
+        email = request.form['form_email']
+        password = request.form['form_password']
+        perm = request.form['form_perm']
+        how_many_of_it_is_username = conn.execute("""SELECT COUNT(*) FROM users WHERE username = ?;""",
+                                                  (username,)).fetchall()
+        how_many_of_it_is_email = conn.execute("""SELECT COUNT(*) FROM users WHERE email = ?;""",
+                                               (email,)).fetchall()
+        if not int(how_many_of_it_is_username[0][0]) >= 1:
+            if not int(how_many_of_it_is_email[0][0]) >= 1:
+                conn.execute(
+                    'UPDATE users SET username = ?, firstname=?, lastname=?, email=?, password=?,role=? WHERE id = ?',
+                    (username, firstname, lastname, email, password, perm, user_id,))
+                conn.commit()
+            else:
+                return "E-mail se už používá"
+        else:
+            return "Uživatelské jméno se už používá"
+    username = conn.execute("SELECT * FROM users WHERE id IS ?", (user_id,)).fetchall()
     conn.close()
     return render_template('createUserWind.html', username=username[0][1], firstname=username[0][2],
                            lastname=username[0][3], password=username[0][4], email=username[0][5])

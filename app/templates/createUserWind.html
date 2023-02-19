@@ -81,21 +81,28 @@
                     console.log(localUsername)
                     event.preventDefault()
                     if (_statement === 'button-add-user') {
+                        form = $(this)
                         $.ajax({
                             type: "POST",
                             url: "/user/add/",
                             data: form.serialize(),
                             success: function (response) {
-                                get_user_table('/app/appUpt/updateUserList');
-                                $('#user_add-edit_window_container').remove()
-                                $('#_addEdit_window_users').css('display', 'none')
+                                if (response !== "1") {
+                                    get_user_table('/app/appUpt/updateUserList');
+                                    $('#user_add-edit_window_container').remove()
+                                    $('#_addEdit_window_users').css('display', 'none')
+                                } else {
+                                    console.log("Uživatelské jméno nebo e-mail je stejné")
+                                }
                             },
                         });
                     } else if (_statement === 'button_edit_user') {
                         console.log("TEST")
+                        form = $(this)
                         $.ajax({
                             type: "POST",
-                            url: "/app/user/" + localUsername + "/edit/",
+                            url: "/user/" + user_ids + "/edit/",
+                            data: form.serialize(),
                             success: function (response) {
                                 get_user_table('/app/appUpt/updateUserList');
                                 $('#user_add-edit_window_container').remove()
@@ -110,9 +117,13 @@
                             url: "/user/add/",
                             data: form.serialize(),
                             success: function (response) {
-                                get_user_table('/app/appUpt/updateUserList');
-                                $('#user_add-edit_window_container').remove()
-                                $('#_addEdit_window').css('display', 'none')
+                                if (response !== "1") {
+                                    get_user_table('/app/appUpt/updateUserList');
+                                    $('#user_add-edit_window_container').remove()
+                                    $('#_addEdit_window').css('display', 'none')
+                                } else {
+                                    console.log("Uživatelské jméno nebo e-mail je stejné")
+                                }
                             },
                         });
                     }

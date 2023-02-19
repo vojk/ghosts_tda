@@ -1,4 +1,5 @@
 let usernames
+let user_ids
 let _statement
 
 var legend_text
@@ -6,6 +7,11 @@ var legend_text
 function getUsername(username) {
     usernames = username
     console.log(username)
+}
+
+function getUserId(id) {
+    user_ids = id
+    console.log(user_ids)
 }
 
 function addUser_window() {
@@ -46,7 +52,7 @@ $(function () {
 
 function edit_user() {
     console.log(usernames)
-    $.get('/user/' + usernames + '/edit/', function (data) {
+    $.get('/user/' + user_ids + '/edit/', function (data) {
         $('#_addEdit_window_users').html(data);
         get_addEdit_statement('button_edit_user')
     })
