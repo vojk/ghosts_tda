@@ -3,6 +3,7 @@
     height: 100vh;
     display: flex;
     border-right: 1px gray solid;
+    background-color: white;
 }
 
 .menu_container_inner {
