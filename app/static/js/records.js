@@ -162,3 +162,27 @@ $(function () {
         console.log(currentDeg)
     })
 })
+
+
+function csv_download() {
+    $.ajax({
+        url: '/csv/export',
+        type: 'GET',
+        success: function (data) {
+            console.log(data.csv_data)
+            var dt = new Date();
+            dt.setMonth(dt.getMonth() + 1)
+            var time = dt.getHours() + "-" + dt.getMinutes() + "_" + dt.getDate()  + "-" + dt.getMonth()  + "-" + dt.getFullYear();
+            var csvData = 'data:text/csv;charset=utf-8,' + encodeURIComponent(data.csv_data);
+            var link = document.createElement('a');
+            link.setAttribute('href', csvData);
+            link.setAttribute('download', time + '-' + 'backup.csv');
+            document.body.appendChild(link);
+            link.click();
+            link.remove()
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}

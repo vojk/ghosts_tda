@@ -1,3 +1,6 @@
+import csv
+import io
+
 from flask import Flask, render_template, request, redirect, url_for, abort, make_response, jsonify
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user, UserMixin
 import db
@@ -429,6 +432,32 @@ WHERE categories_records.record_id = ?
     conn.close()
     return render_template('customElements/overallInfoAboutRecord.html', record=record, names=categories_list_names,
                            colors=categories_list_colors)
+
+
+# ------ export/import csv ------
+@app.route('/csv/export')
+@login_required
+def export_csv():
+    csvlist = [["id", "datum", "cas", "jazyk", "hodnoceni", "poznamky"]]
+    conn = db.get_db_connection()
+    record = conn.execute(f"SELECT * FROM records WHERE user_id={protected_id()}").fetchall()
+    conn.close()
+    for recorde in record:
+        list_lent = len(recorde) - 1
+        templist = []
+        for i in range(list_lent):
+            templist.append(recorde[i])
+            if i == 5:
+                csvlist.append(templist)
+                print(csvlist)
+    si = io.StringIO()
+    cw = csv.writer(si)
+    cw.writerows(csvlist)
+    output = si.getvalue()
+    # output = make_response(si.getvalue())
+    # output.headers["Content-Disposition"] = "attachment; filename=export.csv"
+    # output.headers["Content-type"] = "text/csv"
+    return jsonify({'csv_data': output})
 
 
 if __name__ == '__main__':
