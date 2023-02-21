@@ -9,7 +9,7 @@
 }
 
 #table table {
-    table-layout: fixed;
+/*table-layout: fixed;*/
 }
 
 #sort-filter {
@@ -98,4 +98,10 @@ body {
     font-size: 1.2rem;
     margin: 2px 0;
     cursor: pointer;
+}
+
+
+#table{
+    max-width: 1576px;
+    width: 100%;
 }

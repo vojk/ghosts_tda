@@ -462,4 +462,4 @@ def export_csv():
 
 if __name__ == '__main__':
     app.secret_key = secrets.token_hex(16)
-    app.run()
+    app.run(debug=True)
