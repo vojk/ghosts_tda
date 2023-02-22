@@ -123,6 +123,43 @@ function animate_filters() {
 }
 
 $(function () {
+    $('#backup_upload').on('change', function (e) {
+        var csvData
+        // Get the selected file
+        var file = e.target.files[0];
+
+        // Create a new FileReader instance
+        var reader = new FileReader();
+
+        // Set a callback function to run when file is loaded
+        reader.onload = function (event) {
+            // Parse the CSV data using jQuery CSV plugin
+            csvData = $.csv.toArrays(event.target.result);
+            var jsonData = [];
+            var headers = csvData[0];
+            for (var i = 1; i < csvData.length; i++) {
+                var obj = {};
+                for (var j = 0; j < headers.length; j++) {
+                    obj[headers[j]] = csvData[i][j];
+                }
+                jsonData.push(obj);
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/csv/import",
+                data: JSON.stringify(jsonData),
+                contentType: 'application/json',
+                success: function (response) {
+
+                }
+            })
+        };
+
+        // Read the file as text
+        reader.readAsText(file);
+    })
+
     $('.arrow_filters_button').on("click", function () {
         if (currentDeg <= 1) {
             $({deg: currentDeg}).animate({deg: 180}, {
@@ -172,7 +209,7 @@ function csv_download() {
             console.log(data.csv_data)
             var dt = new Date();
             dt.setMonth(dt.getMonth() + 1)
-            var time = dt.getHours() + "-" + dt.getMinutes() + "_" + dt.getDate()  + "-" + dt.getMonth()  + "-" + dt.getFullYear();
+            var time = dt.getHours() + "-" + dt.getMinutes() + "_" + dt.getDate() + "-" + dt.getMonth() + "-" + dt.getFullYear();
             var csvData = 'data:text/csv;charset=utf-8,' + encodeURIComponent(data.csv_data);
             var link = document.createElement('a');
             link.setAttribute('href', csvData);
@@ -185,4 +222,9 @@ function csv_download() {
             console.log(error);
         }
     });
+}
+
+
+function csv_upload() {
+
 }

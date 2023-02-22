@@ -435,6 +435,13 @@ WHERE categories_records.record_id = ?
 
 
 # ------ export/import csv ------
+
+@app.route('/app/backup')
+@login_required
+def backup_main_screen():
+    return render_template('_backup.html')
+
+
 @app.route('/csv/export')
 @login_required
 def export_csv():
@@ -458,6 +465,27 @@ def export_csv():
     # output.headers["Content-Disposition"] = "attachment; filename=export.csv"
     # output.headers["Content-type"] = "text/csv"
     return jsonify({'csv_data': output})
+
+
+@app.route('/csv/import', methods=["GET", "POST"])
+@login_required
+def import_csv():
+    if request.method == "POST":
+        conn = db.get_db_connection()
+        tmplist = []
+        data = request.json
+        csvlist = ["datum", "cas", "jazyk", "hodnoceni", "poznamky"]
+        conn.execute("""DELETE FROM records WHERE user_id = ?""", (protected_id(),))
+        for record in data:
+            tmplist = []
+            for element in csvlist:
+                tmplist.append(record[element])
+            conn.execute(
+                """INSERT INTO records (dates, timeInMinutes, programmingLang, rating, description, user_id) VALUES (?,?,?,?,?,?)""",
+                (tmplist[0], tmplist[1], tmplist[2], tmplist[3], tmplist[4], protected_id(),))
+            conn.commit()
+        conn.close()
+    return "file"
 
 
 if __name__ == '__main__':
