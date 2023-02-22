@@ -97,8 +97,8 @@ def create_record():
             last_id = cursor.lastrowid
             for categ in categories:
                 cursor.execute(
-                    'INSERT INTO categories_records (category_id, record_id) '
-                    'VALUES (?, ?)', (categ, last_id))
+                    'INSERT INTO categories_records (category_id, record_id, user_id) '
+                    'VALUES (?, ?, ?)', (categ, last_id, protected_id(),))
                 conn.commit()
             conn.close()
             return redirect(url_for('app_wind'))
@@ -145,8 +145,8 @@ def edit(id):
             conn.commit()
             for categ in categories:
                 conn.execute(
-                    'INSERT INTO categories_records (category_id, record_id) '
-                    'VALUES (?, ?)', (categ, id))
+                    'INSERT INTO categories_records (category_id, record_id, user_id) '
+                    'VALUES (?, ?, ?)', (categ, id, protected_id(),))
                 conn.commit()
             conn.close()
     conn = db.get_db_connection()
@@ -472,17 +472,25 @@ def export_csv():
 def import_csv():
     if request.method == "POST":
         conn = db.get_db_connection()
+        cursor = conn.cursor()
         tmplist = []
         data = request.json
         csvlist = ["datum", "cas", "jazyk", "hodnoceni", "poznamky"]
         conn.execute("""DELETE FROM records WHERE user_id = ?""", (protected_id(),))
+        conn.execute("""DELETE FROM categories_records WHERE user_id = ?""", (protected_id(),))
+        conn.commit()
         for record in data:
             tmplist = []
             for element in csvlist:
                 tmplist.append(record[element])
-            conn.execute(
+            cursor.execute(
                 """INSERT INTO records (dates, timeInMinutes, programmingLang, rating, description, user_id) VALUES (?,?,?,?,?,?)""",
                 (tmplist[0], tmplist[1], tmplist[2], tmplist[3], tmplist[4], protected_id(),))
+            conn.commit()
+            last_id = cursor.lastrowid
+            cursor.execute(
+                'INSERT INTO categories_records (category_id, record_id, user_id) '
+                'VALUES (?, ?, ?)', ("", last_id, protected_id(),))
             conn.commit()
         conn.close()
     return "file"

@@ -41,6 +41,7 @@ CREATE TABLE categories_records
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
     category_id INTEGER,
     record_id   INTEGER,
+    user_id     INTEGER,
     FOREIGN KEY (record_id) REFERENCES records (id),
     FOREIGN KEY (category_id) REFERENCES categories (id)
 );
