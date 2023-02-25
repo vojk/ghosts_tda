@@ -6,6 +6,7 @@ WORKDIR /app
 
 RUN pip install pipenv
 RUN pip install flask_login
+RUN pip install python-dotenv
 
 COPY Pipfile .
 COPY Pipfile.lock .
