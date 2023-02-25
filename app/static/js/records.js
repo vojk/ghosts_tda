@@ -223,8 +223,3 @@ function csv_download() {
         }
     });
 }
-
-
-function csv_upload() {
-
-}
