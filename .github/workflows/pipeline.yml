@@ -1,6 +1,6 @@
 name: Build and push to TdA
 
-on: [push]
+on: [ push ]
 
 jobs:
   build:
@@ -19,6 +19,11 @@ jobs:
           context: ./
           tags: tda-flask:latest
           outputs: type=docker,dest=/tmp/tda-flask.tar
+
+      - name: Set Environment Variables
+        env:
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
 
       - name: Upload to TdA
         uses: Tour-de-App/upload-app@1079ded462c5c87ecd77039a955dda2e9db1d809
