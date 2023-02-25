@@ -40,7 +40,7 @@ db  # inicializuje databázi
 def test():
     smtp_username = os.getenv('SMTP_USERNAME')
     smtp_password = os.getenv('SMTP_PASSWORD')
-    prom = str(smtp_username) + " " + str(smtp_password) + " verze 5"
+    prom = str(smtp_username) + " " + str(smtp_password) + " verze 6"
     return prom
 
 
