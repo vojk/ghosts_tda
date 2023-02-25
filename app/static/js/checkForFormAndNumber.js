@@ -2,13 +2,11 @@ if (document.forms["addRecord"] !== 'undefined') {
     date = document.forms["addRecord"]["formDate"];
     time = document.forms["addRecord"]["formMinutes"];
     desc = document.forms["addRecord"]["formDesc"];
-    programmer = document.forms["addRecord"]["formProgrammer_select"];
     progLang = document.forms["addRecord"]["formProgLang_select"];
 } else {
     date = document.forms["editRecord"]["formDate"];
     time = document.forms["editRecord"]["formMinutes"];
     desc = document.forms["editRecord"]["formDesc"];
-    programmer = document.forms["editRecord"]["formProgrammer_select"];
     progLang = document.forms["editRecord"]["formProgLang_select"];
 }
 
@@ -37,13 +35,7 @@ function validateForm() {
         desc.classList.remove('invalid')
     }
 
-    if (programmer.value == "None" && !(programmer.classList.contains('invalid'))) {
-        programmer.classList.add('invalid')
-    } else if (!(programmer.value == "None")) {
-        programmer.classList.remove('invalid')
-    }
-
-    if (date.value === "" || time.value === "" || time.value === "0" || desc.value === "" || programmer.value === "None") {
+    if (date.value === "" || time.value === "" || time.value === "0" || desc.value === "") {
         return false;
         canBePosted = false
     } else {

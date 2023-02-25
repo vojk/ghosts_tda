@@ -15,9 +15,8 @@
                             <h2>{{ foo.timeInMinutes }} minut</h2>
                         </div>
 
-                        <h3>Programovací jazyk: {{ foo.programmingLang }}</h3>
-                        <h3>Programátor: {{ foo.programmer }}</h3>
-                        <h2>Hodnocení: {{ foo.rating }}/5</h2>
+                        <h3>Programovací jazyk: <span style="font-weight: 200;">{{ foo.programmingLang }}</span></h3>
+                        <h2>Hodnocení: <span style="font-weight: 200;">{{ foo.rating }}/5</span></h2>
                         <div style="margin-top: 25px">
                             <span style="font-size: 1.5rem">Popis</span>
                             <div style="height: fit-content; overflow-y: auto; margin: 0 0 15px">
@@ -70,7 +69,7 @@
                             catList.push(categories_assigned_to_record_colors[i])
                             console.log("Cat " + catList)
                             $('#categorie_list_over').append('<div style="position: relative;">' +
-                                '<div style="background-color: ' + categories_assigned_to_record_colors[i]+ '" class="helper_cat">' +
+                                '<div style="background-color: ' + categories_assigned_to_record_colors[i] + '" class="helper_cat">' +
                                 '<span style="">Název: ' + categories_assigned_to_record_names[i] + '</span>' +
                                 '</div>' +
                                 '</div>')

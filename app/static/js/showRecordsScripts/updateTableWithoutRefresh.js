@@ -325,9 +325,6 @@ function sortWithoutRefresh() { //funkce pro sort
             "lengthChange": false,
             "searching": false,
             "ordering": false,
-            "columnDefs": [
-                {"targets": [4, 7], "orderable": false}
-            ],
             "aaSorting": [],
             "info": true,
             "autoWidth": false,

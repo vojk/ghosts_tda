@@ -1,40 +1,40 @@
 <style>
-    table {
+    #records_table, table {
 
-        {# width: 1576px;#}
-        {# table-layout: fixed; #}
-        border-collapse: collapse;
+    {# width: 1576px;#}{# table-layout: fixed; #} border-collapse: collapse;
     }
 
-    td {
+    #records_table td {
         border-bottom: 1px solid #D0D0D0;
         border-top: 1px solid #D0D0D0
     }
 
-    th {
+    #records_table th {
         border-bottom: 1px solid #D0D0D0;
-        border-top: 1px solid #D0D0D0
+        border-top: 1px solid #D0D0D0;
+        user-select: none;
     }
 
-    table tr td:first-child, table tr th:first-child {
+    #records_table tr td:first-child, table tr th:first-child {
         cursor: default;
         padding: 0 0 0 60px;
     }
 
-    table tr td:last-child, table tr th:last-child {
+    #records_table tr td:last-child, table tr th:last-child {
         padding: 0 60px 0 0;
     }
 
-    table tr {
+    #records_table tr {
         height: 55px;
         width: 1576px;
     }
 
-    table tr td, table tr th {
+    #records_table tr td, table tr th {
         padding: 0;
         padding: 0 5px;
     }
 
+    {#
     table tr td:nth-child(1), table tr th:nth-child(1) {
         text-align: center;
         max-width: 155px;;
@@ -72,13 +72,47 @@
     table tr td:nth-child(8), table tr th:nth-child(8) {
         text-align: center;
         max-width: 98px;
+    } #}
+
+    #records_table tr td:nth-child(1), table tr th:nth-child(1) {
+        text-align: center;
+        width: 9.97%;
     }
 
-    table tbody tr:hover {
+    #records_table tr td:nth-child(2), table tr th:nth-child(2) {
+        text-align: left;
+        width: 10.1%;
+    }
+
+    #records_table tr td:nth-child(3), table tr th:nth-child(3) {
+        width: 5.4%;
+    }
+
+    #records_table tr td:nth-child(4), table tr th:nth-child(4) {
+        text-align: left;
+        width: 34.2%;
+    }
+
+    #records_table tr td:nth-child(5), table tr th:nth-child(5) {
+        text-align: left;
+        width: 7.9%;
+    }
+
+    #records_table tr td:nth-child(6), table tr th:nth-child(6) {
+        text-align: left;
+        width: 5.5%;
+    }
+
+    #records_table tr td:nth-child(7), table tr th:nth-child(7) {
+        text-align: center;
+        width: 6.3%;
+    }
+
+    #records_table tbody tr:hover {
         background-color: rgba(0, 0, 0, 0.07);
     }
 
-    table thead tr th {
+    #records_table thead tr th {
         cursor: pointer;
     }
 </style>
@@ -102,23 +136,8 @@
     <table id="records_table" style="" class="display">
         <thead>
         <tr style=" height: 55px;">
-            <th class="datatable-nosort">
+            <th class="datatable-nosort" style="cursor: default">
                 id
-            </th>
-            <th id="sort-button-programmer" class="ui-sort-control">
-                <div style="display: flex; align-items: center;">
-                    <span>
-                        Programátor
-                    </span>
-                    <div style="width: 16px; position: relative;" class="ui-sort-control-hand">
-                        <img id="sort-button-programmer-az" style="width: 24px; display: none"
-                             src="{{ url_for('static', filename='svg/sort-za.svg') }}" alt="">
-                        <img id="sort-button-programmer-za" style="width: 24px; display: none"
-                             src="{{ url_for('static', filename='svg/sort-az.svg') }}" alt="">
-                    </div>
-
-                </div>
-
             </th>
             <th id="sort-button-programLang" class="ui-sort-control">
                 <div style="display: flex; align-items: center;">
@@ -188,13 +207,12 @@
                 <td style="text-align: center; position:relative;">
                     {{ record.id }}
                 </td>
-                <td>{{ record.programmer }}</td>
                 <td>{{ record.programmingLang }}</td>
                 <td style="text-align: left">{{ record.timeInMinutes }}</td>
                 <td style="max-height: 55px; overflow-y: auto"><span class="short_desc">{{ record.description }}</span>
                 </td>
                 <td>{{ record.dates }}</td>
-                <td style="text-align: center">{{ record.rating }}/5</td>
+                <td>{{ record.rating }}/5</td>
                 <td>
                     <div>
                         <a style="cursor:pointer;" class="contextMenu_record_more_section">
@@ -261,9 +279,6 @@
             "lengthChange": false,
             "searching": false,
             "ordering": false,
-            "columnDefs": [
-                {"targets": [4, 7], "orderable": false}
-            ],
             responsive: true,
             "aaSorting": [],
             "info": true,
