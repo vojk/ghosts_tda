@@ -9,6 +9,7 @@ import sorting
 
 pre_proglangs = [{'progLangs': 'Java'}, {'progLangs': 'Python'}, {'progLangs': 'C'}, {'progLangs': 'Ruby'},
                  {'progLangs': 'JavaScript'}, {'progLangs': 'TypeScript'}, {'progLangs': 'Kotlin'}]
+list_of_elements = ["id", "date", "time-spent", "programming-language", "rating", "description"]
 
 proglangs = sorted(pre_proglangs, key=lambda x: x['progLangs'])
 
@@ -97,8 +98,8 @@ def create_record():
             last_id = cursor.lastrowid
             for categ in categories:
                 cursor.execute(
-                    'INSERT INTO categories_records (category_id, record_id) '
-                    'VALUES (?, ?)', (categ, last_id))
+                    'INSERT INTO categories_records (category_id, record_id, user_id) '
+                    'VALUES (?, ?, ?)', (categ, last_id, protected_id(),))
                 conn.commit()
             conn.close()
             return redirect(url_for('app_wind'))
@@ -145,8 +146,8 @@ def edit(id):
             conn.commit()
             for categ in categories:
                 conn.execute(
-                    'INSERT INTO categories_records (category_id, record_id) '
-                    'VALUES (?, ?)', (categ, id))
+                    'INSERT INTO categories_records (category_id, record_id, user_id) '
+                    'VALUES (?, ?, ?)', (categ, id, protected_id(),))
                 conn.commit()
             conn.close()
     conn = db.get_db_connection()
@@ -293,10 +294,12 @@ def app_edit_user(user_id):
         email = request.form['form_email']
         password = request.form['form_password']
         perm = request.form['form_perm']
-        how_many_of_it_is_username = conn.execute("""SELECT COUNT(*) FROM users WHERE username = ?;""",
-                                                  (username,)).fetchall()
-        how_many_of_it_is_email = conn.execute("""SELECT COUNT(*) FROM users WHERE email = ?;""",
-                                               (email,)).fetchall()
+        old_duplicates = conn.execute("""SELECT username, email FROM users WHERE id = ?""", (user_id,)).fetchall()
+        how_many_of_it_is_username = conn.execute(
+            """SELECT COUNT(*) FROM users WHERE username = ? AND username <> ?;""",
+            (username, old_duplicates[0][0],)).fetchall()
+        how_many_of_it_is_email = conn.execute("""SELECT COUNT(*) FROM users WHERE email = ? AND email <> ?;""",
+                                               (email, old_duplicates[0][1],)).fetchall()
         if not int(how_many_of_it_is_username[0][0]) >= 1:
             if not int(how_many_of_it_is_email[0][0]) >= 1:
                 conn.execute(
@@ -435,6 +438,13 @@ WHERE categories_records.record_id = ?
 
 
 # ------ export/import csv ------
+
+@app.route('/app/backup')
+@login_required
+def backup_main_screen():
+    return render_template('_backup.html')
+
+
 @app.route('/csv/export')
 @login_required
 def export_csv():
@@ -454,10 +464,188 @@ def export_csv():
     cw = csv.writer(si)
     cw.writerows(csvlist)
     output = si.getvalue()
-    # output = make_response(si.getvalue())
-    # output.headers["Content-Disposition"] = "attachment; filename=export.csv"
-    # output.headers["Content-type"] = "text/csv"
     return jsonify({'csv_data': output})
+
+
+@app.route('/csv/import', methods=["GET", "POST"])
+@login_required
+def import_csv():
+    if request.method == "POST":
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+        data = request.json
+        csvlist = ["datum", "cas", "jazyk", "hodnoceni", "poznamky"]
+        conn.execute("""DELETE FROM records WHERE user_id = ?""", (protected_id(),))
+        conn.execute("""DELETE FROM categories_records WHERE user_id = ?""", (protected_id(),))
+        conn.commit()
+        for record in data:
+            tmplist = []
+            for element in csvlist:
+                tmplist.append(record[element])
+            cursor.execute(
+                """INSERT INTO records (dates, timeInMinutes, programmingLang, rating, description, user_id) VALUES (?,?,?,?,?,?)""",
+                (tmplist[0], tmplist[1], tmplist[2], tmplist[3], tmplist[4], protected_id(),))
+            conn.commit()
+            last_id = cursor.lastrowid
+            cursor.execute(
+                'INSERT INTO categories_records (category_id, record_id, user_id) '
+                'VALUES (?, ?, ?)', ("", last_id, protected_id(),))
+            conn.commit()
+        conn.close()
+    return "file"
+
+
+# ---- API Handler -----
+@app.route('/users/<int:userid>/records', methods=['GET'])
+def api_get_user_records(userid):
+    list_of_records = []
+    conn = db.get_db_connection()
+    records = conn.execute("""SELECT * FROM records WHERE user_id = ?""", (userid,)).fetchall()
+    conn.close()
+    for record in records:
+        list_lent = len(record) - 1
+        templist = {}
+        for i in range(list_lent):
+            templist[list_of_elements[i]] = record[i]
+        list_of_records.append(templist)
+    return jsonify(list_of_records)
+
+
+@app.route('/users/<int:userid>/records/<int:record_id>', methods=['GET'])
+def api_get_user_record(userid, record_id):
+    dictionary = {}
+    conn = db.get_db_connection()
+    records = conn.execute("""SELECT * FROM records WHERE user_id = ? AND id = ?""", (userid, record_id,)).fetchall()
+    conn.close()
+    for record in records:
+        if record[0] == record_id:
+            list_lent = len(record) - 1
+            dictionary = {}
+            for i in range(list_lent):
+                dictionary[list_of_elements[i]] = record[i]
+    return jsonify(dictionary)
+
+
+@app.route('/users/<int:userid>/records', methods=['POST'])
+def api_crate_user_record(userid):
+    data = request.get_json()
+    date = data['date']
+    time = data['time-spent']
+    programmingLang = data['programming-language']
+    rating = data['rating']
+    description = data['description']
+    if int(rating) > 5 or int(rating) < 0:
+        error_message = {
+            "code": 422,
+            "message": "rating must be <= 5"
+        }
+        return jsonify(error_message), 422
+    if len(programmingLang) > 30:
+        error_message = {
+            "code": 422,
+            "message": "programming-language must be <= 30"
+        }
+        return jsonify(error_message), 422
+    if date == "" or time == "" or programmingLang == "" or rating == "" or description == "":
+        error_message = {
+            "code": 422,
+            "message": "some of element is missing"
+        }
+        return jsonify(error_message), 422
+    found = False
+    for item in proglangs:
+        if item['progLangs'] == programmingLang:
+            found = True
+            break
+    if not found:
+        error_message = {
+            "code": 422,
+            "message": "programming-language is not in the predefined programming languages"
+        }
+        return jsonify(error_message), 422
+    conn = db.get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("""INSERT INTO records (dates, timeInMinutes, programmingLang, rating, description, user_id) 
+                    VALUES (?,?,?,?,?,?)""", (date, time, programmingLang, rating, description, userid,))
+    conn.commit()
+    record_id = cursor.lastrowid
+    records = cursor.execute("""SELECT * FROM records WHERE id=?""", (record_id,)).fetchall()
+    cursor.execute("""INSERT INTO categories_records (category_id, record_id, user_id) VALUES (?,?,?)""",
+                   ("", record_id, userid,))
+    conn.commit()
+    for record in records:
+        list_lent = len(record) - 1
+        dictionary = {}
+        for i in range(list_lent):
+            dictionary[list_of_elements[i]] = record[i]
+    conn.close()
+    return jsonify(dictionary)
+
+
+@app.route('/users/<int:userid>/records/<int:record_id>', methods=['PUT'])
+def api_update_user_record(userid, record_id):
+    data = request.get_json()
+    date = data['date']
+    time = data['time-spent']
+    programmingLang = data['programming-language']
+    rating = data['rating']
+    description = data['description']
+    if int(rating) > 5 or int(rating) < 0:
+        error_message = {
+            "code": 422,
+            "message": "rating must be <= 5"
+        }
+        return jsonify(error_message), 422
+    if len(programmingLang) > 30:
+        error_message = {
+            "code": 422,
+            "message": "programming-language must be <= 30"
+        }
+        return jsonify(error_message), 422
+    if date == "" or time == "" or programmingLang == "" or rating == "" or description == "":
+        error_message = {
+            "code": 422,
+            "message": "some of element is missing"
+        }
+        return jsonify(error_message), 422
+    found = False
+    for item in proglangs:
+        if item['progLangs'] == programmingLang:
+            found = True
+            break
+    if not found:
+        error_message = {
+            "code": 422,
+            "message": "programming-language is not in the predefined programming languages"
+        }
+        return jsonify(error_message), 422
+    conn = db.get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("""UPDATE records SET dates = ?, timeInMinutes = ?, programmingLang = ?, rating = ?, description = ?, user_id = ? 
+                        WHERE id = ?""",
+                   (date, time, programmingLang, rating, description, userid, record_id,))
+    conn.commit()
+    records = cursor.execute("""SELECT * FROM records WHERE id=?""", (record_id,)).fetchall()
+    for record in records:
+        list_lent = len(record) - 1
+        dictionary = {}
+        for i in range(list_lent):
+            dictionary[list_of_elements[i]] = record[i]
+    conn.close()
+    return jsonify(dictionary)
+
+
+@app.route('/users/<int:userid>/records/<int:record_id>', methods=['DELETE'])
+def api_delete_user_record(userid, record_id):
+    conn = db.get_db_connection()
+    record = conn.execute("""SELECT * FROM records WHERE user_id = ? AND id = ?""", (userid, record_id,)).fetchone()
+    if record is None:
+        return jsonify("Not Found")
+    conn.execute("""DELETE FROM records WHERE user_id = ? AND id = ?""", (userid, record_id,))
+    conn.execute("""DELETE FROM categories_records WHERE record_id = ? AND user_id = ?""", (record_id, userid,))
+    conn.commit()
+    conn.close()
+    return jsonify("200 OK")
 
 
 if __name__ == '__main__':

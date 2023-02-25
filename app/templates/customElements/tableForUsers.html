@@ -2,8 +2,9 @@
     <table id="table_users_s">
         <thead id="user_thead">
         <tr>
-            <td style="padding: 15px 0; width: 2%">#</td>
-            <td style="padding-left: 15px">Programátor</td>
+            <td style="padding: 15px 0; width: 2%; text-align: center">#</td>
+            <td style="padding-left: 15px">Jméno</td>
+            <td style="padding-left: 15px">Uživatelské jméno</td>
             <td style="text-align: center; padding: 0">Akce</td>
         </tr>
         </thead>
@@ -11,6 +12,7 @@
         {% for user in users %}
             <tr>
                 <td style="width: 9%; text-align: center; padding: 15px 0;">{{ user.id }}</td>
+                <td style="padding-left: 15px">{{ user.firstname }} {{ user.lastname }}</td>
                 <td style="padding-left: 15px">{{ user.username }}</td>
                 <td style="width: 20%; padding: 0">
                     {#
