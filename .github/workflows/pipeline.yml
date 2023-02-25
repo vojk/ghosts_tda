@@ -21,8 +21,9 @@ jobs:
           outputs: type=docker,dest=/tmp/tda-flask.tar
 
       - name: Create .env file
-        run: echo "SMTP_USERNAME=${{ secrets.SMTP_USERNAME }}" | tee .env
-             echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" | tee -a .env
+        run: echo "SMTP_USERNAME=${{ secrets.SMTP_USERNAME }}" > .env
+             echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" >> .env
+
 
       - name: Upload to TdA
         uses: Tour-de-App/upload-app@1079ded462c5c87ecd77039a955dda2e9db1d809
