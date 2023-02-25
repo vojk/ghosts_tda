@@ -35,7 +35,8 @@ db  # inicializuje databázi
 
 @app.route('/test/t')
 def test():
-    return str(os.environ.get('SMTP_USERNAME')) + " " + str(os.environ.get('SMTP_PASSWORD'))
+    prom = str(os.environ.get('SMTP_USERNAME')) + " " + str(os.environ.get('SMRT_PASSWORD')) + " verze 1"
+    return prom
 
 
 @app.route('/')
