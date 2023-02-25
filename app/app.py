@@ -1,5 +1,6 @@
 import csv
 import io
+import os
 
 from flask import Flask, render_template, request, redirect, url_for, abort, make_response, jsonify
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user, UserMixin
@@ -30,6 +31,11 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 db  # inicializuje databázi
+
+
+@app.route('/test/t')
+def test():
+    return str(os.environ.get('SMTP_USERNAME')) + " " + str(os.environ.get('SMTP_PASSWORD'))
 
 
 @app.route('/')
