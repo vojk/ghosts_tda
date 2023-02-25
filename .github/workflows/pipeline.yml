@@ -21,7 +21,6 @@ jobs:
           outputs: type=docker,dest=/tmp/tda-flask.tar
 
       - name: Set Environment Variables
-        run: |
         env:
           SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
