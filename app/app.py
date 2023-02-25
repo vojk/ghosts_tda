@@ -38,9 +38,9 @@ db  # inicializuje databázi
 
 @app.route('/test/t')
 def test():
-    smtp_username = os.getenv('SMTP_USERNAME')
-    smtp_password = os.getenv('SMTP_PASSWORD')
-    prom = str(smtp_username) + " " + str(smtp_password) + " verze 6"
+    smtp_username = os.environ.get('SMTP_USERNAME')
+    smtp_password = os.environ.get('SMTP_PASSWORD')
+    prom = str(smtp_username) + " " + str(smtp_password) + " verze 7"
     return prom
 
 

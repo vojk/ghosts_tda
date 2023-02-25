@@ -23,7 +23,7 @@ jobs:
       - name: Create .env file
         run: echo "SMTP_USERNAME=${{ secrets.SMTP_USERNAME }}" > ./app/.env &&
              echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" >> ./app/.env &&
-             ls -la && cat ./app/.env
+             ls -la ./app/ && cat ./app/.env
 
       - name: Upload to TdA
         uses: Tour-de-App/upload-app@1079ded462c5c87ecd77039a955dda2e9db1d809
