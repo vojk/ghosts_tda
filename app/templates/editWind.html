@@ -57,23 +57,47 @@
                             <div class="flex_row spaceBetween" style="margin-top: 2rem">
                                 <div class="wrap">
                                     <label class="popis_textBox" for="_formProgLang_select">Programovací Jazyk</label>
-                                    <select name="formProgLang_select" id="_formProgLang_select" class="textfield">
-                                        <option value="None">None</option>
-                                        {% for def in defs %}
-                                            <option value="{{ def.progLangs }}">{{ def.progLangs }}</option>
-                                        {% endfor %}
-                                    </select>
+                                    <div style="flex-flow: column; display: flex">
+                                        <div class="input_icons">
+                                            <i class="icon w_selector" id="icon_w_progLang">
+                                                <svg fill="#dc4242" xmlns="http://www.w3.org/2000/svg"
+                                                     viewBox="0 0 512 512">
+                                                    <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/>
+                                                </svg>
+                                            </i>
+                                            <select name="formProgLang_select" id="_formProgLang_select"
+                                                    class="textfield">
+                                                <option value="None">-</option>
+                                                {% for def in defs %}
+                                                    <option value="{{ def.progLangs }}">{{ def.progLangs }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <span class="error_text w_selector" id="text_w_progLang">Musíš vybrat programovací jazyk</span>
+                                    </div>
                                 </div>
                                 <div class="ratingslider wrap">
                                     <label for="formRating" class="popis_textBox">Hodnocení</label>
-                                    <select name="formRating" id="_formRating" class="textbox textfield">
-                                        <option value="0">0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
+                                    <div class="input_icons_outer">
+                                        <div class="input_icons">
+                                            <i class="icon w_selector" id="icon_w_progLang">
+                                                <svg fill="#dc4242" xmlns="http://www.w3.org/2000/svg"
+                                                     viewBox="0 0 512 512">
+                                                    <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/>
+                                                </svg>
+                                            </i>
+                                            <select name="formRating" id="_formRating" class="textbox textfield">
+                                                <option value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </div>
+                                        <span class="error_text w_selector"
+                                              id="text_w_progLang">Musíš vybrat hodnocení</span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -86,15 +110,40 @@
                                 </div>
                                 <div class="wrap">
                                     <label class="popis_textBox" for="_formMinutes">Čas (m)</label>
-                                    <input type="number" name="formMinutes" class="textfield" id="_formMinutes" min="0"
-                                            {# value="0" #} value="{{ record.timeInMinutes }}">
+                                    <div class="input_icons_outer">
+                                        <div class="input_icons">
+                                            <i class="icon w_selector" id="icon_w_progLang" style="margin-right: 40px">
+                                                <svg fill="#dc4242" xmlns="http://www.w3.org/2000/svg"
+                                                     viewBox="0 0 512 512">
+                                                    <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/>
+                                                </svg>
+                                            </i>
+                                            <input type="number" name="formMinutes" class="textfield" id="_formMinutes"
+                                                   min="0"
+                                                    {# value="0" #} value="{{ record.timeInMinutes }}">
+                                        </div>
+                                        <span class="error_text w_selector"
+                                              id="text_w_progLang">Čas musí být větší než 0</span>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="wrap descForm">
                                 <label class="popis_textBox" for="_formDesc">Popis</label>
-                                <textarea name="formDesc" class="textbox" id="_formDesc" cols="70"
-                                          rows="10">{{ record.description }}</textarea>
+                                <div class="input_icons_outer">
+                                    <div class="input_icons">
+                                        <i class="icon w_selector" id="icon_w_progLang" style="margin-right: 20px">
+                                            <svg fill="#dc4242" xmlns="http://www.w3.org/2000/svg"
+                                                 viewBox="0 0 512 512">
+                                                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/>
+                                            </svg>
+                                        </i>
+                                        <textarea name="formDesc" class="textbox" id="_formDesc" cols="70"
+                                                  rows="10">{{ record.description }}</textarea>
+                                    </div>
+                                    <span class="error_text w_selector"
+                                          id="text_w_progLang">Musíš mít vyplňěný popis tvé aktivity</span>
+                                </div>
                             </div>
 
                             <div class="center flex buttonForm">
@@ -151,16 +200,19 @@
                                 console.log(self_statement)
                                 event.preventDefault()
                                 form = $(this)
-                                $.ajax({
-                                    type: "POST",
-                                    url: "/app/" + record_id + "/edit/",
-                                    data: form.serialize(),
-                                    success: function (response) {
-                                        sortWithoutRefresh()
-                                        $('#editRecord').remove()
-                                        $('#_addEdit_window').css('display', 'none')
-                                    },
-                                });
+                                console.log(canBePosted)
+                                if (canBePosted) {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/app/" + record_id + "/edit/",
+                                        data: form.serialize(),
+                                        success: function (response) {
+                                            sortWithoutRefresh()
+                                            $('#editRecord').remove()
+                                            $('#_addEdit_window').css('display', 'none')
+                                        },
+                                    });
+                                }
                             });
                         });
 
@@ -174,11 +226,6 @@
 
                         $('#categories_add_edit').on("click", function () {
                             $('#edit_categories').css("display", "block")
-                        })
-
-                        $('html').on("click", function () {
-                            $('#_addEdit_window').css('display', 'none')
-                            $('#addWindow').remove()
                         })
                     </script>
                 </div>

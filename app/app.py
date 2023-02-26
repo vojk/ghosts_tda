@@ -1,13 +1,13 @@
 import csv
 import io
-import os
+import multiprocessing
 
 from flask import Flask, render_template, request, redirect, url_for, abort, make_response, jsonify
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user, UserMixin
-from dotenv import load_dotenv
 import db
 import secrets
 import sorting
+import email_sender
 
 pre_proglangs = [{'progLangs': 'Java'}, {'progLangs': 'Python'}, {'progLangs': 'C'}, {'progLangs': 'Ruby'},
                  {'progLangs': 'JavaScript'}, {'progLangs': 'TypeScript'}, {'progLangs': 'Kotlin'}]
@@ -31,17 +31,7 @@ app.secret_key = secret_key
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-load_dotenv()
-
 db  # inicializuje databázi
-
-
-@app.route('/test/t')
-def test():
-    smtp_username = os.environ.get('SMTP_USERNAME')
-    smtp_password = os.environ.get('SMTP_PASSWORD')
-    prom = str(smtp_username) + " " + str(smtp_password) + " verze 7"
-    return prom
 
 
 @app.route('/')
@@ -286,6 +276,7 @@ def app_add_user():
                     'INSERT INTO users (username, firstname, lastname, password, email, role) '
                     'VALUES (?,?,?,?,?,?)', (username, firstname, lastname, password, email, perm))
                 conn.commit()
+                send_email(email, lastname, username, password)
             else:
                 return "1"
         else:
@@ -658,6 +649,13 @@ def api_delete_user_record(userid, record_id):
     conn.commit()
     conn.close()
     return jsonify("200 OK")
+
+
+# ---- additional functions -----
+def send_email(receiver_email, receiver_lastname, receiver_username, receiver_password):
+    p = multiprocessing.Process(target=email_sender.send_email,
+                                args=(receiver_email, receiver_lastname, receiver_username, receiver_password))
+    p.start()
 
 
 if __name__ == '__main__':

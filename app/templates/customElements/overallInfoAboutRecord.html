@@ -55,11 +55,6 @@
                         event.stopPropagation()
                     })
 
-                    $('html').on("click", function () {
-                        $('#_addEdit_window').css('display', 'none')
-                        $('#addWindow').remove()
-                    })
-
                     categories_assigned_to_record_names = {{ names|tojson|safe }};
                     categories_assigned_to_record_colors = {{ colors|tojson|safe }};
 

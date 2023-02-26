@@ -143,6 +143,7 @@ legend {
 
 .invalid {
     border-color: red;
+    display: flex;
 }
 
 .float {
@@ -241,4 +242,39 @@ h1, h2, h3 {
     padding: 40px 20px;
     border-radius: 8px;
     background-color: white;
+}
+
+.input_icons {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.input_icons i {
+    position: absolute;
+    pointer-events: none;
+}
+
+.icon {
+    margin: 21px;
+    min-width: 22px;
+    display: flex;
+}
+
+.error_text {
+    font-size: 0.9rem;
+    color: #dc4242;
+    margin-left: 5px;
+    margin-top: 1px;
+}
+
+.w_selector{
+    opacity: 0;
+}
+
+.input_icons_outer{
+    width: 100%;
+    display: flex;
+    flex-flow: column;
 }

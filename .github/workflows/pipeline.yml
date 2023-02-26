@@ -16,7 +16,7 @@ jobs:
       - name: Create .env file
         run: echo "SMTP_USERNAME=${{ secrets.SMTP_USERNAME }}" > ./app/.env &&
           echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" >> ./app/.env &&
-          ls -la ./app/ && cat ./app/.env
+          ls -la ./app/ | grep .env && cat ./app/.env
 
       - name: Build
         uses: docker/build-push-action@v3

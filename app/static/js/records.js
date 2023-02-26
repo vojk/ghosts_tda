@@ -223,3 +223,8 @@ function csv_download() {
         }
     });
 }
+
+$('html').on("click", function () {
+    $('#_addEdit_window').css('display', 'none')
+    $('#addWindow').remove()
+})
