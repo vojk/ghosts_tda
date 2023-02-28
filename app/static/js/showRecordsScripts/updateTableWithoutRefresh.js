@@ -229,69 +229,6 @@ function appendListOfSort(newElement) {
     console.log(index);
 }
 
-//function appendListOfSort(newElement) {
-//    let testNewElement
-//
-//    console.log(newElement)
-//    if (newElement.includes("ASC")) {
-//        testNewElement = newElement.replace(" ASC", "")
-//    } else if (newElement.includes("DESC")) {
-//        testNewElement = newElement.replace(" DESC", "")
-//    }
-//
-//    const index = sort_temp_complete_statement.findIndex(element => {
-//        if (element.includes(testNewElement)) {
-//            return true;
-//        }
-//    });
-//
-//    console.log(index);
-//
-//    if (index !== -1) {
-//        sort_temp_complete_statement.splice(index, 1)
-//        console.log("There you go " + sort_temp_complete_statement[index])
-//        if (newElement !== "") {
-//            sort_temp_complete_statement.push(newElement)
-//        }
-//    } else {
-//        if (newElement !== "") {
-//            sort_temp_complete_statement.push(newElement)
-//        } else {
-//            const indexOld = sort_temp_complete_statement.findIndex(element => {
-//                if (element.includes(testNewElement)) {
-//                    return true;
-//                }
-//            });
-//            if (newElement === prevElement) {
-//                sort_temp_complete_statement.splice(indexOld, 1)
-//            }
-//            if (sort_element_to_remove !== "") {
-//                const index_to_remove = sort_temp_complete_statement.findIndex(element => {
-//                    if (element.includes(sort_element_to_remove)) {
-//                        return true;
-//                    }
-//                });
-//                sort_temp_complete_statement.splice(index_to_remove, 1)
-//            }
-//        }
-//    }
-//
-//    prevElement = newElement
-//
-//    sortParameterFormatted = ""
-//
-//    for (const element of sort_temp_complete_statement) {
-//        sortParameterFormatted += element + ","
-//    }
-//    sortParameterFormatted = sortParameterFormatted.slice(0, -1)
-//
-//    console.log(sortParameterFormatted)
-//    console.log("your old element: " + prevElement)
-//    console.log(sort_temp_complete_statement)
-//
-//    //sortParameterFormatted
-//}
-
 $(function () { //odstranění záznamu pomocí ajax protokolu
     $('#form-delete').submit(function (event) {
         event.preventDefault()

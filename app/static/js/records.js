@@ -200,6 +200,11 @@ $(function () {
     })
 })
 
+$('#show_logged_user').on('click', function () {
+    $.get('/app/logout', function () {
+        console.log("Logged out")
+    })
+})
 
 function csv_download() {
     $.ajax({

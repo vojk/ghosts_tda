@@ -658,6 +658,11 @@ def send_email(receiver_email, receiver_lastname, receiver_username, receiver_pa
     p.start()
 
 
+@app.errorhandler(404)
+def no_page_found_error(e):
+    return render_template('error/404.html'), 404
+
+
 if __name__ == '__main__':
     app.secret_key = secrets.token_hex(16)
     app.run(debug=True)

@@ -1,0 +1,98 @@
+#records_table, table {
+    border-collapse: collapse;
+}
+
+#records_table td {
+    border-bottom: 1px solid #D0D0D0;
+    border-top: 1px solid #D0D0D0
+}
+
+#records_table th {
+    border-bottom: 1px solid #D0D0D0;
+    border-top: 1px solid #D0D0D0;
+    user-select: none;
+}
+
+#records_table tr td:first-child, table tr th:first-child {
+    cursor: default;
+    padding: 0 0 0 34px;
+}
+
+#records_table tr td:last-child, table tr th:last-child {
+    padding: 0 60px 0 0;
+}
+
+#records_table tr {
+    height: 55px;
+    width: 1576px;
+}
+
+#records_table tr td, table tr th {
+    padding: 0;
+    padding: 0 5px;
+}
+
+#records_table tr td:nth-child(1), table tr th:nth-child(1) {
+    text-align: center;
+    width: 9.97%;
+}
+
+#records_table tr td:nth-child(2), table tr th:nth-child(2) {
+    text-align: left;
+    width: 10.1%;
+}
+
+#records_table tr td:nth-child(3), table tr th:nth-child(3) {
+    width: 5.4%;
+}
+
+#records_table tr td:nth-child(4), table tr th:nth-child(4) {
+    text-align: left;
+    width: 34.2%;
+}
+
+#records_table tr td:nth-child(5), table tr th:nth-child(5) {
+    text-align: left;
+    width: 7.9%;
+}
+
+#records_table tr td:nth-child(6), table tr th:nth-child(6) {
+    text-align: left;
+    width: 5.5%;
+}
+
+#records_table tr td:nth-child(7), table tr th:nth-child(7) {
+    text-align: center;
+    width: 6.3%;
+}
+
+#records_table tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.07);
+}
+
+#records_table thead tr th {
+    cursor: pointer;
+    font-weight: 500;
+}
+
+#filters_button {
+    display: flex;
+    align-items: center;
+    border: 1px solid gray;
+    border-radius: 4px;
+    padding: 8px 30px;
+    margin: 0 12px;
+    user-select: none;
+    cursor: pointer;
+}
+
+#backup_button {
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 8px 30px;
+    background-color: black;
+    user-select: none;
+    cursor: pointer;
+}
