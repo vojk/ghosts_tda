@@ -11,7 +11,6 @@
     display: grid;
     place-items: center;
     transition: opacity .25s, visibility 1s;
-    transition-delay: 0.1s;
 }
 
 .loading-fade {

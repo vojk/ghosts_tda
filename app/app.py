@@ -11,7 +11,7 @@ import email_sender
 
 pre_proglangs = [{'progLangs': 'Java'}, {'progLangs': 'Python'}, {'progLangs': 'C'}, {'progLangs': 'Ruby'},
                  {'progLangs': 'JavaScript'}, {'progLangs': 'TypeScript'}, {'progLangs': 'Kotlin'}]
-list_of_elements = ["id", "date", "time-spent", "programming-language", "rating", "description"]
+list_of_elements = ["id", "date", "time_spent", "programming_language", "rating", "description"]
 
 proglangs = sorted(pre_proglangs, key=lambda x: x['progLangs'])
 
@@ -533,8 +533,8 @@ def api_get_user_record(userid, record_id):
 def api_crate_user_record(userid):
     data = request.get_json()
     date = data['date']
-    time = data['time-spent']
-    programmingLang = data['programming-language']
+    time = data['time_spent']
+    programmingLang = data['programming_language']
     rating = data['rating']
     description = data['description']
     if int(rating) > 5 or int(rating) < 0:
@@ -589,8 +589,8 @@ def api_crate_user_record(userid):
 def api_update_user_record(userid, record_id):
     data = request.get_json()
     date = data['date']
-    time = data['time-spent']
-    programmingLang = data['programming-language']
+    time = data['time_spent']
+    programmingLang = data['programming_language']
     rating = data['rating']
     description = data['description']
     if int(rating) > 5 or int(rating) < 0:
