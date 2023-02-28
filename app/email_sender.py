@@ -32,8 +32,8 @@ def send_email(receiver_email, receiver_lastname, receiver_username, receiver_pa
         </div>
 
         <div>
-            <p style="margin: 0">Pokud tento E-mail Vám přišel a nenáleží Vám, tak ho prosím ignorujte.</p>
-            <p style="margin: 0">Prosíme na tento e-mail neodpovídat.</p>
+            <p style="margin: 0">Pokud tento e-mail Vám přišel a nenáleží Vám, tak ho prosím ignorujte.</p>
+            <p style="margin: 0">Prosíme, na tento e-mail neodpovídat.</p>
         </div>
     </div>
 
