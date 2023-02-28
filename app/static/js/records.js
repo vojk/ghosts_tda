@@ -11,6 +11,10 @@ $("html").click(function (event) {
     if (contextMenu !== "") {
         contextMenu.css("display", "none");
     }
+
+    if ($('#backup_menu') !== "") {
+        $('#backup_menu').css('display', 'none')
+    }
 });
 
 function table_contextMenu() {
@@ -145,13 +149,15 @@ $(function () {
                 jsonData.push(obj);
             }
 
+            console.log(jsonData)
+
             $.ajax({
                 type: "POST",
                 url: "/csv/import",
                 data: JSON.stringify(jsonData),
                 contentType: 'application/json',
                 success: function (response) {
-
+                    sortWithoutRefresh()
                 }
             })
         };
@@ -198,11 +204,20 @@ $(function () {
 
         console.log(currentDeg)
     })
-})
 
-$('#show_logged_user').on('click', function () {
-    $.get('/app/logout', function () {
-        console.log("Logged out")
+    $('#backup_button').on('click', function (event) {
+        event.stopPropagation();
+        if ($('#backup_menu').css('display') === 'flex') {
+            $('#backup_menu').css('display', 'none')
+        } else {
+            $('#backup_menu').css('display', 'flex')
+        }
+    })
+
+    $('#show_logged_user').on('click', function () {
+        $.get('/app/logout', function () {
+            console.log("Logged out")
+        })
     })
 })
 
