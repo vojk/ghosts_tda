@@ -156,7 +156,7 @@
                 <td style="text-align: left">{{ record.timeInMinutes }}</td>
                 <td style="max-height: 55px; overflow-y: auto"><span class="short_desc">{{ record.description }}</span>
                 </td>
-                <td>{{ record.dates }}</td>
+                <td class="date">{{ record.dates }}</td>
                 <td>{{ record.rating }}/5</td>
                 <td>
                     <div>
@@ -215,6 +215,11 @@
             if (textToBesShorten.length > 160) {
                 $(this).text(textToBesShorten.substring(0, 160) + '...');
             }
+        })
+
+        $('.date').each(function () {
+            let date = $(this).text().split('-')
+            $(this).text(date[2] + '. ' + date[1] + '. ' + date[0]);
         })
     }
 
