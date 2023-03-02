@@ -2,7 +2,7 @@ import csv
 import io
 import multiprocessing
 
-from flask import Flask, render_template, request, redirect, url_for, abort, make_response, jsonify
+from flask import Flask, render_template, request, redirect, url_for, abort, jsonify
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user, UserMixin
 import db
 import secrets
@@ -10,7 +10,8 @@ import sorting
 import email_sender
 
 pre_proglangs = [{'progLangs': 'Java'}, {'progLangs': 'Python'}, {'progLangs': 'C'}, {'progLangs': 'Ruby'},
-                 {'progLangs': 'JavaScript'}, {'progLangs': 'TypeScript'}, {'progLangs': 'Kotlin'}]
+                 {'progLangs': 'JavaScript'}, {'progLangs': 'TypeScript'}, {'progLangs': 'Kotlin'},
+                 {'progLangs': 'Swift'}, {'progLangs': 'PHP'}, {'progLangs': 'Go'}]
 list_of_elements = ["id", "date", "time_spent", "programming_language", "rating", "description"]
 
 proglangs = sorted(pre_proglangs, key=lambda x: x['progLangs'])
@@ -278,9 +279,9 @@ def app_add_user():
                 conn.commit()
                 send_email(email, lastname, username, password)
             else:
-                return "1"
+                return "1"  # email
         else:
-            return "1"
+            return "1"  # uživatelské jméno
         conn.close()
         return "0"
     return render_template('createUserWind.html', username="")

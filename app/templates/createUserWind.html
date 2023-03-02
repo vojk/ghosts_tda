@@ -32,13 +32,15 @@
                 </div>
                 <div class="wrap" style="margin: 1rem 0">
                     <label for="form_perm" class="popis_textBox">Typ účtu</label>
-                    <select name="form_perm" autocomplete="off" id="form_perm" class="textfield"
+                    <select name="form_perm" id="form_perm" class="textfield"
                             required>
                         <option value="uzivatel">Uživatelský účet</option>
                         <option value="admin">Administrátorský účet</option>
                     </select>
                 </div>
-
+                <div style="display: flex; justify-content: center">
+                    <span id="add_user_error_mes" style="display: none" class="error_text">Uživatelské jméno nebo e-mail již někdo používá</span>
+                </div>
                 <div class="flex_row space_between_el" style="justify-content: space-evenly;">
                     <button type="button" class="button_text" id="user_add-edit_button_cancel">
                         <span class="button_text-text">Zrušit</span>
@@ -62,6 +64,7 @@
 
         <script !src="">
             cancel_add_edit_user()
+            $("#form_perm").val($("#form_perm option:first").val());
 
             function get_addEdit_statement(statement) {
                 _statement = statement
@@ -99,9 +102,10 @@
                                 if (response !== "1") {
                                     get_user_table('/app/appUpt/updateUserList');
                                     $('#user_add-edit_window_container').remove()
-                                    $('#_addEdit_window_users').css('display', 'none')
-                                } else {
-                                    console.log("Uživatelské jméno nebo e-mail je stejné")
+                                    $('#_addEdit_window').css('display', 'none')
+                                    $('#add_user_error_mes').css('display', 'none')
+                                } else{
+                                    $('#add_user_error_mes').css('display', 'flex')
                                 }
                             },
                         });
@@ -130,8 +134,9 @@
                                     get_user_table('/app/appUpt/updateUserList');
                                     $('#user_add-edit_window_container').remove()
                                     $('#_addEdit_window').css('display', 'none')
-                                } else {
-                                    console.log("Uživatelské jméno nebo e-mail je stejné")
+                                    $('#add_user_error_mes').css('display', 'none')
+                                } else{
+                                    $('#add_user_error_mes').css('display', 'flex')
                                 }
                             },
                         });

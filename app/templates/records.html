@@ -28,35 +28,6 @@
         {% include 'action_tab.html' %}
     </div>
 
-    <div>
-        <div style="position:absolute; right: 10px; top: 5px;z-index: 11; " class="button_filters_wrap">
-            <div class="arrow_filters_button"
-                 style="min-width: 48px; height: 48px; border-radius: 48px; background-color: rgba(0,0,0,0.18);display: flex; align-items: center; justify-content: center; padding: 10px 20px">
-                <div style="display: flex; margin-right: 5px;">
-                    <svg
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="arrow_filters"
-                    >
-                        <path
-                                d="M20.3284 11.0001V13.0001L7.50011 13.0001L10.7426 16.2426L9.32842 17.6568L3.67157 12L9.32842 6.34314L10.7426 7.75735L7.49988 11.0001L20.3284 11.0001Z"
-                                fill="currentColor"
-                        />
-                    </svg>
-                </div>
-                <div>
-                    Filtry
-                </div>
-            </div>
-
-        </div>
-        <div style="position:absolute; right: -375px; z-index: 4; box-shadow: -4px 4px 16px 0 rgba(0,0,0,0.18);"
-             class="main_filter_section_wrapper" id="filters_window">
-        </div>
-    </div>
     <div class="table_center">
         <div id="table">
             {% include 'customElements/table_row.html' %}
@@ -65,8 +36,6 @@
 
 
     <script>
-        start()
-
         function start() {
             $.get("/app/beta/filters", function (data) {
                 $('#filters_window').html(data)

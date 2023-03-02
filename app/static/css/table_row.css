@@ -112,6 +112,20 @@
     box-shadow: 5px 2px 48px rgba(0, 0, 0, 0.2);
 }
 
+.cont_filt_manu {
+    position: absolute;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 30px;
+    background-color: white;
+    z-index: 50;
+    right: 0;
+    margin-top: 5px;
+    border-radius: 4px;
+    box-shadow: 5px 2px 48px rgba(0, 0, 0, 0.2);
+}
+
 .backup_menu_item_action {
     margin: 0 15px;
     display: flex;

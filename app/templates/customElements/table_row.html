@@ -11,7 +11,7 @@
 
 
                 <div style="position:absolute; right: 59px; display: flex;">
-                    <div style="">
+                    <div style="position:relative;">
                         <div id="filters_button">
                             <span>Filtry</span>
                             <div style="margin-left: 15px">
@@ -22,9 +22,13 @@
                                 </svg>
                             </div>
                         </div>
+                        <div class="cont_filt_manu">
+                            {% include 'filters_wind.html' %}
+                        </div>
+
                     </div>
                     <div style="position:relative;">
-                        <div id="backup_button">
+                        <div id="backup_button" onclick="">
                             <span style="color: white">Záloha</span>
                             <div style="margin-left: 15px">
                                 <svg style="display: flex; color: white" xmlns="http://www.w3.org/2000/svg" width="18"
@@ -70,14 +74,6 @@
                         </div>
                     </div>
                 </div>
-
-
-                {#
-                <div style="display: flex; width: fit-content; align-items: center; padding: 10px 40px; border-radius: 12px; border: 1px black solid; position:absolute; right: 32px">
-                    <img src="../../static/svg/filter.png" alt="" style="width: 18px; margin-right: 5px">
-                    <span>Filtry</span>
-                </div>
-#}
             </div>
 
         </div>

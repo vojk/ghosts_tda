@@ -2,55 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Přihlášení</title>
     {% include 'rootFiles/js_files.html' %}
     {% include 'rootFiles/css_files.html' %}
     <style>
-        *{
-            font-family: Roboto;
-            box-sizing: border-box;
-        }
-        .login {
-            position: relative;
-        }
-
-        .text_user {
-            position: absolute;
-            top: 0.52rem;
-            left: 1rem;
-            background: white;
-            padding: 0 5px;
-            font-size: 1.2rem;
-        }
-
-        .user {
-            border: 1px solid #79747E;
-            border-radius: 4px;
-            height: 56px;
-            width: 312px;
-            padding: 8px 16px;
-            background: white;
-        }
-
-        .login_button {
-            background: mediumpurple;
-            border: 1px solid mediumpurple;
-            color: white;
-            border-radius: 25px;
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-            height: 50px;
-            margin-top: 25px;
-        }
-
-        .login_button_text {
-            padding-left: 11px;
-            padding-right: 11px;
-            font-weight: bold;
-            font-size: 1.1rem;
+        body {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .conteiner_login {
@@ -58,25 +19,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            border: 2px solid black;
+            border: 1px solid black;
             border-radius: 5px;
             padding: 40px;
             position: relative;
         }
-        body{
-            margin: 0;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .prihlaseni{
+
+        .prihlaseni {
             position: absolute;
             top: -1.4rem;
             font-size: 2rem;
             background-color: white;
             padding: 0 5px;
+            font-weight: 300;
         }
     </style>
 </head>
@@ -84,17 +39,20 @@
     <form method="post" id="login_form">
         <div class="conteiner_login">
             <span class="prihlaseni">Přihlášení</span>
-            <div class="login">
-                <label for="user_username" class="text_user">Uživatelské jméno/e-mail</label><br>
-                <input type="text" name="user_username" id="user_username" class="user"><br>
+            <div class="wrap mrgntop_sections">
+                <label for="user_username" class="popis_textBox">Uživatelské jméno/e-mail</label>
+                <input type="text" name="user_username" id="user_username" class="textfield">
             </div>
-            <div class="login">
-                <label for="user_password" class="text_user">Heslo</label><br>
-                <input type="password" name="user_password" id="user_password" class="user"><br>
+            <div class="wrap mrgntop_sections">
+                <label for="user_password" class="popis_textBox">Heslo</label>
+                <input type="password" name="user_password" id="user_password" class="textfield">
             </div>
             <div>
-                <button type="submit" class="login_button"> <span class="login_button_text"> Přihlásit se
-                    </span></button>
+                <button type="submit" class="button_filled mrgntop_sections">
+                    <span class="button_filled-text">
+                        Přihlásit se
+                    </span>
+                </button>
             </div>
         </div>
     </form>
