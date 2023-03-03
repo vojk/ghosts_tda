@@ -243,7 +243,7 @@ legend {
 .button_filled-text {
     padding-left: 24px;
     padding-right: 24px;
-    font-weight: bold;
+    font-weight: bolder;
     transition: all 250ms ease;
 }
 

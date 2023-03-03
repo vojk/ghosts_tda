@@ -7,21 +7,52 @@ $(function () {
     table_contextMenu()
 })
 
-$("html").click(function (event) {
+function hide_clickable_element() {
     if (contextMenu !== "") {
-        contextMenu.css("display", "none");
+        contextMenu.hide();
     }
 
     if ($('#backup_menu') !== "") {
-        $('#backup_menu').css('display', 'none')
+        $('#backup_menu').hide()
     }
+
+    if ($('.cont_filt_manu') !== "") {
+        $('.cont_filt_manu').hide()
+    }
+}
+
+function hide_clickable_element_via_id(element_id) {
+    if (element_id !== "contextMenu_record_more_section") {
+        if (contextMenu !== "") {
+            contextMenu.hide();
+        }
+    }
+
+    if (element_id !== "backup_menu") {
+        if ($('#backup_menu') !== "") {
+            $('#backup_menu').hide()
+        }
+    }
+
+    if (element_id !== "cont_filt_manu") {
+        if ($('#cont_filt_manu') !== "") {
+            $('.cont_filt_manu').hide()
+        }
+    }
+
+
+}
+
+$(document).click(function (event) {
+    hide_clickable_element();
 });
 
 function table_contextMenu() {
     $('.contextMenu_record_more_section').on("click", function (event) {
+        hide_clickable_element_via_id('contextMenu_record_more_section')
         $('.contextMenu_record').css("display", "none")
         contextMenu = $(this).parent().find('.contextMenu_record')
-        event.stopPropagation();
+        console.log(contextMenu.css('display'))
         if (contextMenu.css('display') === "none") {
             contextMenu.css('display', 'flex')
             event.stopPropagation();
@@ -207,6 +238,7 @@ $(function () {
 
     $('#backup_button').on('click', function (event) {
         event.stopPropagation();
+        hide_clickable_element_via_id('backup_menu')
         if ($('#backup_menu').css('display') === 'flex') {
             $('#backup_menu').css('display', 'none')
         } else {
@@ -214,7 +246,21 @@ $(function () {
         }
     })
 
-    $('#show_logged_user').on('click', function () {
+    $('#filters_button').on('click', function (event) {
+        event.stopPropagation();
+        hide_clickable_element_via_id('cont_filt_manu')
+        if ($('.cont_filt_manu').css('display') === 'flex') {
+            $('.cont_filt_manu').css('display', 'none')
+        } else {
+            $('.cont_filt_manu').css('display', 'flex')
+        }
+    })
+
+    $('.cont_filt_manu').on('click', function (event) {
+        event.stopPropagation();
+    })
+
+    $('#logout_user').on('click', function () {
         $.get('/app/logout', function () {
             console.log("Logged out")
         })
