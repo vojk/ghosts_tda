@@ -88,7 +88,7 @@
             <div style="align-self: flex-end">
                 <div style="position: relative; bottom: 0; display: flex; flex-flow: row; align-items: center">
                     <div style="margin: auto;">
-                        <a style="cursor:pointer; display: flex" class="userIcon">
+                        <a style="cursor:pointer; display: flex" class="userIcon" id="show_user_info">
                             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none"
                                  viewBox="0 0 512 512">
                                 <g clip-path="url(#a)">
@@ -114,13 +114,13 @@
                             </svg>
                         </a>
                     </div>
-                    <div style="display:flex;" class="menuUser">
+                    <div style="" class="menuUser">
                         <ul style="margin:0; padding:0;list-style: none; display: flex; align-items: center; justify-content: space-between; width: 100%;">
                             <li style="display: flex; flex-flow: column;margin-right: 1rem;">
                                 <span style="white-space: nowrap">{{ user_firstname }} {{ user_lastname }}</span>
                                 <span style="font-size: 0.75rem; font-weight: 300">{{ username }}</span>
                             </li>
-                            <li><a style="cursor: pointer; padding: 2px; display: flex;" id="">
+                            <li><a style="cursor: pointer; padding: 2px; display: flex;" id="logout_user">
                                 <div style="display: flex">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"

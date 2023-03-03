@@ -47,18 +47,20 @@
     align-items: center;
 }
 
-.menu_item{
+.menu_item {
     cursor: pointer;
 }
 
-.menuUser{
+.menuUser {
     position: absolute;
-    min-width: 10rem;
+    min-width: 12rem;
     height: fit-content;
     background-color: white;
     z-index: 5;
-    padding: 15px;
+    padding: 10px 15px;
     border-radius: 4px;
-    box-shadow: 4px 4px 16px #00000024;
+    box-shadow: 0px 0px 91px 17px #00000024;
     left: calc(48px + 1rem);
+    display: none;
+    /*border: 1px gray solid;*/
 }

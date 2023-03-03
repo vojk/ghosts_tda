@@ -7,20 +7,6 @@ $(function () {
     table_contextMenu()
 })
 
-function hide_clickable_element() {
-    if (contextMenu !== "") {
-        contextMenu.hide();
-    }
-
-    if ($('#backup_menu') !== "") {
-        $('#backup_menu').hide()
-    }
-
-    if ($('.cont_filt_manu') !== "") {
-        $('.cont_filt_manu').hide()
-    }
-}
-
 function hide_clickable_element_via_id(element_id) {
     if (element_id !== "contextMenu_record_more_section") {
         if (contextMenu !== "") {
@@ -35,8 +21,14 @@ function hide_clickable_element_via_id(element_id) {
     }
 
     if (element_id !== "cont_filt_manu") {
-        if ($('#cont_filt_manu') !== "") {
+        if ($('.cont_filt_manu') !== "") {
             $('.cont_filt_manu').hide()
+        }
+    }
+
+    if (element_id !== "menuUser") {
+        if ($('.menuUser') !== "") {
+            $('.menuUser').hide()
         }
     }
 
@@ -44,7 +36,7 @@ function hide_clickable_element_via_id(element_id) {
 }
 
 $(document).click(function (event) {
-    hide_clickable_element();
+    hide_clickable_element_via_id("")
 });
 
 function table_contextMenu() {
@@ -263,7 +255,18 @@ $(function () {
     $('#logout_user').on('click', function () {
         $.get('/app/logout', function () {
             console.log("Logged out")
+            location.reload()
         })
+    })
+
+    $('#show_user_info').on('click', function (event) {
+        event.stopPropagation();
+        hide_clickable_element_via_id('menuUser')
+        if ($('.menuUser').css('display') === 'flex') {
+            $('.menuUser').css('display', 'none')
+        } else {
+            $('.menuUser').css('display', 'flex')
+        }
     })
 })
 
