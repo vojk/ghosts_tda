@@ -14,7 +14,7 @@
                 <div style="display: flex; justify-content: space-between; margin-top: 10px;">
                     <h1 style="font-size: 1.75rem;">Přehled Uživatelů</h1>
                     <a class="button" id="button-add-user" style="cursor: pointer" onclick="function set_legend_text() {
-              legend_text = 'Přidání Uživatele'
+              legend_text = 'Přidat Uživatele'
             } set_legend_text(); addUser_window()">
                         <img src="{{ url_for('static', filename='svg/user-add.svg') }}" alt="">
                     </a>
@@ -44,12 +44,7 @@
                     "pageLength": 5,
                     "autoWidth": false,
                     "dom": 't<".table-info"ip>',
-                    language: {
-                        paginate: {
-                            next: '&#8594;', // or '→'
-                            previous: '&#8592;' // or '←'
-                        }
-                    }
+                    language: czloc
                 });
             }
 

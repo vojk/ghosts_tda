@@ -3,6 +3,8 @@ from flask import abort
 
 import os
 
+from werkzeug.security import generate_password_hash
+
 user = "u_default"  # základní uživatel
 
 databasePath = ''
@@ -21,6 +23,8 @@ if not databaseExists:  # ověřuje existenci databáze - zda-li existuje soubor
     connection.row_factory = sqlite3.Row
     cur = connection.cursor()
     cur.executescript(sql_script)
+    cur.execute("""INSERT INTO "users" (username, password, role) VALUES (?,?,?);""",
+                ("admin", generate_password_hash("123456"), "admin",))
 
     connection.commit()  # vloží data do databáze
     connection.close()  # Uzavře spojení s databází

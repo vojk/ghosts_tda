@@ -65,7 +65,6 @@ function remove_record() {
         if (contextMenu !== "") {
             contextMenu.css('display', 'none')
         }
-        animate_filters()
     })
 }
 
@@ -73,7 +72,6 @@ function add_record() {
     $.get('/app/add/', function (data) {
         $('#_addEdit_window').html(data);
     })
-    animate_filters()
 }
 
 function edit_record() {
@@ -82,7 +80,6 @@ function edit_record() {
         if (contextMenu !== "") {
             contextMenu.css('display', 'none')
         }
-        animate_filters()
     })
 }
 
@@ -92,7 +89,6 @@ function showUsers() {
         if (contextMenu !== "") {
             contextMenu.css('display', 'none')
         }
-        animate_filters()
     })
 }
 
@@ -103,7 +99,6 @@ function showRecord(id) {
         if (contextMenu !== "") {
             contextMenu.css('display', 'none')
         }
-        animate_filters()
     })
 }
 
@@ -112,39 +107,6 @@ function showCategories() {
         $('#_addEdit_window').html(data);
         if (contextMenu !== "") {
             contextMenu.css('display', 'none')
-        }
-        animate_filters()
-    })
-}
-
-function animate_filters() {
-
-
-    $({deg: currentDeg}).animate({deg: 0}, {
-        duration: 250,
-        step: function (now) {
-            $('.arrow_filters').css({
-                transform: 'rotate(' + now + 'deg)'
-            })
-            currentDeg = now
-        }
-    })
-    $({pos: currentPos}).animate({pos: 10}, {
-        duration: 250,
-        step: function (pos) {
-            $('.button_filters_wrap').css({
-                right: pos + 'px'
-            })
-            currentPos = pos
-        }
-    })
-    $({posF: currentPosF}).animate({posF: -375}, {
-        duration: 250,
-        step: function (posF) {
-            $('.main_filter_section_wrapper').css({
-                right: posF + 'px'
-            })
-            currentPosF = posF
         }
     })
 }
@@ -187,45 +149,6 @@ $(function () {
 
         // Read the file as text
         reader.readAsText(file);
-    })
-
-    $('.arrow_filters_button').on("click", function () {
-        if (currentDeg <= 1) {
-            $({deg: currentDeg}).animate({deg: 180}, {
-                duration: 250,
-                step: function (now) {
-                    $('.arrow_filters').css({
-                        transform: 'rotate(' + now + 'deg)'
-                    })
-                    currentDeg = now
-                }
-            })
-            $({pos: currentPos}).animate({pos: 380}, {
-                duration: 250,
-                step: function (pos) {
-                    $('.button_filters_wrap').css({
-                        right: pos + 'px'
-                    })
-                    currentPos = pos
-                }
-            })
-
-            $({posF: currentPosF}).animate({posF: 0}, {
-                duration: 250,
-                step: function (posF) {
-                    $('.main_filter_section_wrapper').css({
-                        right: posF + 'px'
-                    })
-                    currentPosF = posF
-                }
-            })
-
-        } else {
-            animate_filters()
-        }
-
-
-        console.log(currentDeg)
     })
 
     $('#backup_button').on('click', function (event) {

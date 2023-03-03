@@ -3,7 +3,7 @@ function filtersInit() {
         event.preventDefault();
         getValues()
         console.log(filterprogramingLangs)
-        animate_filters()
+        $('.cont_filt_manu').hide()
 
         sortWithoutRefresh()
     });
@@ -266,12 +266,7 @@ function sortWithoutRefresh() { //funkce pro sort
             "info": true,
             "autoWidth": false,
             "dom": 't<".table-info-records"ip>',
-            language: {
-                paginate: {
-                    next: '&#8594;', // or '→'
-                    previous: '&#8592;' // or '←'
-                }
-            }
+            language: czloc
         });
         shortDesc()
         table_contextMenu()

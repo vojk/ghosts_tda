@@ -22,9 +22,6 @@ CREATE TABLE "users"
     PRIMARY KEY ("id" AUTOINCREMENT)
 );
 
-INSERT INTO "users" (username, password, role)
-VALUES ("admin", "123456", "admin");
-
 CREATE TABLE "categories"
 (
     "id"          INTEGER,

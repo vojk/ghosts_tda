@@ -4,6 +4,8 @@ import multiprocessing
 
 from flask import Flask, render_template, request, redirect, url_for, abort, jsonify
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user, UserMixin
+from werkzeug.security import check_password_hash, generate_password_hash
+
 import db
 import secrets
 import sorting
@@ -215,15 +217,20 @@ def app_login():
         username = request.form["user_username"]
         password = request.form["user_password"]
         conn = db.get_db_connection()
-        user = conn.execute("""SELECT * FROM users WHERE (username = ? OR email = ?) AND password = ?""",
-                            (username, username, password)).fetchone()
+        user = conn.execute("""SELECT * FROM users WHERE (username = ? OR email = ?)""",
+                            (username, username)).fetchone()
         if user is not None:
-            user_obj = User(id=user[0], username=user[1], email=user[2], password=user[3])
-            login_user(user_obj)
-            return redirect(url_for('protected'))
+            print(user[4])
+            print(check_password_hash(user[4], password))
+            if check_password_hash(user[4], password):
+                user_obj = User(id=user[0], username=user[1], email=user[2], password=user[4])
+                login_user(user_obj)
+                return redirect(url_for('protected'))
+            else:
+                return "52"
         else:
             print("user is not valid")
-            return render_template("login/login.html")
+            return "52"
     return render_template("login/login.html")
 
 
@@ -278,7 +285,7 @@ def app_add_user():
             if not int(how_many_of_it_is_email[0][0]) >= 1:
                 conn.execute(
                     'INSERT INTO users (username, firstname, lastname, password, email, role) '
-                    'VALUES (?,?,?,?,?,?)', (username, firstname, lastname, password, email, perm))
+                    'VALUES (?,?,?,?,?,?)', (username, firstname, lastname, generate_password_hash(password), email, perm))
                 conn.commit()
                 send_email(email, lastname, username, password)
             else:
@@ -309,9 +316,13 @@ def app_edit_user(user_id):
                                                (email, old_duplicates[0][1],)).fetchall()
         if not int(how_many_of_it_is_username[0][0]) >= 1:
             if not int(how_many_of_it_is_email[0][0]) >= 1:
-                conn.execute(
-                    'UPDATE users SET username = ?, firstname=?, lastname=?, email=?, password=?,role=? WHERE id = ?',
-                    (username, firstname, lastname, email, password, perm, user_id,))
+                if password == "":
+                    conn.execute('UPDATE users SET username = ?, firstname=?, lastname=?, email=?, role=? WHERE id = ?',
+                        (username, firstname, lastname, email, perm, user_id,))
+                else:
+                    conn.execute(
+                        'UPDATE users SET username = ?, firstname=?, lastname=?, email=?, password=?,role=? WHERE id = ?',
+                        (username, firstname, lastname, email, generate_password_hash(password), perm, user_id,))
                 conn.commit()
             else:
                 return "E-mail se už používá"

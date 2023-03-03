@@ -177,6 +177,7 @@
                             let element = document.getElementById(id);
                             element.value = valueToSelect;
                         }
+                        document.getElementById('_formDate').max = new Date().toISOString().split("T")[0];
 
                         selectElement('_formProgLang_select', '{{ record.programmingLang }}')
                         selectElement('_formRating', '{{ record.rating }}')

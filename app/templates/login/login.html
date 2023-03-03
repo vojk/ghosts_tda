@@ -47,6 +47,8 @@
                 <label for="user_password" class="popis_textBox">Heslo</label>
                 <input type="password" name="user_password" id="user_password" class="textfield">
             </div>
+            <span class="error_text"
+                  style="margin-top: 5px; display: none">Uživatelské jméno nebo heslo je nesprávné</span>
             <div>
                 <button type="submit" class="button_filled mrgntop_sections">
                     <span class="button_filled-text">
@@ -69,7 +71,11 @@
                 data: form.serialize(),
                 success: function (response) {
                     console.log(response)
-                    window.location = '/protected'
+                    if (response === "52") {
+                        $('.error_text').css('display', 'flex')
+                    } else {
+                        window.location = '/protected'
+                    }
                 }
             })
         })

@@ -337,6 +337,7 @@ h1, h2, h3 {
 }
 
 .error_text {
+    user-select: none;
     font-size: 0.9rem;
     color: #dc4242;
     margin-left: 5px;
