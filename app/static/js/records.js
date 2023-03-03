@@ -182,6 +182,10 @@ $(function () {
         })
     })
 
+    $('.menuUser').on('click', function (event) {
+        event.stopPropagation()
+    })
+
     $('#show_user_info').on('click', function (event) {
         event.stopPropagation();
         hide_clickable_element_via_id('menuUser')
