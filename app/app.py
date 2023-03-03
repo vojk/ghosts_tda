@@ -39,14 +39,17 @@ db  # inicializuje databázi
 @login_required
 def app_wind():
     conn = db.get_db_connection()
-    programmers = conn.execute("SELECT * FROM users").fetchall()
+    user = conn.execute("SELECT firstname, lastname, username FROM users WHERE id=?", (protected_id(),)).fetchall()
     categorie = conn.execute("SELECT * FROM categories WHERE user_id = ?", (protected_id(),)).fetchall()
     conn.close()
     return render_template('records.html', texts=sorting.pre_sort(None, None, None, None,
                                                                   None, None, None, current_user.get_id()),
                            defs=proglangs,
-                           programmers=programmers, categories=categorie, users=programmers,
-                           user_perm=protected_user_perm())
+                           categories=categorie,
+                           user_perm=protected_user_perm(),
+                           user_firstname=user[0][0],
+                           user_lastname=user[0][1],
+                           username=user[0][2])
 
 
 @app.route('/sort/')
