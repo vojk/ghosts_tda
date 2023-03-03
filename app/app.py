@@ -57,6 +57,7 @@ def app_wind():
 
 
 @app.route('/sort/')
+@login_required
 def sort():
     sort_field = request.args.get('sort_field')
     filter_rating = request.args.get('filter_rating')
@@ -77,6 +78,7 @@ def sort():
 
 @app.route("/add/", methods=('GET', 'POST'))  # přidání záznamu
 @app.route('/app/add/', methods=('GET', 'POST'))
+@login_required
 def create_record():
     if request.method == 'POST':
         date = request.form['formDate']
@@ -122,6 +124,7 @@ def create_record():
 
 @app.route('/<int:id>/edit/', methods=('GET', 'POST'))  # úprava záznamu
 @app.route('/app/<int:id>/edit/', methods=('GET', 'POST'))
+@login_required
 def edit(id):
     record = db.get_data_from_db_by_id(id)
     if not record:
@@ -173,6 +176,7 @@ def edit(id):
 
 @app.route('/<int:id>/delete/', methods=('GET', 'POST'))  # samže záznam
 @app.route('/app/<int:id>/delete/', methods=('GET', 'POST'))
+@login_required
 def delete(id):
     if request.method == "POST":
         print("id " + str(id))
@@ -269,6 +273,7 @@ def protected_user_perm():
 # ------ users management ---------
 
 @app.route('/user/add/', methods=["GET", "POST"])  # funkce pro vytvoření uživatele
+@login_required
 def app_add_user():
     if request.method == "POST":
         firstname = request.form['form_firstname']
@@ -299,6 +304,7 @@ def app_add_user():
 
 
 @app.route('/user/<int:user_id>/edit/', methods=["GET", "POST"])  # funkce pro upravení uživatele
+@login_required
 def app_edit_user(user_id):
     print("id uživatele: " + str(user_id))
     conn = db.get_db_connection()
@@ -336,6 +342,7 @@ def app_edit_user(user_id):
 
 
 @app.route('/user/<string:username>/delete/', methods=["GET", "POST"])  # funkce pro vytvoření uživatele
+@login_required
 def app_delete_user(username):
     if request.method == "POST":
         username = username
@@ -349,11 +356,13 @@ def app_delete_user(username):
 
 
 @app.route('/user/delete/', methods=["GET", "POST"])  # funkce pro vytvoření uživatele
+@login_required
 def app_delete_user_wind():
     return render_template('removeWarn.html')
 
 
 @app.route('/app/appUpt/updateUserList', methods=["GET", "POST"])
+@login_required
 def update_user_list():
     conn = db.get_db_connection()
     users = conn.execute("SELECT * FROM users").fetchall()
@@ -362,6 +371,7 @@ def update_user_list():
 
 
 @app.route('/app/user/', methods=["GET", "POST"])
+@login_required
 def users_overview():
     conn = db.get_db_connection()
     users = conn.execute("SELECT * FROM users").fetchall()
@@ -373,6 +383,7 @@ def users_overview():
 
 
 @app.route('/app/categories/')
+@login_required
 def categories_overview():
     conn = db.get_db_connection()
     categorie = conn.execute("SELECT * FROM categories WHERE user_id=?", (protected_id())).fetchall()
@@ -381,6 +392,7 @@ def categories_overview():
 
 
 @app.route('/app/categories/add/', methods=["GET", "POST"])
+@login_required
 def categories_add():
     if request.method == "POST":
         name_cat = request.form["form_name_category"]
@@ -396,6 +408,7 @@ def categories_add():
 
 
 @app.route('/app/categories/edit/<string:id>', methods=["GET", "POST"])
+@login_required
 def categories_edit(id):
     if request.method == "POST":
         name_cat = request.form["form_name_category"]
@@ -411,6 +424,7 @@ def categories_edit(id):
 
 
 @app.route('/app/categories/remove/<string:id>', methods=["GET", "POST"])
+@login_required
 def categories_remove(id):
     if request.method == "POST":
         conn = db.get_db_connection()
@@ -422,6 +436,7 @@ def categories_remove(id):
 
 
 @app.route('/app/categories/update')
+@login_required
 def categories_overview_update():
     conn = db.get_db_connection()
     categorie = conn.execute("SELECT * FROM categories WHERE user_id=?", (protected_id(),)).fetchall()
@@ -430,6 +445,7 @@ def categories_overview_update():
 
 
 @app.route('/app/beta/filters')
+@login_required
 def filters():
     conn = db.get_db_connection()
     programmers = conn.execute("SELECT * FROM users").fetchall()
@@ -439,6 +455,7 @@ def filters():
 
 
 @app.route('/app/overview/<int:id>')
+@login_required
 def overview(id):
     conn = db.get_db_connection()
     query = """
