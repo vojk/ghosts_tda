@@ -49,3 +49,14 @@
 .menu_item{
     cursor: pointer;
 }
+
+.menuUser{
+    position: absolute;
+    width: fit-content;
+    height: fit-content;
+    background-color: white;
+    z-index: 5;
+    padding: 15px;
+    border-radius: 4px;
+    box-shadow: 4px 4px 16px #00000024;
+}
