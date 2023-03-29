@@ -475,11 +475,6 @@ WHERE categories_records.record_id = ?
 
 # ------ export/import csv ------
 
-@app.route('/app/backup')
-@login_required
-def backup_main_screen():
-    return render_template('_backup.html')
-
 
 @app.route('/csv/export')
 @login_required
