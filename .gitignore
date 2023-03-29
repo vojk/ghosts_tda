@@ -12,6 +12,9 @@
 .idea/**/dictionaries
 .idea/**/shelf
 
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
 # AWS User-specific
 .idea/**/aws.xml
 
