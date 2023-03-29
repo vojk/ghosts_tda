@@ -21,7 +21,7 @@ proglangs = sorted(pre_proglangs, key=lambda x: x['progLangs'])
 secret_key = "61c42d54bdc57fdb8fa03af867511dff"
 
 
-class User(UserMixin):
+class User(UserMixin):  # předurčíí mi to z databáze uživatele, vytáhne id, user-name/email, password
     def __init__(self, id, username, email, password):
         self.id = id
         self.username = username
@@ -38,7 +38,10 @@ login_manager.init_app(app)
 db  # inicializuje databázi
 
 
-@app.route('/')
+#  funcke která nám vyrendruje main html records, a vyplní nám základní záznamy do tabulky
+#  nejdřív se napojíme na databázi a fetchneme si data z databáze
+#  něco to udělá ale nevím co
+@app.route('/')  # main app lokalizace
 @app.route('/app/', methods=["GET", "POST"])
 @login_required
 def app_wind():
@@ -56,6 +59,8 @@ def app_wind():
                            username=user[0][2])
 
 
+#  zavolá to funkci pro sortaci a zavolá to funkci SQL která to seřadí a pošle výsledek zpět
+#  ve frontendu se pak updatne tabulka se záznami
 @app.route('/sort/')
 @login_required
 def sort():
@@ -76,6 +81,8 @@ def sort():
                                                   current_user.get_id()))
 
 
+#  tato funkce vyvolá okno pro vytvoření záznamu, pak čeká až dostane POST a pak se zapíšou data do databáze
+#  ověřují se validní data, ve smyslu datum, minuty, programovací jazyky, popis, zdali jsou zadané
 @app.route("/add/", methods=('GET', 'POST'))  # přidání záznamu
 @app.route('/app/add/', methods=('GET', 'POST'))
 @login_required
@@ -122,6 +129,7 @@ def create_record():
                            selected_categories="")
 
 
+#  samotná funkce je stejná jako při přidání záznamu, ale místo INSERT INTO tak UPDATE v SQL
 @app.route('/<int:id>/edit/', methods=('GET', 'POST'))  # úprava záznamu
 @app.route('/app/<int:id>/edit/', methods=('GET', 'POST'))
 @login_required
@@ -174,6 +182,7 @@ def edit(id):
                            categories=categorie, selected_categories=categorie_selected_formatted)
 
 
+#  mazání záznamu co mám k tomu psát dál?
 @app.route('/<int:id>/delete/', methods=('GET', 'POST'))  # samže záznam
 @app.route('/app/<int:id>/delete/', methods=('GET', 'POST'))
 @login_required
@@ -193,6 +202,8 @@ def delete(id):
 
 
 # ----- login/logout -----
+
+# to snad ani nemusím rozepisovat ne?
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -245,20 +256,20 @@ def app_logout():
     return redirect(url_for('app_login'))
 
 
-@app.route('/protected/')
+@app.route('/protected/')  # kontroluje passnutí uživatele
 @login_required
 def protected():
     user_id = current_user.get_id()
     return redirect(url_for('app_wind'))
 
 
-@app.route('/protected/get_user_id/')
+@app.route('/protected/get_user_id/')  # získá ID přihlášeného uživatele
 @login_required
 def protected_id():
     return current_user.get_id()
 
 
-@app.route('/protected/get_user_perm/')
+@app.route('/protected/get_user_perm/')  # získá uživatelské oprávnění přihlášeného uživatele
 @login_required
 def protected_user_perm():
     conn = db.get_db_connection()
@@ -291,7 +302,8 @@ def app_add_user():
             if not int(how_many_of_it_is_email[0][0]) >= 1:
                 conn.execute(
                     'INSERT INTO users (username, firstname, lastname, password, email, role) '
-                    'VALUES (?,?,?,?,?,?)', (username, firstname, lastname, generate_password_hash(password), email, perm))
+                    'VALUES (?,?,?,?,?,?)',
+                    (username, firstname, lastname, generate_password_hash(password), email, perm))
                 conn.commit()
                 send_email(email, lastname, username, password)
             else:
@@ -325,7 +337,7 @@ def app_edit_user(user_id):
             if not int(how_many_of_it_is_email[0][0]) >= 1:
                 if password == "":
                     conn.execute('UPDATE users SET username = ?, firstname=?, lastname=?, email=?, role=? WHERE id = ?',
-                        (username, firstname, lastname, email, perm, user_id,))
+                                 (username, firstname, lastname, email, perm, user_id,))
                 else:
                     conn.execute(
                         'UPDATE users SET username = ?, firstname=?, lastname=?, email=?, password=?,role=? WHERE id = ?',
@@ -341,7 +353,7 @@ def app_edit_user(user_id):
                            lastname=username[0][3], password=username[0][4], email=username[0][5], perm=username[0][6])
 
 
-@app.route('/user/<string:username>/delete/', methods=["GET", "POST"])  # funkce pro vytvoření uživatele
+@app.route('/user/<string:username>/delete/', methods=["GET", "POST"])  # funkce pro smazání uživatele
 @login_required
 def app_delete_user(username):
     if request.method == "POST":
@@ -355,13 +367,13 @@ def app_delete_user(username):
     return render_template('removeWarn.html')
 
 
-@app.route('/user/delete/', methods=["GET", "POST"])  # funkce pro vytvoření uživatele
+@app.route('/user/delete/', methods=["GET", "POST"])  # funkce pro smazání uživatele >passnutí
 @login_required
 def app_delete_user_wind():
     return render_template('removeWarn.html')
 
 
-@app.route('/app/appUpt/updateUserList', methods=["GET", "POST"])
+@app.route('/app/appUpt/updateUserList', methods=["GET", "POST"])  # funkce pro update user listu
 @login_required
 def update_user_list():
     conn = db.get_db_connection()
@@ -370,7 +382,7 @@ def update_user_list():
     return render_template('customElements/tableForUsers.html', users=users)
 
 
-@app.route('/app/user/', methods=["GET", "POST"])
+@app.route('/app/user/', methods=["GET", "POST"])  # funkce pro overview user listu
 @login_required
 def users_overview():
     conn = db.get_db_connection()
@@ -382,7 +394,7 @@ def users_overview():
 # ------------------------------------------------
 
 
-@app.route('/app/categories/')
+@app.route('/app/categories/')  # kategorie
 @login_required
 def categories_overview():
     conn = db.get_db_connection()
@@ -391,7 +403,7 @@ def categories_overview():
     return render_template('categoriesOverview.html', categories=categorie)
 
 
-@app.route('/app/categories/add/', methods=["GET", "POST"])
+@app.route('/app/categories/add/', methods=["GET", "POST"])  # kategorie přidání
 @login_required
 def categories_add():
     if request.method == "POST":
@@ -407,7 +419,7 @@ def categories_add():
     return "done"
 
 
-@app.route('/app/categories/edit/<string:id>', methods=["GET", "POST"])
+@app.route('/app/categories/edit/<string:id>', methods=["GET", "POST"])  # kategorie úprava
 @login_required
 def categories_edit(id):
     if request.method == "POST":
@@ -423,7 +435,7 @@ def categories_edit(id):
     return "done"
 
 
-@app.route('/app/categories/remove/<string:id>', methods=["GET", "POST"])
+@app.route('/app/categories/remove/<string:id>', methods=["GET", "POST"])  # kategorie smazání
 @login_required
 def categories_remove(id):
     if request.method == "POST":
@@ -435,7 +447,7 @@ def categories_remove(id):
     return "done"
 
 
-@app.route('/app/categories/update')
+@app.route('/app/categories/update')  # kategorie update
 @login_required
 def categories_overview_update():
     conn = db.get_db_connection()
@@ -444,7 +456,7 @@ def categories_overview_update():
     return render_template('customElements/categories_list.html', categories=categorie)
 
 
-@app.route('/app/beta/filters')
+@app.route('/app/beta/filters')  # otevření filtrů
 @login_required
 def filters():
     conn = db.get_db_connection()
@@ -454,7 +466,7 @@ def filters():
     return render_template('filters_wind.html', defs=proglangs, users=programmers, categories=categorie)
 
 
-@app.route('/app/overview/<int:id>')
+@app.route('/app/overview/<int:id>')  # funkce pro zobrazení detailního záznamu
 @login_required
 def overview(id):
     conn = db.get_db_connection()
@@ -476,7 +488,7 @@ WHERE categories_records.record_id = ?
 # ------ export/import csv ------
 
 
-@app.route('/csv/export')
+@app.route('/csv/export')  # exportuje backup
 @login_required
 def export_csv():
     csvlist = [["id", "datum", "cas", "jazyk", "hodnoceni", "poznamky"]]

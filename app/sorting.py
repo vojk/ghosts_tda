@@ -6,8 +6,10 @@ import app
 sortTypes = ('dates', 'time_in_minutes', 'programming_lang', 'rating', 'None')
 
 
+# kontroluje stav proměných zdali jsou prázdné tak dá default hodnotu, když není tak to jenom připraví na passnutí dál
 def pre_sort(f_sort_type, f_filter_rating, f_filter_proglangs, f_filter_dates, f_filter_timeinminutes,
-             f_filter_programmer, f_filter_categories, user_id):
+             f_filter_programmer, f_filter_categories,
+             user_id):
     print("Kategorie:" + str(f_filter_categories))
     if f_sort_type is None or f_sort_type == "":
         f_sort_type = [{'sortTypes': 'NULL'}]
@@ -107,6 +109,7 @@ def pre_sort(f_sort_type, f_filter_rating, f_filter_proglangs, f_filter_dates, f
                    f_filter_dates_min, f_filter_dates_max, f_filter_programmer, f_filter_categories, user_id)
 
 
+# sortuje data a pak je posílá do frontendu, když je zavolán
 def sorting(sorting_parameter, f_filter_timeinminutes_min, f_filter_timeinminutes_max, f_filter_rating_min,
             f_filter_rating_max, proglangs, f_filter_dates_min,
             f_filter_dates_max, f_filter_programmer, f_filter_categories, user_id):
@@ -118,11 +121,6 @@ def sorting(sorting_parameter, f_filter_timeinminutes_min, f_filter_timeinminute
     placeholders_sort = ','.join([x['sortTypes'] for x in sorting_parameter])
     placeholders_categories = ','.join(['?'] * len(f_filter_categories))
     placeholders_programmers = ','.join(['?'] * len(f_filter_programmer))
-    # query = f"SELECT * " \
-    #         f"FROM records " \
-    #         f"WHERE timeInMinutes BETWEEN ? AND ? AND (rating BETWEEN ? AND ? OR rating IS NULL) AND programmingLang IN ({placeholders}) AND dates BETWEEN ? AND ? " \
-    #         f"AND programmerId IN ({placeholders_programmers}) ORDER BY {placeholders_sort}"
-
     query = f"SELECT DISTINCT records.*, categories.category " \
             f"FROM records  " \
             f"LEFT JOIN categories_records ON records.id=categories_records.record_id " \

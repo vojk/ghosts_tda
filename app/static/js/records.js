@@ -224,3 +224,16 @@ $('html').on("click", function () {
     $('#_addEdit_window').css('display', 'none')
     $('#addWindow').remove()
 })
+
+$(document).keydown(function (e) {
+    if (e.keyCode == 27) { // 27 is the keycode for the ESC key
+        console.log('pressed')
+        if ($('#addWindow').length) { // use .length to check if element exists
+            $('#_addEdit_window').css('display', 'none')
+            $('#addWindow').remove()
+        } else if($('#_addEdit_window').length){
+            $('#_addEdit_window').css('display', 'none')
+            $('#user_add-edit_window_container').remove()
+        }
+    }
+});
