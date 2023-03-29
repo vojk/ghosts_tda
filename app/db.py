@@ -11,13 +11,15 @@ databasePath = ''
 
 if os.name == 'posix':
     databasePath = 'app/dbs/database.db'
+    schema_Path = 'app/schemas/schema.sql'
 elif os.name == 'nt':
     databasePath = './dbs/database.db'
+    schema_Path = './dbs/schemas/schema.sql'
 
 databaseExists = os.path.exists(databasePath)
 
 if not databaseExists:  # ověřuje existenci databáze - zda-li existuje soubor database.db tak se nebude tvořit znova celá tabulka
-    with open('app/dbs/schemas/schema.sql', 'r') as sql_file:
+    with open(schema_Path, 'r') as sql_file:
         sql_script = sql_file.read()
     connection = sqlite3.connect(databasePath)  # připojí se a případně vytvoří databázi ./dbs/database.db
     connection.row_factory = sqlite3.Row
