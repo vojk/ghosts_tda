@@ -25,9 +25,6 @@ if not databaseExists:  # ověřuje existenci databáze - zda-li existuje soubor
     connection.row_factory = sqlite3.Row
     cur = connection.cursor()
     cur.executescript(sql_script)
-    cur.execute("""INSERT INTO "users" (username, password, role) VALUES (?,?,?);""",
-                ("admin", generate_password_hash("123456"), "admin",))
-
     connection.commit()  # vloží data do databáze
     connection.close()  # Uzavře spojení s databází
 
@@ -52,12 +49,3 @@ def get_data_from_db_by_id(post_id):  # čte data z databáze
                           (post_id,)).fetchall()
     conn.close()
     return record
-
-
-def get_id_of_user(username):
-    conn = get_db_connection()
-    query = "SELECT id FROM users WHERE users.username IS ?"
-    values = [username]
-    programmer_id = conn.execute(query, values).fetchall()
-    conn.close()
-    return programmer_id
