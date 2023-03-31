@@ -1,0 +1,90 @@
+<div class="note paper" style="display: flex; width: 15rem;
+height: 15rem; justify-content: center;" id="note_paper_edit">
+    <div>
+        {% for record in records %}
+            <form style="display: flex;
+flex-flow: column;
+align-items: center;" id="form_note">
+                <div class="noteText">
+                    <textarea type="text" id="form-text" name="form-text" value="" style="color: black;
+width: 100%; height: 10rem; background: #ffff60; border: 1px black dashed; padding: 0.2rem;">{{ record.text }}</textarea>
+                </div>
+                <div class="podpis">
+                    <input type="text" id="form-podpis" name="form-podpis" value="{{ record.podpis }}"
+                           style="background: #ffff60; border: 1px black dashed; padding: 0.2rem; font-size: 1rem;">
+                </div>
+
+                <input type="date" id="form-date" name="form-date" style="display: none">
+                <div style="width: 115%; display: flex; justify-content: space-around; margin-top: 4rem">
+                    <button type="submit" class="edit button_filled" id="Edit"><span class="button_filled-text">
+                        Přidat
+                    </span></button>
+                    <button type="button" class="delete button_filled" id="Delete"
+                            onclick="func_Delete({{ record.id }})"><span
+                            class="button_filled-text">
+                        Delete
+                    </span></button>
+                </div>
+
+            </form>
+        {% endfor %}
+    </div>
+    <div>
+
+    </div>
+</div>
+
+<script>
+    document.getElementById("form-date").valueAsDate = new Date()
+
+    $(document).ready(function () {
+        var maxLength = 120; // Change this to your desired max length
+        var maxLengths = 28; // Change this to your desired max length
+
+        $('#form-text').keyup(function () {
+            var length = $(this).val().length;
+            if (length > maxLength) {
+                $(this).val($(this).val().substr(0, maxLength));
+            }
+        });
+
+        $('#form-podpis').keyup(function () {
+            var length = $(this).val().length;
+            if (length > maxLengths) {
+                $(this).val($(this).val().substr(0, maxLengths));
+            }
+        });
+    });
+
+    $('body').on('click', function (event) {
+        $('#note_paper_edit').remove()
+        $('#edit_window').css('display', 'none')
+    })
+
+    $('#note_paper_edit').on('click', function (event) {
+        event.stopPropagation()
+    })
+
+    function func_Delete(re_id) {
+        console.log(re_id)
+        $.ajax({
+            type: "POST",
+            url: "/note/manage/" + re_id + "/remove",
+            response: function (response) {
+                console.log(response)
+                $('#note_paper_edit').remove()
+                $('#edit_window').css('display', 'none')
+                $.ajax({
+                    type: "GET",
+                    url: '/board/',
+                    success: function (response) {
+                        $('#tenhle_div_je_tu_jen_tak').remove();
+                        $('.board').append(response);
+                    }
+                });
+            }
+        })
+    }
+</script>
+
+<script src="./../static/js/manage_script.js"></script>

@@ -196,21 +196,17 @@ legend {
     width: 100%;
 }
 
-#Delete {
-    background: none;
-    border: 1px mediumpurple solid;
-    border-radius: 25px;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    color: rebeccapurple;
-}
-
 #Submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    z-index: 10;
     background: mediumpurple;
     border: 1px mediumpurple solid;
     color: white;
-    border-radius: 25px;
-    padding: 0.5rem 1.5rem;
+    border-radius: 100px;
+    padding: 2rem 2rem;
     cursor: pointer;
 }
 

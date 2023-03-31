@@ -25,26 +25,28 @@ db  # inicializuje databázi
 @app.route('/app/', methods=["GET", "POST"])
 def app_wind():
     conn = db.get_db_connection()
+    records = conn.execute("SELECT * FROM records").fetchall()
     conn.close()
-    return render_template('board.html')
+    return render_template('board.html', records=records)
 
 
 @app.route('/note/add', methods=["GET", "POST"])
 def add_note():
     if request.method == "POST":
-        text = "testovaci vlozen"  # request.form['form-text']
-        podpis = "test"  # request.form['form-podpis']
+        text = request.form['form-text']
+        podpis = request.form['form-podpis']
+        datum = request.form['form-date']
         if len(text) <= 120:
             if len(podpis) <= 28:
                 conn = db.get_db_connection()
-                conn.execute("INSERT INTO records (text, podpis) VALUES (?,?)", (text, podpis,))
+                conn.execute("INSERT INTO records (text, podpis, datum) VALUES (?,?,?)", (text, podpis, datum,))
                 conn.commit()
                 conn.close()
             else:
                 return 'maximální délka pro podpis je víc než 120'
         else:
             return 'maximální délka pro text je víc než 120'
-    return 'add.html'
+    return render_template('note_add.html')
 
 
 @app.route('/note/manage/<int:id>/edit/', methods=['GET', 'POST'])
@@ -53,10 +55,11 @@ def edit_note(id):
     if request.method == "POST":
         text = request.form['form-text']
         podpis = request.form['form-podpis']
+        datum = request.form['form-date']
         if len(text) <= 120:
             if len(podpis) <= 28:
                 conn = db.get_db_connection()
-                conn.execute('UPDATE records SET text = ?, podpis= ? WHERE id = ?', (text, podpis, id,))
+                conn.execute('UPDATE records SET text = ?, podpis= ?, datum = ? WHERE id = ?', (text, podpis, datum, id,))
                 conn.commit()
                 conn.close()
                 return "update.html"
@@ -76,6 +79,23 @@ def remove_note(id):
         conn.commit()
         conn.close()
     return "remove.html"
+
+
+@app.route('/board/')
+def board_def():
+    conn = db.get_db_connection()
+    records = conn.execute("SELECT * FROM records").fetchall()
+    conn.close()
+    return render_template('board_sep.html', records=records)
+
+
+@app.route('/board/editnote/<int:id>')
+def board_def_edit(id):
+    id = id
+    conn = db.get_db_connection()
+    records = conn.execute(f"SELECT * FROM records WHERE id = {id}").fetchall()
+    conn.close()
+    return render_template('note_edit.html', records=records)
 
 
 @app.route('/statistics')

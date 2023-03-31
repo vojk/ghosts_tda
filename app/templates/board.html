@@ -6,15 +6,85 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../static/board.css">
-    <link rel="stylesheet" href="../static/main.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='commits.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <script src="../static/js/jquery-3.6.4.min.js"></script>
+    <script src="../static/js/default_vars.js"></script>
+
+    <style>
+        p, h1, h2, h3, div * {
+            color: white;
+        }
+
+        body {
+            background: #0a0f17;
+        }
+
+        input {
+            color: black;
+        }
+
+        #edit_window {
+            position: absolute;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 98vh;
+            background: rgba(10, 15, 23, 0.34);
+            z-index: 20;
+        }
+    </style>
 
     <title>Nástěnka</title>
 </head>
 <body>
-<div class="board">{%include 'note.html' %}</div>
+
+<div id="edit_window">
+
+</div>
+
+<div class="board">
+    {% include 'board_sep.html' %}
+</div>
+
 <div class="menu">
     <button type="submit" id="Submit">+</button>
     <button type="submit" id="Delete" class="menuDelete">Delete</button>
 </div>
+{% include "menu_bare.html" %}
 </body>
 </html>
+
+<script>
+    let id
+    $('.paper').on('click', function (event) {
+        id = $(this).attr('id').replace('note_', '')
+        $.ajax({
+            type: "GET",
+            url: "/board/editnote/" + id,
+            success: function (response) {
+                $('#edit_window').css('display', 'flex')
+                $('#edit_window').append(response)
+                statement = "edit"
+            }
+        })
+
+        //
+    })
+
+    $('#Submit').on('click', function (event) {
+        id = $(this).attr('id').replace('note_', '')
+        $.ajax({
+            type: "GET",
+            url: "/note/add",
+            success: function (response) {
+                $('#edit_window').css('display', 'flex')
+                $('#edit_window').append(response)
+                statement = "add"
+            }
+        })
+
+        //
+    })
+</script>
