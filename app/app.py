@@ -8,8 +8,6 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 import db
 import secrets
-import sorting
-import email_sender
 
 pre_proglangs = [{'progLangs': 'Java'}, {'progLangs': 'Python'}, {'progLangs': 'C'}, {'progLangs': 'Ruby'},
                  {'progLangs': 'JavaScript'}, {'progLangs': 'TypeScript'}, {'progLangs': 'Kotlin'},
