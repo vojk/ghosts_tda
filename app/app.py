@@ -31,9 +31,9 @@ def app_wind():
 
 @app.route('/note/add', methods=["GET", "POST"])
 def add_note():
-    if request.method == "GET":
-        text = "testovaci vlozen"  # request.form['form_text']
-        podpis = "test"  # request.form['form_podpis']
+    if request.method == "POST":
+        text = "testovaci vlozen"  # request.form['form-text']
+        podpis = "test"  # request.form['form-podpis']
         if len(text) <= 120:
             if len(podpis) <= 28:
                 conn = db.get_db_connection()
@@ -47,18 +47,19 @@ def add_note():
     return 'add.html'
 
 
-@app.route('/note/manage/<int:id>/edit', methods=['GET', 'POST'])
+@app.route('/note/manage/<int:id>/edit/', methods=['GET', 'POST'])
 def edit_note(id):
     id = id
-    if request.method == "GET":
-        text = "testovaci vlozen"  # request.form['form_text']
-        podpis = "test"  # request.form['form_podpis']
+    if request.method == "POST":
+        text = request.form['form-text']
+        podpis = request.form['form-podpis']
         if len(text) <= 120:
             if len(podpis) <= 28:
                 conn = db.get_db_connection()
                 conn.execute('UPDATE records SET text = ?, podpis= ? WHERE id = ?', (text, podpis, id,))
                 conn.commit()
                 conn.close()
+                return "update.html"
             else:
                 return 'maximální délka pro podpis je víc než 120'
         else:
@@ -69,12 +70,17 @@ def edit_note(id):
 @app.route('/note/manage/<int:id>/remove', methods=['GET', 'POST'])
 def remove_note(id):
     id = id
-    if request.method == "GET":
+    if request.method == "POST":
         conn = db.get_db_connection()
         conn.execute('DELETE FROM records WHERE id = ?', (id,))
         conn.commit()
         conn.close()
     return "remove.html"
+
+
+@app.route('/statistics')
+def render_stats():
+    return render_template("statistics.html")
 
 
 if __name__ == '__main__':

@@ -1,0 +1,18 @@
+.text_only p {
+    margin: 0;
+}
+
+.text_only {
+    margin: 25px 0;
+}
+
+.image_and_text {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.image_and_text_cont {
+    width: fit-content;
+}
