@@ -1,6 +1,16 @@
 .board{
+height: 90vh;
+    display: flex;
+    flex-direction: row;
 
 }
 .menu{
-
+height: 50px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+.menuDelete {
+    display: none;
+    margin: 5px;
 }
