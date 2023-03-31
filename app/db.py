@@ -11,7 +11,7 @@ databasePath = ''
 
 if os.name == 'posix':
     databasePath = 'app/dbs/database.db'
-    schema_Path = 'app/schemas/schema.sql'
+    schema_Path = 'app/dbs/schemas/schema.sql'
 elif os.name == 'nt':
     databasePath = './dbs/database.db'
     schema_Path = './dbs/schemas/schema.sql'
